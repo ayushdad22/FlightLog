@@ -101,8 +101,9 @@ void loadData()
   }
 }
 
-void printData(ArrayList<Flight> flights)
+String printData(ArrayList<Flight> flights)
 {
+  String stringend = "";
   for (Flight flight : flights)
   {
     String flightDate = flight.flightDate;
@@ -124,9 +125,11 @@ void printData(ArrayList<Flight> flights)
     int diverted = flight.diverted;
     int distance = flight.distance;
 
-    println(flightDate + ", " + carrierCode + ", " + flightNum + ", "
+     stringend = (flightDate + ", " + carrierCode + ", " + flightNum + ", "
       + origin + ", " + originCity + ", " + originCityAbr + ", " + originWAC + ", "
       + dest + ", " + destCity + ", " + destCityAbr + ", " + destWAC + ", "
       + schDepTime + ", " + depTime + ", " + schArrTime + ", " + arrTime + ", " + cancelled + ", " + diverted + ", " + distance);
+      
   }
+  return stringend;
 }
