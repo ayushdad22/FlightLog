@@ -1,17 +1,17 @@
 import processing.core.*;
 
 public class DropDownMenu {
-  PApplet parent; 
+  PApplet parent;
   float x, y;
-  float w, h; 
-  String[] options; 
+  float w, h;
+  String[] options;
   String dataOption = null;
-  boolean isOpen = false; 
+  boolean isOpen = false;
   int selectedIndex = -1;
-  int hoverIndex = -1; 
-  int maxDisplayedOptions = 5; 
-  int scrollOffset = 0; 
-  
+  int hoverIndex = -1;
+  int maxDisplayedOptions = 5;
+  int scrollOffset = 0;
+
   public DropDownMenu(PApplet p, float x, float y, float w, float h, String[] options) {
     parent = p;
     this.x = x;
@@ -22,12 +22,14 @@ public class DropDownMenu {
   }
 
   public void draw() {
-    
+
     textSize(15);
-    if(mouseX > x && mouseX < x + w &&
-      mouseY > y && mouseY < y + h){
+    if (mouseX > x && mouseX < x + w &&
+      mouseY > y && mouseY < y + h) {
       fill(color(0)+100);
-    }else{parent.fill(0);}
+    } else {
+      parent.fill(0);
+    }
     parent.rect(x, y, w, h);
     noStroke();
     parent.fill(255);
@@ -43,7 +45,7 @@ public class DropDownMenu {
       for (int i = 0; i < numDisplayedOptions; i++) {
         float optionY = y + h * (i + 1);
         if (i + scrollOffset == hoverIndex) {
-          parent.fill(200); 
+          parent.fill(200);
         } else {
           parent.fill(255);
         }
@@ -53,7 +55,6 @@ public class DropDownMenu {
         parent.text(options[i + scrollOffset], x + 10, optionY + h / 2);
       }
     }
-    
   }
 
   public void toggle() {
@@ -72,7 +73,7 @@ public class DropDownMenu {
       }
     }
   }
- 
+
   public void updateHover(int mouseY) {
     if (isOpen) {
       hoverIndex = -1; // Reset hover index
@@ -90,7 +91,7 @@ public class DropDownMenu {
   public void scroll(int delta) {
     scrollOffset = PApplet.constrain(scrollOffset + delta, 0, PApplet.max(0, options.length - maxDisplayedOptions));
   }
-  
+
   public String getSelectedOption() {
     if (selectedIndex != -1) {
       dataOption = options[selectedIndex];
@@ -105,8 +106,7 @@ public class DropDownMenu {
     scrollOffset = 0;
   }
   public void mouseMoved() {
-      updateHover(mouseY);
-    
+    updateHover(mouseY);
   }
 
   public void mouseWheel(MouseEvent event) {
@@ -114,13 +114,12 @@ public class DropDownMenu {
 
     scroll(delta);
   }
-  public void mousePressed(){
+  public void mousePressed() {
     if (mouseX > x && mouseX < x + w &&
       mouseY > y && mouseY < y + h) {
-    toggle();
-  } else {
-    selectOption();
-    
-  }
+      toggle();
+    } else {
+      selectOption();
+    }
   }
 }

@@ -74,8 +74,6 @@ class Graphs extends Screens {
   }
 
   void mouseWheel(MouseEvent event) {
-
-
     dropdown1.mouseWheel(event);
     dropdown2.mouseWheel(event);
     dropdown3.mouseWheel(event);
@@ -97,8 +95,14 @@ class Home extends Screens {
 }
 
 class Logs extends Screens {
-  Logs(color backgroundColor, String screenText) {
+  PApplet applet;
+  DropDownMenu dropdownSearch;
+
+  Logs(PApplet applet, color backgroundColor, String screenText) {
     super(backgroundColor, screenText);
+    this.applet = applet;
+    String[] options = {"Origin Airport", "Origin City", "Destination Airport", "Destination City", "Carrier"};
+    dropdownSearch = new DropDownMenu(applet, 100, 160, 800/4, 30, options);
   }
 
   void removeSearchBar() {
@@ -111,9 +115,20 @@ class Logs extends Screens {
       textArea = null;
     }
   }
+
   void draw() {
     super.draw();
+    dropdownSearch.draw();
   }
-  void getOrigin() {
+
+  void mousePressed() {
+    dropdownSearch.mousePressed();
+  }
+  void mouseMoved() {
+    dropdownSearch.mouseMoved();
+  }
+
+  void mouseWheel(MouseEvent event) {
+    dropdownSearch.mouseWheel(event);
   }
 }
