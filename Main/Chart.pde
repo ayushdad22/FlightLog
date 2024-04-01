@@ -61,7 +61,7 @@ class Chart {
     for (int i = 0; i < arrayNames.size(); i++) {
       labels[i] = arrayNames.get(i);
     }
-
+    
     barChart.setData(values);
     barChart.setMinValue(0);
     barChart.setMaxValue(Collections.max(dataValues)); // Setting max value dynamically
@@ -101,6 +101,9 @@ class Chart {
 
 
   void draw(int x, int y, int w, int h) {
+    fill(255);
+    text("This is a " + chartType.toLowerCase() + " chart of the "
+    + GraphScreen.dropdown1.getSelectedOption().toLowerCase() + " flights of " + returnArrayPrints(), 110,260);
     switch (chartType) {
     case "Bar":
       barChart.draw(x, y, w, h);
@@ -111,5 +114,12 @@ class Chart {
     case "Scatter":
       scatterplot.draw(x, y, w, h);
     }
+  }
+  public String returnArrayPrints(){
+    String arrayString = "";
+    for(String name: arrayNames){
+      arrayString += name + ", ";
+    }
+    return arrayString.substring(0, arrayString.length() - 2);
   }
 }

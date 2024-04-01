@@ -24,7 +24,6 @@ public class DataPoint {
 
   String[] selectData = {"Cancelled", "Delayed", "All", "Diverted"};
 
-
  public String getAllDataSortedAlphabetically() {
         sortDataByCityAndAirport(); // Sort the data alphabetically
 

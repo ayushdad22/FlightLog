@@ -9,10 +9,10 @@ abstract class Screens {
     this.widgetList = new ArrayList<Widget>();
 
 
-    Widget widget1 = new Widget(464, 0, 140, 30, "Graphs", color(226,135,67), stdFont, EVENT_BUTTON1);
-    Widget widget2 = new Widget(604, 0, 140, 30, "Maps", color(21,76,121), stdFont, EVENT_BUTTON2);
-    Widget widget3 = new Widget(744, 0, 140, 30, "Flight Logs", color(226,135,67), stdFont, EVENT_BUTTON3);
-    Widget nextButton = new Widget(884, 0, 140, 30, "Home", color(21,76,121), stdFont, EVENT_BUTTON4);
+    Widget widget1 = new Widget(100, 100, 200, 30, "Graphs", color(0), stdFont, EVENT_BUTTON1);
+    Widget widget2 = new Widget(300, 100, 200, 30, "Maps", color(0), stdFont, EVENT_BUTTON2);
+    Widget widget3 = new Widget(500, 100, 200, 30, "Flight Logs", color(0), stdFont, EVENT_BUTTON3);
+    Widget nextButton = new Widget(700, 100, 200, 30, "Home", color(0), stdFont, EVENT_BUTTON4);
 
 
     widgetList.add(widget1);
@@ -23,7 +23,7 @@ abstract class Screens {
 
   void draw() {
     fill(0);
-    background(backgroundColor);
+    background(100, 200, 255);
     for (Widget widget : widgetList) {
       widget.draw();
     }
