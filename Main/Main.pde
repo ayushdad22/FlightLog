@@ -52,7 +52,7 @@ ArrayList<Integer> airportCancelled = new ArrayList<Integer>();
 
 
 void setup() {
-  size(1024, 780,P3D  );
+  size(1024, 780);
   mainApplet = this;
   stdFont = createFont("arial", 20);
   searchbar = new ControlP5(this);
@@ -97,7 +97,6 @@ void draw() {
 void controlEvent(ControlEvent event) {
   if (event.isAssignableFrom(Textfield.class)) {
     search = event.getStringValue();
-    
   }
 }
 
@@ -127,8 +126,8 @@ void mousePressed() {
     break;
   }
 
-   if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
-      mouseY > 160 && mouseY < 160 + 30 ){
+  if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
+    mouseY > 160 && mouseY < 160 + 30 ) {
     clickedDropDown();
   }
 }
@@ -156,29 +155,62 @@ void clickedDropDown() {
     );
     break;
   case "Delayed":
-    int countDelayed = data.countDelayed(selectedTab);
-    airportOrign.add(selectedTab);
-    airportCancelled.add(countDelayed);
-    barchart = new Chart(mainApplet, airportOrign, airportCancelled, "Bar");
-    linegraph = new Chart(mainApplet, airportOrign, airportCancelled, "Line");
-    scatterplot = new Chart(mainApplet, airportOrign, airportCancelled, "Scatter");
+    int countDelayed = data.countDelayed(GraphScreen.dropdown2.getSelectedOption());
+    int countDelayed1 = data.countDelayed(GraphScreen.dropdown3.getSelectedOption());
+
+    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option")) {
+      airportOrign.add(GraphScreen.dropdown2.getSelectedOption());
+      airportCancelled.add(countDelayed);
+    }
+
+    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option")) {
+      airportOrign.add(GraphScreen.dropdown3.getSelectedOption());
+      airportCancelled.add(countDelayed1);
+    }
+
+    createCharts();
+    chartLoaded = true;
+
     break;
+
   case "All":
-    int countAll = data.countFlightsFromOrigin(selectedTab);
-    airportOrign.add(selectedTab);
-    airportCancelled.add(countAll);
-    barchart = new Chart(mainApplet, airportOrign, airportCancelled, "Bar");
-    linegraph = new Chart(mainApplet, airportOrign, airportCancelled, "Line");
-    scatterplot = new Chart(mainApplet, airportOrign, airportCancelled, "Scatter");
+    int countAll = data.countFlightsFromOrigin(GraphScreen.dropdown2.getSelectedOption());
+    int countAll1 = data.countFlightsFromOrigin(GraphScreen.dropdown3.getSelectedOption());
+
+
+    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option")) {
+      airportOrign.add(GraphScreen.dropdown2.getSelectedOption());
+      airportCancelled.add(countAll);
+    }
+
+    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option")) {
+      airportOrign.add(GraphScreen.dropdown3.getSelectedOption());
+      airportCancelled.add(countAll1);
+    }
+
+    createCharts();
+    chartLoaded = true;
+
     break;
 
   case "Diverted":
-    int divertedCount = data.countDiverted(selectedTab);
-    airportOrign.add(selectedTab);
-    airportCancelled.add(divertedCount);
-    barchart = new Chart(mainApplet, airportOrign, airportCancelled, "Bar");
-    linegraph = new Chart(mainApplet, airportOrign, airportCancelled, "Line");
-    scatterplot = new Chart(mainApplet, airportOrign, airportCancelled, "Scatter");
+    int divertedCount = data.countDiverted(GraphScreen.dropdown2.getSelectedOption());
+    int divertedCount1 = data.countDiverted(GraphScreen.dropdown3.getSelectedOption());
+
+
+    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option")) {
+      airportOrign.add(GraphScreen.dropdown2.getSelectedOption());
+      airportCancelled.add(divertedCount);
+    }
+
+    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option")) {
+      airportOrign.add(GraphScreen.dropdown3.getSelectedOption());
+      airportCancelled.add(divertedCount1);
+    }
+
+    createCharts();
+    chartLoaded = true;
+
     break;
   }
 }
@@ -228,6 +260,7 @@ void textArea() {
   StringBuilder filteredData = new StringBuilder();
 
   if (dataLoadFuture.isDone()) {
+    //origin airport
     for (String[] flightInfo : data.arrayData) {
       if (flightInfo[2].equalsIgnoreCase(search)) {
         for (String flightDetail : flightInfo) {
@@ -236,7 +269,52 @@ void textArea() {
         filteredData.append("\n");
       }
     }
+
+    // dest airport
+    //for (String[] flightInfo : data.arrayData) {
+    //  if (flightInfo[4].equalsIgnoreCase(search)) {
+    //
+    //    for (String flightDetail : flightInfo) {
+    //      filteredData.append(flightDetail).append(" ");
+    //    }
+    //    filteredData.append("\n");
+    //  }
+    //}
+
+    // origin city abbr
+    //  for (String[] flightInfo : data.arrayData) {
+    //  if (flightInfo[1].equalsIgnoreCase(search)) {
+    //
+    //    for (String flightDetail : flightInfo) {
+    //      filteredData.append(flightDetail).append(" ");
+    //    }
+    //    filteredData.append("\n");
+    //  }
+    //}
+
+    ////dest city abbr
+    //  for (String[] flightInfo : data.arrayData) {
+    //    if (flightInfo[3].equalsIgnoreCase(search)) {
+    //
+    //      for (String flightDetail : flightInfo) {
+    //        filteredData.append(flightDetail).append(" ");
+    //      }
+    //      filteredData.append("\n");
+    //    }
+    //  }
+
+    // airline carrier (2 letters)
+    //for (String[] flightInfo : data.arrayData) {
+    //  if (flightInfo[7].equalsIgnoreCase(search)) {
+    //
+    //    for (String flightDetail : flightInfo) {
+    //      filteredData.append(flightDetail).append(" ");
+    //    }
+    //    filteredData.append("\n");
+    //  }
+    //}
   }
+
   // Update the TextArea with the filtered data
   if (textArea != null) {
     textArea.setText(filteredData.toString());
