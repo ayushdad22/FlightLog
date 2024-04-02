@@ -306,64 +306,75 @@ void createCharts() {
   scatterplot = new Chart(mainApplet, airportOrign, airportCancelled, "Scatter");
   chartLoaded = true;
 }
+
 void textArea() {
   StringBuilder filteredData = new StringBuilder();
+  String selectedOption = LogScreen.dropdownSearch.getSelectedOption();
 
-  if (dataLoadFuture.isDone()) {
-    //origin airport
-    for (String[] flightInfo : data.arrayData) {
-      if (flightInfo[2].equalsIgnoreCase(search)) {
-        for (String flightDetail : flightInfo) {
-          filteredData.append(flightDetail).append(" ");
+  if (dataLoadFuture.isDone() && selectedOption != null) {
+    switch(selectedOption) {
+
+    case "Origin Airport":
+      for (String[] flightInfo : data.arrayData) {
+        if (flightInfo[2].equalsIgnoreCase(search)) {
+          for (String flightDetail : flightInfo) {
+            filteredData.append(flightDetail).append(" ");
+          }
+          filteredData.append("\n");
         }
-        filteredData.append("\n");
       }
+      break;
+
+    case "Destination Airport":
+      for (String[] flightInfo : data.arrayData) {
+        if (flightInfo[4].equalsIgnoreCase(search)) {
+
+          for (String flightDetail : flightInfo) {
+            filteredData.append(flightDetail).append(" ");
+          }
+          filteredData.append("\n");
+        }
+      }
+      break;
+
+    case "Origin City":
+      for (String[] flightInfo : data.arrayData) {
+        if (flightInfo[1].equalsIgnoreCase(search)) {
+
+          for (String flightDetail : flightInfo) {
+            filteredData.append(flightDetail).append(" ");
+          }
+          filteredData.append("\n");
+        }
+      }
+      break;
+
+    case "Destination City":
+      for (String[] flightInfo : data.arrayData) {
+        if (flightInfo[3].equalsIgnoreCase(search)) {
+
+          for (String flightDetail : flightInfo) {
+            filteredData.append(flightDetail).append(" ");
+          }
+          filteredData.append("\n");
+        }
+      }
+      break;
+
+    case "Carrier":
+      for (String[] flightInfo : data.arrayData) {
+        if (flightInfo[7].equalsIgnoreCase(search)) {
+
+          for (String flightDetail : flightInfo) {
+            filteredData.append(flightDetail).append(" ");
+          }
+          filteredData.append("\n");
+        }
+      }
+      break;
     }
-
-    // dest airport
-    //for (String[] flightInfo : data.arrayData) {
-    //  if (flightInfo[4].equalsIgnoreCase(search)) {
-    //
-    //    for (String flightDetail : flightInfo) {
-    //      filteredData.append(flightDetail).append(" ");
-    //    }
-    //    filteredData.append("\n");
-    //  }
-    //}
-
-    // origin city abbr
-    //  for (String[] flightInfo : data.arrayData) {
-    //  if (flightInfo[1].equalsIgnoreCase(search)) {
-    //
-    //    for (String flightDetail : flightInfo) {
-    //      filteredData.append(flightDetail).append(" ");
-    //    }
-    //    filteredData.append("\n");
-    //  }
-    //}
-
-    ////dest city abbr
-    //  for (String[] flightInfo : data.arrayData) {
-    //    if (flightInfo[3].equalsIgnoreCase(search)) {
-    //
-    //      for (String flightDetail : flightInfo) {
-    //        filteredData.append(flightDetail).append(" ");
-    //      }
-    //      filteredData.append("\n");
-    //    }
-    //  }
-
-    // airline carrier (2 letters)
-    //for (String[] flightInfo : data.arrayData) {
-    //  if (flightInfo[7].equalsIgnoreCase(search)) {
-    //
-    //    for (String flightDetail : flightInfo) {
-    //      filteredData.append(flightDetail).append(" ");
-    //    }
-    //    filteredData.append("\n");
-    //  }
-    //}
   }
+
 
   // Update the TextArea with the filtered data
   if (textArea != null) {
