@@ -11,6 +11,11 @@ class Chart {
   ArrayList<String> arrayNames;
   ArrayList<Integer> dataValues;
   String chartType;
+  
+
+
+ArrowWidget rightArrow = new ArrowWidget(150, 185, 65, 30, "Right Arrow", color(255), stdFont, EVENT_RIGHT_ARROW, "right");
+ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(255), stdFont, EVENT_LEFT_ARROW, "left");
 
   Chart(PApplet applet, ArrayList<String> arrayNames, ArrayList<Integer> dataValues, String chartType) {
     this.applet = applet;
@@ -104,17 +109,25 @@ class Chart {
     fill(255);
     text("This is a " + chartType.toLowerCase() + " chart of the "
     + GraphScreen.dropdown1.getSelectedOption().toLowerCase() + " flights of " + returnArrayPrints(), 110,260);
+    
     switch (chartType) {
     case "Bar":
       barChart.draw(x, y, w, h);
+      rightArrow.draw();
+      leftArrow.draw();
       break;
     case "Line":
       lineChart.draw(x, y, w, h);
+      rightArrow.draw();
+      leftArrow.draw();
       break;
     case "Scatter":
       scatterplot.draw(x, y, w, h);
+      rightArrow.draw();
+      leftArrow.draw();
     }
   }
+  
   public String returnArrayPrints(){
     String arrayString = "";
     for(String name: arrayNames){
