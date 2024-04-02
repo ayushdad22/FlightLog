@@ -63,7 +63,7 @@ void setup() {
   mainApplet = this;
   stdFont = createFont("arial", 20);
   searchbar = new ControlP5(this);
-  LogScreen = new Logs(color(225), "");
+  LogScreen = new Logs(mainApplet,color(225), "");
   GraphScreen = new Graphs(mainApplet, color(225), "");
   MapsScreen = new Maps(color(225), "");
   HomeScreen = new Home(color(255), "");
@@ -84,6 +84,7 @@ void draw() {
     stroke(255);
     strokeWeight(3);
     line(343.5, 317, 348, 323);
+    fill(0);
     ellipse(338.5, 313, 10, 10);
 
     pop();
@@ -95,9 +96,7 @@ void draw() {
   }
   if (chartLoaded && arrowClicked == 0 && currentScreen == GraphScreen) 
   {
-    //barchart.draw(280, 315, 450, 220);
     linegraph.draw(280, 315, 450, 250);
-    //scatterplot.draw(280, 315, 450, 220);
   }
   if (chartLoaded && arrowClicked == 1 && currentScreen == GraphScreen) 
   {
@@ -120,6 +119,7 @@ void controlEvent(ControlEvent event) {
 
 void mousePressed() {
   GraphScreen.mousePressed();
+  LogScreen.mousePressed();
   int event = currentScreen.getEvent(); // Get event from the current screen
   switch(event) {
   case EVENT_BUTTON1:
@@ -273,6 +273,7 @@ void mouseMoved() {
     }
   }
   GraphScreen.mouseMoved();
+  LogScreen.mouseMoved();
 }
 
 void mouseWheel(MouseEvent event) {
