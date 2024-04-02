@@ -97,18 +97,9 @@ String direction;
 void draw() {
     strokeWeight(5);
     stroke(widgetColor);
-    fill(widgetColor);
+    fill(255);
     
-    int shaftStartX = direction.equals("left") ? 200 : 800;
-    int shaftEndX = direction.equals("left") ? 150 : 850;
-    int shaftY = 400; 
-
-
-    line(shaftStartX, shaftY, shaftEndX, shaftY);
-
-   
-
-  
+    int shaftY = 400;     
     int headBaseStartX = direction.equals("left") ? 150 : 850;
     int headBaseEndX = direction.equals("left") ? 135 : 870;
     int headY = 400; 
