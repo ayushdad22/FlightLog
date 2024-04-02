@@ -96,7 +96,7 @@ String direction;
  
 void draw() {
     strokeWeight(5);
-    stroke(widgetColor);
+    stroke(255);
     fill(255);
     
     int shaftY = 400;     
@@ -107,4 +107,5 @@ void draw() {
    
     triangle(headBaseStartX, shaftY - 5, headBaseEndX, headY, headBaseStartX, shaftY + 5);
 }
+
 }

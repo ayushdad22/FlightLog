@@ -52,8 +52,9 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
     scatterplot.setYAxisLabel("Number of Flights\n");
 
     // Symbol styles
-    scatterplot.setPointColour(applet.color(180, 50, 50, 100));
-    scatterplot.setPointSize(5);
+    scatterplot.setPointColour(applet.color(0, 71, 171));
+    scatterplot.setPointSize(15);
+
   }
 
   private void setupBarChart() {
@@ -97,8 +98,8 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
     lineChart.setMinY(0);
     lineChart.setYFormat("###");
     lineChart.setXFormat("0");
-    lineChart.setPointColour(applet.color(180, 50, 50, 100));
-    lineChart.setPointSize(5);
+    lineChart.setPointColour(applet.color(0, 71, 171));
+    lineChart.setPointSize(10);
     lineChart.setLineWidth(2);
     lineChart.setXAxisLabel("\nAirports:");
     lineChart.setYAxisLabel("Number of Flights\n");

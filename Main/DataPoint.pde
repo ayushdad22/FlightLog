@@ -20,9 +20,10 @@ public class DataPoint {
 
   public DataPoint(ArrayList<String[]> arrayData) {
     this.arrayData = arrayData;
+    
   }
 
-  String[] selectData = {"Cancelled", "Delayed", "All", "Diverted"};
+  String[] selectData = {"Cancelled", "Delayed", "Diverted", "All"};
 
  public String getAllDataSortedAlphabetically() {
         sortDataByCityAndAirport(); // Sort the data alphabetically

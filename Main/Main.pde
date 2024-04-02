@@ -164,18 +164,18 @@ void mousePressed() {
           if (arrowClicked < 2) 
           {
             arrowClicked++; 
-            print(arrowClicked);
-         
+        }else{
+          arrowClicked = 0;
         }
-           
     }
     
     if (mouseX >= leftStartX && mouseX <= leftEndX && mouseY >= leftStartY && mouseY <= leftEndY) 
     {
     if (arrowClicked > 0) {
         arrowClicked--; // Decrease the arrowClicked counter if the left arrow is clicked
-        print(arrowClicked);
-    }
+    }else{
+          arrowClicked = 2;
+        }
     }
   
   
@@ -188,11 +188,11 @@ void clickedDropDown() {
       CompletableFuture<Integer> cancelledFlightsFuture1 = dataPoint.getCancelledFlightsCount(GraphScreen.dropdown3.getSelectedOption());
 
       CompletableFuture.allOf(cancelledFlightsFuture, cancelledFlightsFuture1).thenRun(() -> {
-        if (GraphScreen.dropdown2.getSelectedOption() != "Select an option") {
+        if (GraphScreen.dropdown2.getSelectedOption() != "Select an option" && !airportOrign.contains(GraphScreen.dropdown2.getSelectedOption())) { //<>//
           airportOrign.add(GraphScreen.dropdown2.getSelectedOption());
           airportCancelled.add(cancelledFlightsFuture.join());
         }
-        if (GraphScreen.dropdown3.getSelectedOption() != "Select an option") {
+        if (GraphScreen.dropdown3.getSelectedOption() != "Select an option" && !airportOrign.contains(GraphScreen.dropdown3.getSelectedOption())) {
           airportOrign.add(GraphScreen.dropdown3.getSelectedOption());
           airportCancelled.add(cancelledFlightsFuture1.join());
         }
@@ -207,12 +207,12 @@ void clickedDropDown() {
     int countDelayed = data.countDelayed(GraphScreen.dropdown2.getSelectedOption());
     int countDelayed1 = data.countDelayed(GraphScreen.dropdown3.getSelectedOption());
 
-    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown2.getSelectedOption())) {
       airportOrign.add(GraphScreen.dropdown2.getSelectedOption());
       airportCancelled.add(countDelayed);
     }
 
-    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown3.getSelectedOption())) {
       airportOrign.add(GraphScreen.dropdown3.getSelectedOption());
       airportCancelled.add(countDelayed1);
     }
@@ -227,12 +227,12 @@ void clickedDropDown() {
     int countAll1 = data.countFlightsFromOrigin(GraphScreen.dropdown3.getSelectedOption());
 
 
-    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown2.getSelectedOption()) ) {
       airportOrign.add(GraphScreen.dropdown2.getSelectedOption());
       airportCancelled.add(countAll);
     }
 
-    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown3.getSelectedOption())) {
       airportOrign.add(GraphScreen.dropdown3.getSelectedOption());
       airportCancelled.add(countAll1);
     }
@@ -247,12 +247,12 @@ void clickedDropDown() {
     int divertedCount1 = data.countDiverted(GraphScreen.dropdown3.getSelectedOption());
 
 
-    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown2.getSelectedOption())) {
       airportOrign.add(GraphScreen.dropdown2.getSelectedOption());
       airportCancelled.add(divertedCount);
     }
 
-    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown3.getSelectedOption())) {
       airportOrign.add(GraphScreen.dropdown3.getSelectedOption());
       airportCancelled.add(divertedCount1);
     }
