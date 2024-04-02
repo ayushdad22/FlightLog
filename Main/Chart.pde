@@ -12,8 +12,6 @@ class Chart {
   ArrayList<Integer> dataValues;
   String chartType;
   
-
-
 ArrowWidget rightArrow = new ArrowWidget(150, 185, 65, 30, "Right Arrow", color(255), stdFont, EVENT_RIGHT_ARROW, "right");
 ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(255), stdFont, EVENT_LEFT_ARROW, "left");
 
@@ -86,12 +84,10 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
     for (int i = 0; i < arrayNames.size(); i++) {
       xValues[i] = i + 1;
     }
-
     float[] yValues = new float[dataValues.size()];
     for (int i = 0; i < dataValues.size(); i++) {
       yValues[i] = dataValues.get(i);
     }
-
     lineChart.setData(xValues, yValues);
     lineChart.showXAxis(true);
     lineChart.showYAxis(true);
@@ -105,30 +101,31 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
     lineChart.setYAxisLabel("Number of Flights\n");
   }
 
-
   void draw(int x, int y, int w, int h) {
     fill(255);
-    text("This is a " + chartType.toLowerCase() + " chart of the "
-    + GraphScreen.dropdown1.getSelectedOption().toLowerCase() + " flights of " + returnArrayPrints(), 110,260);
+    // Simplified the text display
+    String chartInfo = String.format("This is a %s chart of the %s flights of %s",
+                        chartType.toLowerCase(),
+                        GraphScreen.dropdown1.getSelectedOption().toLowerCase(),
+                        returnArrayPrints());
+    text(chartInfo, 110, 260);
     
+    // Draw chart and arrows based on the chart 
     switch (chartType) {
-    case "Bar":
-      barChart.draw(x, y, w, h);
-      rightArrow.draw();
-      leftArrow.draw();
-      break;
-    case "Line":
-      lineChart.draw(x, y, w, h);
-      rightArrow.draw();
-      leftArrow.draw();
-      break;
-    case "Scatter":
-      scatterplot.draw(x, y, w, h);
-      rightArrow.draw();
-      leftArrow.draw();
+        case "Bar":
+            barChart.draw(x, y, w, h);
+            break;
+        case "Line":
+            lineChart.draw(x, y, w, h);
+            break;
+        case "Scatter":
+            scatterplot.draw(x, y, w, h);
+            break;
     }
-  }
-  
+    // Moved the arrow drawing out
+    rightArrow.draw();
+    leftArrow.draw();
+}
   public String returnArrayPrints(){
     String arrayString = "";
     for(String name: arrayNames){
