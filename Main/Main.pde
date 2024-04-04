@@ -70,6 +70,7 @@ PApplet mainApplet;
 Chart barchart;
 Chart scatterplot;
 Chart linegraph;
+Chart piechart;
 boolean chartLoaded = false;
 String selectingData = "";
 String search;
@@ -141,6 +142,11 @@ void draw() {
     
     scatterplot.draw(280, 315, 450, 220);
   }
+  if (chartLoaded && arrowClicked == 3 && currentScreen == GraphScreen) 
+  {
+    
+    piechart.draw(280, 315, 450, 220);
+  }
 }
 
 
@@ -206,7 +212,7 @@ void mousePressed() {
     // Click detection logic
     if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY) 
     {
-          if (arrowClicked < 2) 
+          if (arrowClicked < 3) 
           {
             arrowClicked++; 
         }else{
@@ -219,7 +225,7 @@ void mousePressed() {
     if (arrowClicked > 0) {
         arrowClicked--; // Decrease the arrowClicked counter if the left arrow is clicked
     }else{
-          arrowClicked = 2;
+          arrowClicked = 3;
         }
     }
   
@@ -350,6 +356,7 @@ void createCharts() {
   barchart = new Chart(mainApplet, airportOrign, airportCancelled, "Bar");
   linegraph = new Chart(mainApplet, airportOrign, airportCancelled, "Line");
   scatterplot = new Chart(mainApplet, airportOrign, airportCancelled, "Scatter");
+  piechart = new Chart(mainApplet, airportOrign, airportCancelled, "Pie");
   chartLoaded = true;
 }
 

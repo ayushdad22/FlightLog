@@ -100,8 +100,27 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
     lineChart.setXAxisLabel("\nAirports:");
     lineChart.setYAxisLabel("Number of Flights\n");
   }
+    void drawPieChart(int x, int y, int w, int h) {
+    float lastAngle = 0;
+    float total = 0;
 
-  void draw(int x, int y, int w, int h) {
+ 
+    for (Integer value : dataValues) {
+        total += value;
+    }
+
+   
+    for (int i = 0; i < dataValues.size(); i++) {
+        float value = dataValues.get(i);
+        float angle = TWO_PI * (value / total);
+        applet.fill(map(i, 0, dataValues.size(), 100, 255)); 
+        applet.arc(x + w / 2, y + h / 2, w, h, lastAngle, lastAngle + angle);
+        lastAngle += angle;
+    }
+}
+
+
+ void draw(int x, int y, int w, int h) {
     fill(255);
     // Simplified the text display
     String chartInfo = String.format("This is a %s chart of the %s flights of %s",
@@ -121,9 +140,11 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
         case "Scatter":
             scatterplot.draw(x, y, w, h);
             break;
+        case "Pie":
+             drawPieChart(x, y, w, h);
+             break;
     }
-    // Moved the arrow drawing out
-    rightArrow.draw();
+      rightArrow.draw();
     leftArrow.draw();
 }
   public String returnArrayPrints(){
