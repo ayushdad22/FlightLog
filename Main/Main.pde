@@ -1,4 +1,4 @@
-import de.fhpotsdam.unfolding.*; //<>//
+import de.fhpotsdam.unfolding.*; //<>// //<>//
 import de.fhpotsdam.unfolding.core.*;
 import de.fhpotsdam.unfolding.data.*;
 import de.fhpotsdam.unfolding.events.*;
@@ -354,72 +354,62 @@ void createCharts() {
 }
 
 void textArea() {
+  ArrayList<String[]> tempFilteredDataList = new ArrayList<>();
   StringBuilder filteredData = new StringBuilder();
   String selectedOption = LogScreen.dropdownSearch.getSelectedOption();
+  String dataType = LogScreen.dropdownSort.getSelectedOption();
 
   if (dataLoadFuture.isDone() && selectedOption != null) {
     switch(selectedOption) {
-
     case "Origin Airport":
       for (String[] flightInfo : data.arrayData) {
         if (flightInfo[2].equalsIgnoreCase(search)) {
-          for (String flightDetail : flightInfo) {
-            filteredData.append(flightDetail).append(" ");
-          }
-          filteredData.append("\n");
+          tempFilteredDataList.add(flightInfo);
         }
       }
       break;
-
     case "Destination Airport":
       for (String[] flightInfo : data.arrayData) {
         if (flightInfo[4].equalsIgnoreCase(search)) {
-
-          for (String flightDetail : flightInfo) {
-            filteredData.append(flightDetail).append(" ");
-          }
-          filteredData.append("\n");
+          tempFilteredDataList.add(flightInfo);
         }
       }
       break;
-
     case "Origin City":
       for (String[] flightInfo : data.arrayData) {
         if (flightInfo[1].equalsIgnoreCase(search)) {
-
-          for (String flightDetail : flightInfo) {
-            filteredData.append(flightDetail).append(" ");
-          }
-          filteredData.append("\n");
+          tempFilteredDataList.add(flightInfo);
         }
       }
       break;
-
     case "Destination City":
       for (String[] flightInfo : data.arrayData) {
         if (flightInfo[3].equalsIgnoreCase(search)) {
-
-          for (String flightDetail : flightInfo) {
-            filteredData.append(flightDetail).append(" ");
-          }
-          filteredData.append("\n");
+          tempFilteredDataList.add(flightInfo);
         }
       }
       break;
-
     case "Carrier":
       for (String[] flightInfo : data.arrayData) {
         if (flightInfo[7].equalsIgnoreCase(search)) {
-
-          for (String flightDetail : flightInfo) {
-            filteredData.append(flightDetail).append(" ");
-          }
-          filteredData.append("\n");
+          tempFilteredDataList.add(flightInfo);
         }
       }
       break;
     }
+
+    // Sort the filtered data if necessary, you can include your sorting method here
+    data.sortByDistance(dataType, tempFilteredDataList);
+
+    // Convert the filtered and possibly sorted list into a string
+    for (String[] flightInfo : tempFilteredDataList) {
+      for (String flightDetail : flightInfo) {
+        filteredData.append(flightDetail).append(" ");
+      }
+      filteredData.append("\n");
+    }
   }
+
 
 
   // Update the TextArea with the filtered data
@@ -437,4 +427,5 @@ void textArea() {
       .setColorForeground(color(255, 100));
     textArea.setText(filteredData.toString());
   }
+
 }

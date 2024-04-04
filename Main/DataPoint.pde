@@ -28,7 +28,7 @@ public class DataPoint {
     String[] selectData2 = {"Cancelled", "Delayed", "Diverted", "All"};
 
    public String getAllDataSortedAlphabetically2() {
-        sortDataByCityAndAirport(); // Sort the data alphabetically
+        //sortDataByCityAndAirport(); // Sort the data alphabetically
 
         StringBuilder result = new StringBuilder();
         for (String[] flightInfo : arrayData) {
@@ -92,7 +92,7 @@ public class DataPoint {
   String[] selectData = {"Cancelled", "Delayed", "Diverted", "All"};
 
  public String getAllDataSortedAlphabetically() {
-        sortDataByCityAndAirport(); // Sort the data alphabetically
+        //sortDataByCityAndAirport(); // Sort the data alphabetically
 
         StringBuilder result = new StringBuilder();
         for (String[] flightInfo : arrayData) {
@@ -195,15 +195,44 @@ public class DataPoint {
     return count;
   }
 
-  private void sortDataByCityAndAirport() {
-    arrayData.sort((flight1, flight2) -> {
+  private void sortByDistance(String dataType, ArrayList<String[]> arraySortData) {
+    if (dataType != null) {
+      switch(dataType) {
+      case "Distance":
+        arraySortData.sort(new Comparator<String[]>() {
+          @Override
+            public int compare(String[] distance1, String[] distance2) {
+            // Convert the distance strings to float and compare them as numbers.
+            Float dist1 = Float.parseFloat(distance1[5]);
+            Float dist2 = Float.parseFloat(distance2[5]);
+            return dist1.compareTo(dist2);
+          }
+        }
+        );
+        break;
+      case "Alphabetical":
+        sortDataByCityAndAirport(arraySortData);
+        break;
+      }
+    }
+  }
+
+
+
+  private ArrayList<String[]> sortDataByCityAndAirport(ArrayList<String[]> arraySortData) {
+    arraySortData.sort(new Comparator<String[]>() {
+      @Override
+        public int compare(String[] flight1, String[] flight2) {
         // First compare by city/state
-        int cityStateComparison = flight1[0].compareTo(flight2[0]);
+        int cityStateComparison = flight1[1].compareTo(flight2[1]);
         if (cityStateComparison != 0) {
-            return cityStateComparison;
+          return cityStateComparison;
         }
         // If cities/states are the same, compare by airport code
-        return flight1[1].compareTo(flight2[1]);
-    });
+        return flight1[2].compareTo(flight2[2]);
+      }
+    }
+    );
+    return arraySortData;
   }
 }

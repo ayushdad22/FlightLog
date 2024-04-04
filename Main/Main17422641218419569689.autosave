@@ -1,3 +1,24 @@
+import de.fhpotsdam.unfolding.*;
+import de.fhpotsdam.unfolding.core.*;
+import de.fhpotsdam.unfolding.data.*;
+import de.fhpotsdam.unfolding.events.*;
+import de.fhpotsdam.unfolding.geo.*;
+import de.fhpotsdam.unfolding.interactions.*;
+import de.fhpotsdam.unfolding.mapdisplay.*;
+import de.fhpotsdam.unfolding.mapdisplay.shaders.*;
+import de.fhpotsdam.unfolding.marker.*;
+import de.fhpotsdam.unfolding.providers.*;
+import de.fhpotsdam.unfolding.texture.*;
+import de.fhpotsdam.unfolding.tiles.*;
+import de.fhpotsdam.unfolding.ui.*;
+import de.fhpotsdam.unfolding.utils.*;
+import de.fhpotsdam.utils.*;
+import processing.core.PApplet;
+
+import de.fhpotsdam.unfolding.UnfoldingMap;
+import de.fhpotsdam.unfolding.geo.Location;
+import de.fhpotsdam.unfolding.utils.MapUtils;
+
 import controlP5.*;
 
 //import libraries
@@ -8,7 +29,7 @@ import processing.data.Table;
 import processing.data.TableRow;
 import controlP5.*;
 
-// constants  
+// constants
 final int SCROLLBAR_COLOR = #0799fa;
 final int SCREEN_X = 1024;
 final int SCREEN_Y = 780;
@@ -19,8 +40,10 @@ final int EVENT_BUTTON4 = 4;
 final int EVENT_BUTTON5 = 5;
 final int EVENT_BUTTON_NEXT = 6;
 final int EVENT_BUTTON_BACK = 7;
+final int EVENT_RIGHT_ARROW = 8;
+final int EVENT_LEFT_ARROW = 9;
 final int EVENT_NULL=0;
-
+UnfoldingMap map;
 Screens screen;
 Graphs GraphScreen;
 Maps MapsScreen;
@@ -36,6 +59,11 @@ boolean dataLoaded = false;
 String selectedTab;
 String selectedData = "";
 CompletableFuture<DataPoint> dataLoadFuture = new CompletableFuture<>();
+int arrowClicked = 0;
+ArrowWidget rightArrow = new ArrowWidget(150, 185, 65, 30, "Right Arrow", color(255, 0, 0), stdFont, EVENT_RIGHT_ARROW, "right");
+ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(0, 255, 0), stdFont, EVENT_LEFT_ARROW, "left");
+Location americaLocation = new Location(39.8283f, -98.5795f);
+
 
 DataPoint data;
 PApplet mainApplet;
@@ -49,14 +77,16 @@ Textarea textArea;
 
 ArrayList<String> airportOrign = new ArrayList<String>();
 ArrayList<Integer> airportCancelled = new ArrayList<Integer>();
-
+PImage imgEarth;
 
 void setup() {
-  size(1024, 780);
+  size(1024, 780, P3D);
   mainApplet = this;
+  mapSettings();
+  imgEarth = loadImage("Earth_Texture.jpg");
   stdFont = createFont("arial", 20);
   searchbar = new ControlP5(this);
-  LogScreen = new Logs(mainApplet, color(225), "");
+  LogScreen = new Logs(mainApplet,color(225), "");
   GraphScreen = new Graphs(mainApplet, color(225), "");
   MapsScreen = new Maps(color(225), "");
   HomeScreen = new Home(color(255), "");
@@ -65,12 +95,21 @@ void setup() {
   println("System Loading...");
   GraphScreen.graphSetup();
 }
+void mapSettings() {
+  map = new UnfoldingMap(this, 100, 190, 800, 400);
+  MapUtils.createDefaultEventDispatcher(this, map);
+  map.zoomAndPanTo(americaLocation, 4);
+  map.setTweening(true);
+  map.setZoomRange(4, 8);
+  map.setPanningRestriction(americaLocation, 3000);
 
+}
 void draw() {
   for (int i = 0; i < widgetList.size(); i++) {
     Widget aWidget = widgetList.get(i);
     aWidget.draw();
   }
+
   currentScreen.draw();
   if (currentScreen == LogScreen) {
     push();
@@ -87,10 +126,19 @@ void draw() {
     LogScreen.removeSearchBar();
     LogScreen.removeTextArea();
   }
-  if (chartLoaded && currentScreen == GraphScreen) {
-    //barchart.draw(280, 315, 450, 220);
+  if (chartLoaded && arrowClicked == 0 && currentScreen == GraphScreen) 
+  {
     linegraph.draw(280, 315, 450, 250);
-    //scatterplot.draw(280, 315, 450, 220);
+  }
+  if (chartLoaded && arrowClicked == 1 && currentScreen == GraphScreen) 
+  {
+    barchart.draw(280, 315, 450, 220);
+
+  }
+  if (chartLoaded && arrowClicked == 2 && currentScreen == GraphScreen) 
+  {
+    
+    scatterplot.draw(280, 315, 450, 220);
   }
 }
 
@@ -129,9 +177,44 @@ void mousePressed() {
   }
 
   if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
-    mouseY > 160 && mouseY < 160 + 30 ) {
+    mouseY > 160 && mouseY < 160 + 30 && currentScreen == GraphScreen) 
+  {
     clickedDropDown();
+  } 
+  else if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
+    mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) {
+      MapsScreen.state = !MapsScreen.state;
   }
+    int startX = rightArrow.getShaftStartX();
+    int endX = rightArrow.getHeadBaseEndX();
+    int startY = rightArrow.getShaftY() - 5; // Assuming a small margin around the shaft for click detection
+    int endY = rightArrow.getShaftY() + 5;
+    
+    int leftStartX = leftArrow.getHeadBaseEndX(); // The leftmost point of the arrowhead
+    int leftEndX = leftArrow.getShaftStartX();    // The rightmost point of the arrow shaft
+    int leftStartY = leftArrow.getShaftY() - 5;   // Assuming a small margin around the shaft for click detection
+    int leftEndY = leftArrow.getShaftY() + 5;
+    // Click detection logic
+    if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY) 
+    {
+          if (arrowClicked < 2) 
+          {
+            arrowClicked++; 
+        }else{
+          arrowClicked = 0;
+        }
+    }
+    
+    if (mouseX >= leftStartX && mouseX <= leftEndX && mouseY >= leftStartY && mouseY <= leftEndY) 
+    {
+    if (arrowClicked > 0) {
+        arrowClicked--; // Decrease the arrowClicked counter if the left arrow is clicked
+    }else{
+          arrowClicked = 2;
+        }
+    }
+  
+  
 }
 void clickedDropDown() {
   switch(GraphScreen.dropdown1.getSelectedOption()) {
@@ -141,11 +224,11 @@ void clickedDropDown() {
       CompletableFuture<Integer> cancelledFlightsFuture1 = dataPoint.getCancelledFlightsCount(GraphScreen.dropdown3.getSelectedOption());
 
       CompletableFuture.allOf(cancelledFlightsFuture, cancelledFlightsFuture1).thenRun(() -> {
-        if (GraphScreen.dropdown2.getSelectedOption() != "Select an option") {
+        if (GraphScreen.dropdown2.getSelectedOption() != "Select an option" && !airportOrign.contains(GraphScreen.dropdown2.getSelectedOption())) {
           airportOrign.add(GraphScreen.dropdown2.getSelectedOption());
           airportCancelled.add(cancelledFlightsFuture.join());
         }
-        if (GraphScreen.dropdown3.getSelectedOption() != "Select an option") {
+        if (GraphScreen.dropdown3.getSelectedOption() != "Select an option" && !airportOrign.contains(GraphScreen.dropdown3.getSelectedOption())) {
           airportOrign.add(GraphScreen.dropdown3.getSelectedOption());
           airportCancelled.add(cancelledFlightsFuture1.join());
         }
@@ -160,12 +243,12 @@ void clickedDropDown() {
     int countDelayed = data.countDelayed(GraphScreen.dropdown2.getSelectedOption());
     int countDelayed1 = data.countDelayed(GraphScreen.dropdown3.getSelectedOption());
 
-    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown2.getSelectedOption())) {
       airportOrign.add(GraphScreen.dropdown2.getSelectedOption());
       airportCancelled.add(countDelayed);
     }
 
-    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown3.getSelectedOption())) {
       airportOrign.add(GraphScreen.dropdown3.getSelectedOption());
       airportCancelled.add(countDelayed1);
     }
@@ -180,12 +263,12 @@ void clickedDropDown() {
     int countAll1 = data.countFlightsFromOrigin(GraphScreen.dropdown3.getSelectedOption());
 
 
-    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown2.getSelectedOption()) ) {
       airportOrign.add(GraphScreen.dropdown2.getSelectedOption());
       airportCancelled.add(countAll);
     }
 
-    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown3.getSelectedOption())) {
       airportOrign.add(GraphScreen.dropdown3.getSelectedOption());
       airportCancelled.add(countAll1);
     }
@@ -200,12 +283,12 @@ void clickedDropDown() {
     int divertedCount1 = data.countDiverted(GraphScreen.dropdown3.getSelectedOption());
 
 
-    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown2.getSelectedOption())) {
       airportOrign.add(GraphScreen.dropdown2.getSelectedOption());
       airportCancelled.add(divertedCount);
     }
 
-    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option")) {
+    if (!GraphScreen.dropdown3.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown3.getSelectedOption())) {
       airportOrign.add(GraphScreen.dropdown3.getSelectedOption());
       airportCancelled.add(divertedCount1);
     }
@@ -225,8 +308,8 @@ void mouseMoved() {
       aWidget.setBorderColor(defaultBorderColor);
     }
   }
-  LogScreen.mouseMoved();
   GraphScreen.mouseMoved();
+  LogScreen.mouseMoved();
 }
 
 void mouseWheel(MouseEvent event) {
@@ -237,6 +320,7 @@ void mouseWheel(MouseEvent event) {
     }
   } else {
     GraphScreen.mouseWheel(event);
+    MapsScreen.mouseWheel(event);
   }
 }
 
