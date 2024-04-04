@@ -93,6 +93,7 @@ void setup() {
   currentScreen = HomeScreen;
   widgetList = new ArrayList<Widget>();
   println("System Loading...");
+  setMarker(JFK, LAX);
   GraphScreen.graphSetup();
 }
 void mapSettings() {
@@ -147,6 +148,14 @@ void controlEvent(ControlEvent event) {
   if (event.isAssignableFrom(Textfield.class)) {
     search = event.getStringValue();
   }
+}
+void setMarker(Location startLocation, Location endLocation) {
+  ImageMarker start = new ImageMarker(startLocation, loadImage("ui/marker_gray.png"), "Origin");
+  ImageMarker end = new ImageMarker(endLocation, loadImage("ui/marker_red.png"), "Destination");
+  SimpleLinesMarker connectionMarker = new SimpleLinesMarker(startLocation, endLocation);
+
+  map.addMarker(connectionMarker);
+  map.addMarkers(start, end);
 }
 
 void mousePressed() {
