@@ -37,14 +37,14 @@ class Maps extends Screens {
       scale(scaleFactor);
       rotateX(angleX);
       rotateY(angleY);
-      if (dropdown2.getSelectedOption() != null && drawPath) {
+      if (dropdown2.getSelectedOption() != null && drawPath && dropdown3.getSelectedOption() != null) {
         markers.createPath();
       }
 
       earth.draw();
       popMatrix();
     } else {
-      if (dropdown2.getSelectedOption() != null && drawPath) {
+      if (dropdown2.getSelectedOption() != null && drawPath && dropdown3.getSelectedOption() != null) {
         markers.unfoldingMapCreatePath();
       }
 
@@ -97,11 +97,14 @@ class Maps extends Screens {
     dropdown3.mousePressed();
     if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
       mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) {
-      if (dropdown2.getSelectedOption() != null) {
+      if (dropdown2.getSelectedOption() != null &&  dropdown3.getSelectedOption() != null) {
+        //String[] airportArray = {
+        //  "ATL", "ATW", "AUS", "AZA", "BDL", "BET", "BHM", "BIL", "BIS", "BLI",
+        //  "BLV", "BNA", "BOI", "BOS", "BRW", "BUF", "BUR", "BWI", "BZN", "CDV",
+        //  "CHS", "CID", "CLE", "CLT", "CMH"
+        //};
         String[] airportArray = {
-          "ATL", "ATW", "AUS", "AZA", "BDL", "BET", "BHM", "BIL", "BIS", "BLI",
-          "BLV", "BNA", "BOI", "BOS", "BRW", "BUF", "BUR", "BWI", "BZN", "CDV",
-          "CHS", "CID", "CLE", "CLT", "CMH"
+          dropdown3.getSelectedOption()
         };
         drawPath = true;
         markers = new Marker(dropdown2.getSelectedOption(), airportArray);

@@ -7,7 +7,7 @@ class AirportLocations {
     airportMap = new HashMap<String, Location>();
 
     airportMap.put("LAX", LAX);
-    airportMap.put("JFK", JFK);
+    airportMap.put("JFK", new Location(40.6446, -73.780968));
     airportMap.put("DCA", DCA);
     airportMap.put("FLL", FLL);
     airportMap.put("SEA", SEA);
