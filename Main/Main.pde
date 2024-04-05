@@ -95,7 +95,6 @@ void setup() {
   currentScreen = HomeScreen;
   widgetList = new ArrayList<Widget>();
   println("System Loading...");
-  setMarker(JFK, LAX);
   GraphScreen.graphSetup();
   loc = new AirportLocations();
 }
@@ -155,13 +154,22 @@ void controlEvent(ControlEvent event) {
     search = event.getStringValue();
   }
 }
-void setMarker(Location startLocation, Location endLocation) {
+void setMarkerImage(Location startLocation, Location endLocation) {
   ImageMarker start = new ImageMarker(startLocation, loadImage("ui/marker_gray.png"), "Origin");
   ImageMarker end = new ImageMarker(endLocation, loadImage("ui/marker_red.png"), "Destination");
   SimpleLinesMarker connectionMarker = new SimpleLinesMarker(startLocation, endLocation);
-
   map.addMarker(connectionMarker);
   map.addMarkers(start, end);
+}
+void setMarker(Location startLocation, Location endLocation) {
+
+  SimplePointMarker berlinMarker = new SimplePointMarker(startLocation);
+  SimplePointMarker dublinMarker = new SimplePointMarker(endLocation);
+  SimpleLinesMarker connectionMarker = new SimpleLinesMarker(startLocation, endLocation);
+  berlinMarker.setColor(color(255, 0, 0, 100));
+  dublinMarker.setColor(color(0, 0, 0, 100));
+  map.addMarker(connectionMarker);
+  map.addMarkers(berlinMarker, dublinMarker);
 }
 
 void mousePressed() {
@@ -196,10 +204,7 @@ void mousePressed() {
     mouseY > 160 && mouseY < 160 + 30 && currentScreen == GraphScreen)
   {
     clickedDropDown();
-  } else if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
-    mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) {
-    MapsScreen.state = !MapsScreen.state;
-  }
+  } 
   int startX = rightArrow.getShaftStartX();
   int endX = rightArrow.getHeadBaseEndX();
   int startY = rightArrow.getShaftY() - 5; // Assuming a small margin around the shaft for click detection

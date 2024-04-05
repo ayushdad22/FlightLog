@@ -24,10 +24,9 @@ public class Path {
     
     float[] otherMarker = getPosition(radians(location.x), radians(location.y));
     float heightOfCurve = (marker[1] + otherMarker[1])/2 - 50;
-    
+    pushStyle();
     drawMarker(marker);
     drawMarker(otherMarker);
-    pushMatrix();
     stroke(pathColor);
     noFill();
     beginShape();
@@ -35,7 +34,8 @@ public class Path {
     vertex(marker[0], marker[1], marker[2]);
     bezierVertex(marker[0], marker[1], marker[2], (marker[0] + otherMarker[0]) / 2, heightOfCurve, marker[2], otherMarker[0], otherMarker[1], otherMarker[2]);
     endShape();
-    popMatrix();
+    popStyle();
+    
   }
   void drawMarker(float[] marker){
     pushMatrix();

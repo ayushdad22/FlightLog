@@ -1,19 +1,24 @@
-//class Marker{
-//    color markerColor;
-//    Path path;
-//  Marker(color markerColor) {
-//    this.markerColor = markerColor;
-//     path = new Path(0);
-//  }
+
+public class Marker{
+  Path firstAirport;
+  String location;
+  String[] arrayOfAirports;
+  AirportLocations dataForAirport;
+  Marker(String firstAirport, String[] arrayOfAirports) {
+    dataForAirport = new AirportLocations();
+    this.arrayOfAirports = arrayOfAirports;
+    this.location = firstAirport;
+     this.firstAirport = new Path(0, dataForAirport.getLocation(firstAirport));
+  }
   
-//  void drawMarker(float latitude, float longitude) {
-//  PVector marker = path.getPosition(latitude, longitude, 200);
-//  println(marker.x,marker.y,marker.z);
- 
-//  pushMatrix();
-//  translate(marker.x, marker.y, marker.z);
-//  fill(markerColor);
-//  sphere(2);
-//  popMatrix();
-//  }
-//}
+  void createPath(){
+    for(String airport : arrayOfAirports){
+      firstAirport.drawCurve((dataForAirport.getLocation(airport)));
+    }
+  }
+  void unfoldingMapCreatePath(){
+    for(String airport : arrayOfAirports){
+      setMarker(dataForAirport.getLocation(location), dataForAirport.getLocation(airport));
+    }
+  }
+}

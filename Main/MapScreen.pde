@@ -4,16 +4,16 @@ class Maps extends Screens {
   boolean state = false;
   float scaleFactor = 1.0;
   PApplet applet;
+  boolean drawPath = false;
   float angleX = -0.6299998;
   float angleY = 3.3899996;
   float distance = 500;
-  Path JFKairport;
+  Marker markers;
   Maps(PApplet applet, color backgroundColor, String screenText) {
     super(backgroundColor, screenText);
     earth = new Planet(170);
     String[] options = {""};
     this.applet = applet;
-    JFKairport = new Path(0, JFK);
     dropdown1 = new DropDownMenu(applet, 100, 160, 800 / 4, 30, options);
     dropdown2 = new DropDownMenu(applet, 100 + 800 / 4, 160, 800 / 4, 30, options);
     dataLoadFuture.thenAcceptAsync(dataPoint -> {
@@ -25,6 +25,7 @@ class Maps extends Screens {
   
   void draw() {
     super.draw();
+    
     if (state) {
       pushMatrix();
       fill(255);
@@ -33,10 +34,18 @@ class Maps extends Screens {
       scale(scaleFactor);
       rotateX(angleX);
       rotateY(angleY);
-      JFKairport.drawCurve(LAX);
+      if(dropdown1.getSelectedOption() != null && drawPath){
+        markers.createPath();
+      }
+      
       earth.draw();
       popMatrix();
     } else {
+      if(dropdown1.getSelectedOption() != null && drawPath){
+        markers.unfoldingMapCreatePath();
+        
+      }
+      
       map.draw();
     }
     
@@ -49,8 +58,17 @@ class Maps extends Screens {
       fill(100, 200, 255);
     }
     rect(100 + 3 * 800 / 4, 160, 800 / 4, 30);
+    if (mouseX > 100 + 3 * 800 / 4 && mouseX < 100 + 3 * 800 / 4 + 800 / 4 &&
+        mouseY > 590 && mouseY < 590 + 30) {
+      fill(color(100, 200, 255) + 100);
+    } else {
+      fill(100, 200, 255);
+    }
+    rect(100 + 3 * 800 / 4, 590, 800 / 4, 30);
     fill(255);
     text("Submit", 173 + 3 * 800 / 4, 173);
+
+    text(state ? "3D" : "2D", 173 + 3 * 800 / 4, 603);
   }
   void mouseDragged() {
   println(angleX,angleY);
@@ -72,8 +90,22 @@ class Maps extends Screens {
   void mousePressed() {
     dropdown1.mousePressed();
     dropdown2.mousePressed();
+    if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
+    mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) {
+       if(dropdown1.getSelectedOption() != null){
+                 String[] airportArray = {
+    "ATL", "ATW", "AUS", "AZA", "BDL", "BET", "BHM", "BIL", "BIS", "BLI",
+    "BLV", "BNA", "BOI", "BOS", "BRW", "BUF", "BUR", "BWI", "BZN", "CDV",
+    "CHS", "CID", "CLE", "CLT", "CMH"
+};
+        drawPath = true;
+        markers = new Marker(dropdown1.getSelectedOption(), airportArray);
+       }
+      }else if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
+        mouseY > 590 && mouseY < 590 + 30) {
+        state = !state;
+    }
   }
-  
   void mouseMoved() {
     dropdown1.mouseMoved();
     dropdown2.mouseMoved();
