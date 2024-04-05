@@ -38,15 +38,16 @@ class Maps extends Screens {
       map.draw();
     }
     
+    
+    dropdown1.draw();
+    dropdown2.draw();
+    dropdown3.draw();
     if (mouseX > 100 + 3 * 800 / 4 && mouseX < 100 + 3 * 800 / 4 + 800 / 4 &&
         mouseY > 160 && mouseY < 160 + 30) {
       fill(color(100, 200, 255) + 100);
     } else {
       fill(100, 200, 255);
     }
-    dropdown1.draw();
-    dropdown2.draw();
-    dropdown3.draw();
     rect(100 + 3 * 800 / 4, 160, 800 / 4, 30);
     fill(255);
     text("Submit", 173 + 3 * 800 / 4, 173);
