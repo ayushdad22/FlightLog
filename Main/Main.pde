@@ -89,7 +89,7 @@ void setup() {
   searchbar = new ControlP5(this);
   LogScreen = new Logs(mainApplet,color(225), "");
   GraphScreen = new Graphs(mainApplet, color(225), "");
-  MapsScreen = new Maps(color(225), "");
+  MapsScreen = new Maps(this,color(225), "");
   HomeScreen = new Home(color(255), "");
   currentScreen = HomeScreen;
   widgetList = new ArrayList<Widget>();
@@ -167,6 +167,7 @@ void setMarker(Location startLocation, Location endLocation) {
 void mousePressed() {
   GraphScreen.mousePressed();
   LogScreen.mousePressed();
+  MapsScreen.mousePressed();
   int event = currentScreen.getEvent(); // Get event from the current screen
   switch(event) {
   case EVENT_BUTTON1:
@@ -325,6 +326,7 @@ void mouseMoved() {
   }
   GraphScreen.mouseMoved();
   LogScreen.mouseMoved();
+  MapsScreen.mouseMoved();
 }
 
 void mouseWheel(MouseEvent event) {
