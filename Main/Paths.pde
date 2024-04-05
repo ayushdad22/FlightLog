@@ -2,11 +2,13 @@ public class Path {
   
   color pathColor;
   float latitude, longitude, earthRadius;
+  float[] marker;
   Path(color pathColor, Location airport) {
     this.latitude = radians(airport.x);
     this.longitude = radians(airport.y);
     earthRadius = 170;
     this.pathColor = pathColor;
+    marker = getPosition(latitude, longitude);
   }
   
   float[] getPosition( float latitude, float longitude){
@@ -19,19 +21,19 @@ public class Path {
 
   void drawCurve(Location location) {
     
-    float[] marker1 = getPosition(latitude, longitude);
-    float[] marker2 = getPosition(radians(location.x), radians(location.y));
-    float heightOfCurve = (marker1[1] + marker2[1])/2 - 50;
     
-    drawMarker(marker1);
-    drawMarker(marker2);
+    float[] otherMarker = getPosition(radians(location.x), radians(location.y));
+    float heightOfCurve = (marker[1] + otherMarker[1])/2 - 50;
+    
+    drawMarker(marker);
+    drawMarker(otherMarker);
     pushMatrix();
     stroke(pathColor);
     noFill();
     beginShape();
     strokeWeight(2);
-    vertex(marker1[0], marker1[1], marker1[2]);
-    bezierVertex(marker1[0], marker1[1], marker1[2], (marker1[0] + marker2[0]) / 2, heightOfCurve, marker1[2], marker2[0], marker2[1], marker2[2]);
+    vertex(marker[0], marker[1], marker[2]);
+    bezierVertex(marker[0], marker[1], marker[2], (marker[0] + otherMarker[0]) / 2, heightOfCurve, marker[2], otherMarker[0], otherMarker[1], otherMarker[2]);
     endShape();
     popMatrix();
   }
