@@ -17,7 +17,7 @@ class Planet {
   void draw() {
     pushMatrix();
     float x = distance * sin(radians(45));
-    float y = distance * cos(radians(45)) ;
+    float y = distance * cos(radians(45));
     float z = 0; 
 
     vectorCoord.set(x, y, z);

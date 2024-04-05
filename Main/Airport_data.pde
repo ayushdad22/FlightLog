@@ -1,5 +1,5 @@
 Location LAX = new Location(33.9425, -118.4081);
-Location JFK = new Location(40.6413, -73.7781);
+Location JFK = new Location(40.6446, -73.780968);
 Location DCA = new Location(38.8512, -77.0402);
 Location FLL = new Location(26.0722, -80.1528);
 Location SEA = new Location(47.4502, -122.3088);

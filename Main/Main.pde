@@ -43,6 +43,7 @@ final int EVENT_BUTTON_BACK = 7;
 final int EVENT_RIGHT_ARROW = 8;
 final int EVENT_LEFT_ARROW = 9;
 final int EVENT_NULL=0;
+
 UnfoldingMap map;
 Screens screen;
 Graphs GraphScreen;

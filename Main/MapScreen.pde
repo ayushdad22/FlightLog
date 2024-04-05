@@ -5,13 +5,15 @@ class Maps extends Screens {
   float scaleFactor = 1.0;
   PApplet applet;
   float angleX = -0.6299998;
-float angleY = 3.3899996;
-float distance = 500;
+  float angleY = 3.3899996;
+  float distance = 500;
+  Path JFKairport;
   Maps(PApplet applet, color backgroundColor, String screenText) {
     super(backgroundColor, screenText);
     earth = new Planet(170);
     String[] options = {""};
     this.applet = applet;
+    JFKairport = new Path(0, JFK);
     dropdown1 = new DropDownMenu(applet, 100, 160, 800 / 4, 30, options);
     dropdown2 = new DropDownMenu(applet, 100 + 800 / 4, 160, 800 / 4, 30, options);
     dropdown3 = new DropDownMenu(applet, 100 + 2 * 800 / 4, 160, 800 / 4, 30, options);
@@ -33,12 +35,12 @@ float distance = 500;
       scale(scaleFactor);
       rotateX(angleX);
       rotateY(angleY);
+      JFKairport.drawCurve(LAX);
       earth.draw();
       popMatrix();
     } else {
       map.draw();
     }
-    
     
     dropdown1.draw();
     dropdown2.draw();
