@@ -65,13 +65,13 @@ ArrowWidget rightArrow = new ArrowWidget(150, 185, 65, 30, "Right Arrow", color(
 ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(0, 255, 0), stdFont, EVENT_LEFT_ARROW, "left");
 Location americaLocation = new Location(39.8283f, -98.5795f);
 
-
 DataPoint data;
 PApplet mainApplet;
 Chart barchart;
 Chart scatterplot;
 Chart linegraph;
 Chart piechart;
+AirportLocations loc;
 boolean chartLoaded = false;
 String selectingData = "";
 String search;
@@ -88,15 +88,16 @@ void setup() {
   imgEarth = loadImage("Earth_Texture.jpg");
   stdFont = createFont("arial", 20);
   searchbar = new ControlP5(this);
-  LogScreen = new Logs(mainApplet,color(225), "");
+  LogScreen = new Logs(mainApplet, color(225), "");
   GraphScreen = new Graphs(mainApplet, color(225), "");
-  MapsScreen = new Maps(this,color(225), "");
+  MapsScreen = new Maps(this, color(225), "");
   HomeScreen = new Home(color(255), "");
   currentScreen = HomeScreen;
   widgetList = new ArrayList<Widget>();
   println("System Loading...");
   setMarker(JFK, LAX);
   GraphScreen.graphSetup();
+  loc = new AirportLocations();
 }
 void mapSettings() {
   map = new UnfoldingMap(this, 100, 190, 800, 400);
@@ -105,7 +106,6 @@ void mapSettings() {
   map.setTweening(true);
   map.setZoomRange(4, 8);
   map.setPanningRestriction(americaLocation, 3000);
-
 }
 void draw() {
   for (int i = 0; i < widgetList.size(); i++) {
@@ -129,23 +129,22 @@ void draw() {
     LogScreen.removeSearchBar();
     LogScreen.removeTextArea();
   }
-  if (chartLoaded && arrowClicked == 0 && currentScreen == GraphScreen) 
+  if (chartLoaded && arrowClicked == 0 && currentScreen == GraphScreen)
   {
     linegraph.draw(280, 315, 450, 250);
   }
-  if (chartLoaded && arrowClicked == 1 && currentScreen == GraphScreen) 
+  if (chartLoaded && arrowClicked == 1 && currentScreen == GraphScreen)
   {
     barchart.draw(280, 315, 450, 220);
-
   }
-  if (chartLoaded && arrowClicked == 2 && currentScreen == GraphScreen) 
+  if (chartLoaded && arrowClicked == 2 && currentScreen == GraphScreen)
   {
-    
+
     scatterplot.draw(280, 315, 450, 220);
   }
-  if (chartLoaded && arrowClicked == 3 && currentScreen == GraphScreen) 
+  if (chartLoaded && arrowClicked == 3 && currentScreen == GraphScreen)
   {
-    
+
     piechart.draw(280, 315, 450, 220);
   }
 }
@@ -194,44 +193,41 @@ void mousePressed() {
   }
 
   if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
-    mouseY > 160 && mouseY < 160 + 30 && currentScreen == GraphScreen) 
+    mouseY > 160 && mouseY < 160 + 30 && currentScreen == GraphScreen)
   {
     clickedDropDown();
-  } 
-  else if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
+  } else if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
     mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) {
-      MapsScreen.state = !MapsScreen.state;
+    MapsScreen.state = !MapsScreen.state;
   }
-    int startX = rightArrow.getShaftStartX();
-    int endX = rightArrow.getHeadBaseEndX();
-    int startY = rightArrow.getShaftY() - 5; // Assuming a small margin around the shaft for click detection
-    int endY = rightArrow.getShaftY() + 5;
-    
-    int leftStartX = leftArrow.getHeadBaseEndX(); // The leftmost point of the arrowhead
-    int leftEndX = leftArrow.getShaftStartX();    // The rightmost point of the arrow shaft
-    int leftStartY = leftArrow.getShaftY() - 5;   // Assuming a small margin around the shaft for click detection
-    int leftEndY = leftArrow.getShaftY() + 5;
-    // Click detection logic
-    if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY) 
+  int startX = rightArrow.getShaftStartX();
+  int endX = rightArrow.getHeadBaseEndX();
+  int startY = rightArrow.getShaftY() - 5; // Assuming a small margin around the shaft for click detection
+  int endY = rightArrow.getShaftY() + 5;
+
+  int leftStartX = leftArrow.getHeadBaseEndX(); // The leftmost point of the arrowhead
+  int leftEndX = leftArrow.getShaftStartX();    // The rightmost point of the arrow shaft
+  int leftStartY = leftArrow.getShaftY() - 5;   // Assuming a small margin around the shaft for click detection
+  int leftEndY = leftArrow.getShaftY() + 5;
+  // Click detection logic
+  if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY)
+  {
+    if (arrowClicked < 3)
     {
-          if (arrowClicked < 3) 
-          {
-            arrowClicked++; 
-        }else{
-          arrowClicked = 0;
-        }
+      arrowClicked++;
+    } else {
+      arrowClicked = 0;
     }
-    
-    if (mouseX >= leftStartX && mouseX <= leftEndX && mouseY >= leftStartY && mouseY <= leftEndY) 
-    {
+  }
+
+  if (mouseX >= leftStartX && mouseX <= leftEndX && mouseY >= leftStartY && mouseY <= leftEndY)
+  {
     if (arrowClicked > 0) {
-        arrowClicked--; // Decrease the arrowClicked counter if the left arrow is clicked
-    }else{
-          arrowClicked = 3;
-        }
+      arrowClicked--; // Decrease the arrowClicked counter if the left arrow is clicked
+    } else {
+      arrowClicked = 3;
     }
-  
-  
+  }
 }
 void clickedDropDown() {
   switch(GraphScreen.dropdown1.getSelectedOption()) {
@@ -355,7 +351,7 @@ void searchBar() {
       .setColorForeground(color(30));
   }
 }
-void mouseDragged(){
+void mouseDragged() {
   MapsScreen.mouseDragged();
 }
 void createCharts() {
@@ -425,6 +421,7 @@ void textArea() {
 
 
 
+
   // Update the TextArea with the filtered data
   if (textArea != null) {
     textArea.setText(filteredData.toString());
@@ -440,5 +437,4 @@ void textArea() {
       .setColorForeground(color(255, 100));
     textArea.setText(filteredData.toString());
   }
-
 }

@@ -1,6 +1,6 @@
 class Maps extends Screens {
   private Planet earth;
-  DropDownMenu dropdown1, dropdown2, dropdown3;
+  DropDownMenu dropdown1, dropdown2;
   boolean state = false;
   float scaleFactor = 1.0;
   PApplet applet;
@@ -16,12 +16,10 @@ class Maps extends Screens {
     JFKairport = new Path(0, JFK);
     dropdown1 = new DropDownMenu(applet, 100, 160, 800 / 4, 30, options);
     dropdown2 = new DropDownMenu(applet, 100 + 800 / 4, 160, 800 / 4, 30, options);
-    dropdown3 = new DropDownMenu(applet, 100 + 2 * 800 / 4, 160, 800 / 4, 30, options);
     dataLoadFuture.thenAcceptAsync(dataPoint -> {
       String[] stringArray = dataPoint.airportOrigin().toArray(new String[0]);
-      dropdown1.setOptions(dataPoint.selectData);
+      dropdown1.setOptions(stringArray);
       dropdown2.setOptions(stringArray);
-      dropdown3.setOptions(stringArray);
     });
   }
   
@@ -44,7 +42,6 @@ class Maps extends Screens {
     
     dropdown1.draw();
     dropdown2.draw();
-    dropdown3.draw();
     if (mouseX > 100 + 3 * 800 / 4 && mouseX < 100 + 3 * 800 / 4 + 800 / 4 &&
         mouseY > 160 && mouseY < 160 + 30) {
       fill(color(100, 200, 255) + 100);
@@ -70,18 +67,15 @@ class Maps extends Screens {
     distance = constrain(distance, 100, 1000);
     dropdown1.mouseWheel(event);
     dropdown2.mouseWheel(event);
-    dropdown3.mouseWheel(event);
   }
   
   void mousePressed() {
     dropdown1.mousePressed();
     dropdown2.mousePressed();
-    dropdown3.mousePressed();
   }
   
   void mouseMoved() {
     dropdown1.mouseMoved();
     dropdown2.mouseMoved();
-    dropdown3.mouseMoved();
   }
 }
