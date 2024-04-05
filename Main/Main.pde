@@ -354,6 +354,9 @@ void searchBar() {
       .setColorForeground(color(30));
   }
 }
+void mouseDragged(){
+  MapsScreen.mouseDragged();
+}
 void createCharts() {
   barchart = new Chart(mainApplet, airportOrign, airportCancelled, "Bar");
   linegraph = new Chart(mainApplet, airportOrign, airportCancelled, "Line");

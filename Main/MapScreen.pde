@@ -4,7 +4,9 @@ class Maps extends Screens {
   boolean state = false;
   float scaleFactor = 1.0;
   PApplet applet;
-  
+  float angleX = -0.6299998;
+float angleY = 3.3899996;
+float distance = 500;
   Maps(PApplet applet, color backgroundColor, String screenText) {
     super(backgroundColor, screenText);
     earth = new Planet(170);
@@ -29,9 +31,8 @@ class Maps extends Screens {
       //directional
       translate(500, 400, 100);
       scale(scaleFactor);
-      if (mousePressed) {
-        rotateY(mouseX / 50);
-      }
+      rotateX(angleX);
+      rotateY(angleY);
       earth.draw();
       popMatrix();
     } else {
@@ -52,11 +53,19 @@ class Maps extends Screens {
     fill(255);
     text("Submit", 173 + 3 * 800 / 4, 173);
   }
-  
+  void mouseDragged() {
+  println(angleX,angleY);
+  angleX += (pmouseY - mouseY) * 0.01;
+  angleY -= (pmouseX - mouseX) * 0.01;
+}
+
   void mouseWheel(MouseEvent event) {
     float e = event.getCount();
     scaleFactor -= e * 0.05; // Adjust zoom speed here
     scaleFactor = constrain(scaleFactor, 0.1, 1.1); // Limit zoom range
+    float delta = event.getCount() * 10;
+    distance += delta;
+    distance = constrain(distance, 100, 1000);
     dropdown1.mouseWheel(event);
     dropdown2.mouseWheel(event);
     dropdown3.mouseWheel(event);
