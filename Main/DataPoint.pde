@@ -2,9 +2,6 @@ import controlP5.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List; 
-import java.util.Set;
 import java.util.Map;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,92 +16,76 @@ import org.gicentre.utils.stat.*;
 public class DataPoint {
   private ArrayList<String[]> arrayData;
 
-
-
   public DataPoint(ArrayList<String[]> arrayData) {
     this.arrayData = arrayData;
     
   }
-    String[] selectData2 = {"Cancelled", "Delayed", "Diverted", "All"};
-
-   public String getAllDataSortedAlphabetically2() {
-        //sortDataByCityAndAirport(); // Sort the data alphabetically
-
-        StringBuilder result = new StringBuilder();
-        for (String[] flightInfo : arrayData) {
-            for (String info : flightInfo) {
-                result.append(info).append(" ");
-            }
-            result.append("\n"); // Add a newline after each flight information
-        }
-        return result.toString();
-    }
-    
-    public ArrayList<String> dateData() {
-        return extractDataFromIndex(0); // Index for date
-    }
-
-    public ArrayList<String> airportOrigin() {
-        return extractUniqueDataFromIndex(2); // Index for origin airport
-    }
-
-    public ArrayList<String> distanceData() {
-        return extractDataFromIndex(10); // Index for distance
-    }
-
-    public ArrayList<String> canceledData() {
-        return extractDataFromIndex(9); // Index for canceled status
-    }
-
-    public ArrayList<String> airlineData() {
-        return extractDataFromIndex(11); // Index for airline
-    }
-
-    public ArrayList<String> destinationAirportData() {
-        return extractDataFromIndex(6); // Index for destination airport
-    }
-
-    // Counts flights from a specific origin
-    public int countFlightsFromOrigin2(String originAirportCode) {
-        return (int) arrayData.stream()
-                .filter(data -> data[2].equals(originAirportCode))
-                .count();
-    }
-
-    // Extracts data from a specified index for all entries
-    private ArrayList<String> extractDataFromIndex(int index) {
-        ArrayList<String> extractedData = new ArrayList<>();
-        for (String[] data : arrayData) {
-            extractedData.add(data[index]);
-        }
-        return extractedData;
-    }
-
-    // Extracts unique data from a specified index for all entries
-    private ArrayList<String> extractUniqueDataFromIndex(int index) {
-        Set<String> extractedData = new HashSet<>();
-        for (String[] data : arrayData) {
-            extractedData.add(data[index]);
-        }
-        return new ArrayList<>(extractedData);
-    }
 
   String[] selectData = {"Cancelled", "Delayed", "Diverted", "All"};
 
- public String getAllDataSortedAlphabetically() {
-        //sortDataByCityAndAirport(); // Sort the data alphabetically
+  public String getAllDataSortedAlphabetically() {
+    sortDataByCityAndAirport(); // Sorts the data alphabetically by city and airport
 
-        StringBuilder result = new StringBuilder();
-        for (String[] flightInfo : arrayData) {
-            for (String info : flightInfo) {
-                result.append(info).append(" ");
-            }
-            result.append("\n"); // Add a newline after each flight information
-        }
-        return result.toString();
+    StringBuilder result = new StringBuilder();
+    for (String[] flightInfo : arrayData) {
+        String flightDetails = String.join(" ", flightInfo);
+        result.append(flightDetails).append("\n");
     }
+    return result.toString();
+}
 
+  //dates
+  public ArrayList<String>  dateData() {
+    ArrayList<String> dateData = new ArrayList<String>();
+    for (String[] data : arrayData) {
+      dateData.add(data[0]); //origin index
+    }
+    return dateData;
+  }
 
+  //airport origin
+  public ArrayList<String>  airportOrigin() {
+    ArrayList<String> originData = new ArrayList<String>();
+    for (String[] data : arrayData) {
+      if (!originData.contains(data[2])) {
+        originData.add(data[2]); //origin index
+      }
+    }
+    return originData;
+  }
+  //distance data
+  public ArrayList<String>  distanceData() {
+    ArrayList<String> distData = new ArrayList<String>();
+    for (String[] data : arrayData) {
+      distData.add(data[10]); //distance index
+    }
+    return distData;
+  }
+  //cancelled data
+  public ArrayList<String>  canceledData() {
+    ArrayList<String> cnclData = new ArrayList<String>();
+    for (String[] data : arrayData) {
+      cnclData.add(data[9]); //cancel index
+    }
+    return cnclData;
+  }
+  //airline data
+  public ArrayList<String>  airlineData() {
+    ArrayList<String> arlnData = new ArrayList<String>();
+    for (String[] data : arrayData) {
+      arlnData.add(data[11]); // airline index
+    }
+    return arlnData;
+  }
+
+  //destination airport data
+  public ArrayList<String> destinationAirportData() {
+    ArrayList<String> airData = new ArrayList<String>();
+    for (String[] data : arrayData) {
+      airData.add(data[6]); // destination airport index
+    }
+    return airData;
+  }
 
   public int countFlightsFromOrigin(String originAirportCode) {
     int flightsFromOrigin = 0;
@@ -117,12 +98,18 @@ public class DataPoint {
   }
 
   public CompletableFuture<Integer> getCancelledFlightsCount(String airportName) {
-    return CompletableFuture.supplyAsync(() -> 
-        arrayData.stream()
-                 .filter(data -> data[2].equals(airportName) && "1".equals(data[6]))
-                 .count()
-    ).thenApply(Long::intValue);
-}
+    CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> {
+      int cancelledFlightsCount = 0;
+      for (String[] data : arrayData) {
+        if (data[2].equals(airportName) && data[6].equals("1")) {
+          cancelledFlightsCount++;
+        }
+      }
+      return cancelledFlightsCount;
+    }
+    );
+    return future;
+  }
 
 
   public String getFlightWithLongestDistance() {
@@ -160,6 +147,8 @@ public class DataPoint {
     return count;
   }
 
+
+
   public int countFlightsInOneDay(String date) {
     int count = 0;
     for (String[] data : arrayData) {
@@ -194,45 +183,40 @@ public class DataPoint {
     }
     return count;
   }
-
-  private void sortByDistance(String dataType, ArrayList<String[]> arraySortData) {
-    if (dataType != null) {
-      switch(dataType) {
+  
+private void sortByDistance(String dataType, ArrayList<String[]> arraySortData) {
+  if (dataType != null) {
+    switch (dataType) {
       case "Distance":
-        arraySortData.sort(new Comparator<String[]>() {
-          @Override
-            public int compare(String[] distance1, String[] distance2) {
-            // Convert the distance strings to float and compare them as numbers.
-            Float dist1 = Float.parseFloat(distance1[5]);
-            Float dist2 = Float.parseFloat(distance2[5]);
-            return dist1.compareTo(dist2);
-          }
-        }
-        );
+        arraySortData.sort((distance1, distance2) -> {
+          Float dist1 = Float.parseFloat(distance1[5]);
+          Float dist2 = Float.parseFloat(distance2[5]);
+          return dist1.compareTo(dist2);
+        });
         break;
       case "Alphabetical":
-        sortDataByCityAndAirport(arraySortData);
+        sortDataByCityAndAirport();
         break;
-      }
+      default:
+        // Handle the default case or leave it empty if there's nothing to do
+        break;
     }
   }
+}
 
-
-
-  private ArrayList<String[]> sortDataByCityAndAirport(ArrayList<String[]> arraySortData) {
-    arraySortData.sort(new Comparator<String[]>() {
+  private void sortDataByCityAndAirport() {
+    arrayData.sort(new Comparator<String[]>() {
       @Override
         public int compare(String[] flight1, String[] flight2) {
         // First compare by city/state
-        int cityStateComparison = flight1[1].compareTo(flight2[1]);
+        int cityStateComparison = flight1[0].compareTo(flight2[0]);
         if (cityStateComparison != 0) {
           return cityStateComparison;
         }
         // If cities/states are the same, compare by airport code
-        return flight1[2].compareTo(flight2[2]);
+        return flight1[1].compareTo(flight2[1]);
       }
     }
     );
-    return arraySortData;
   }
 }
