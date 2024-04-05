@@ -154,6 +154,8 @@ void controlEvent(ControlEvent event) {
     search = event.getStringValue();
   }
 }
+
+//not used rn
 void setMarkerImage(Location startLocation, Location endLocation) {
   ImageMarker start = new ImageMarker(startLocation, loadImage("ui/marker_gray.png"), "Origin");
   ImageMarker end = new ImageMarker(endLocation, loadImage("ui/marker_red.png"), "Destination");
@@ -176,6 +178,7 @@ void mousePressed() {
   GraphScreen.mousePressed();
   LogScreen.mousePressed();
   MapsScreen.mousePressed();
+  
   int event = currentScreen.getEvent(); // Get event from the current screen
   switch(event) {
   case EVENT_BUTTON1:
@@ -299,7 +302,6 @@ void clickedDropDown() {
   case "Diverted":
     int divertedCount = data.countDiverted(GraphScreen.dropdown2.getSelectedOption());
     int divertedCount1 = data.countDiverted(GraphScreen.dropdown3.getSelectedOption());
-
 
     if (!GraphScreen.dropdown2.getSelectedOption().equals("Select an option") && !airportOrign.contains(GraphScreen.dropdown2.getSelectedOption())) {
       airportOrign.add(GraphScreen.dropdown2.getSelectedOption());

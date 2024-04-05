@@ -4,6 +4,7 @@ class Maps extends Screens {
   boolean state = false;
   float scaleFactor = 1.0;
   PApplet applet;
+  DataPoint data;
   boolean drawPath = false;
   float angleX = -0.6299998;
   float angleY = 3.3899996;
@@ -98,14 +99,14 @@ class Maps extends Screens {
     if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
       mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) {
       if (dropdown2.getSelectedOption() != null &&  dropdown3.getSelectedOption() != null) {
-        //String[] airportArray = {
-        //  "ATL", "ATW", "AUS", "AZA", "BDL", "BET", "BHM", "BIL", "BIS", "BLI",
-        //  "BLV", "BNA", "BOI", "BOS", "BRW", "BUF", "BUR", "BWI", "BZN", "CDV",
-        //  "CHS", "CID", "CLE", "CLT", "CMH"
-        //};
         String[] airportArray = {
-          dropdown3.getSelectedOption()
+          "ATL", "ATW", "AUS", "AZA", "BDL", "BET", "BHM", "BIL", "BIS", "BLI",
+          "BLV", "BNA", "BOI", "BOS", "BRW", "BUF", "BUR", "BWI", "BZN", "CDV",
+          "CHS", "CID", "CLE", "CLT", "CMH"
         };
+        //String[] airportArray = {
+        //  dropdown3.getSelectedOption()
+        //};
         drawPath = true;
         markers = new Marker(dropdown2.getSelectedOption(), airportArray);
       }

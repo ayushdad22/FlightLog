@@ -18,7 +18,6 @@ public class DataPoint {
 
   public DataPoint(ArrayList<String[]> arrayData) {
     this.arrayData = arrayData;
-    
   }
 
   String[] selectData = {"Cancelled", "Delayed", "Diverted", "All"};
@@ -28,11 +27,11 @@ public class DataPoint {
 
     StringBuilder result = new StringBuilder();
     for (String[] flightInfo : arrayData) {
-        String flightDetails = String.join(" ", flightInfo);
-        result.append(flightDetails).append("\n");
+      String flightDetails = String.join(" ", flightInfo);
+      result.append(flightDetails).append("\n");
     }
     return result.toString();
-}
+  }
 
   //dates
   public ArrayList<String>  dateData() {
@@ -183,16 +182,17 @@ public class DataPoint {
     }
     return count;
   }
-  
-private void sortByDistance(String dataType, ArrayList<String[]> arraySortData) {
-  if (dataType != null) {
-    switch (dataType) {
+
+  private void sortByDistance(String dataType, ArrayList<String[]> arraySortData) {
+    if (dataType != null) {
+      switch (dataType) {
       case "Distance":
         arraySortData.sort((distance1, distance2) -> {
           Float dist1 = Float.parseFloat(distance1[5]);
           Float dist2 = Float.parseFloat(distance2[5]);
           return dist1.compareTo(dist2);
-        });
+        }
+        );
         break;
       case "Alphabetical":
         sortDataByCityAndAirport();
@@ -200,9 +200,9 @@ private void sortByDistance(String dataType, ArrayList<String[]> arraySortData) 
       default:
         // Handle the default case or leave it empty if there's nothing to do
         break;
+      }
     }
   }
-}
 
   private void sortDataByCityAndAirport() {
     arrayData.sort(new Comparator<String[]>() {
@@ -218,5 +218,31 @@ private void sortByDistance(String dataType, ArrayList<String[]> arraySortData) 
       }
     }
     );
+  }
+
+  public int countFlightsBetweenAirports(String originAirportCode, String destinationAirportCode) {
+    int count = 0;
+    for (String[] data : arrayData) {
+      if (data[2].equals(originAirportCode) && data[4].equals(destinationAirportCode)) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+
+  public String[] getDestinations(String originAirportCode) {
+    ArrayList<String> destinations = new ArrayList<>();
+
+    for (String[] data : arrayData) {
+      if (data[2].equals(originAirportCode)) {
+        destinations.add(data[4]);
+      }
+    }
+
+    // Convert ArrayList to String array
+    String[] airports = destinations.toArray(new String[destinations.size()]);
+
+    return airports;
   }
 }
