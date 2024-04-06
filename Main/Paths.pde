@@ -37,10 +37,14 @@ public class Path {
     popStyle();
     
   }
-  void drawMarker(float[] marker){
+  void drawMarker(float[] markerPos){
     pushMatrix();
-    translate(marker[0], marker[1], marker[2]);
-    fill(255, 0, 0);
+    translate(markerPos[0], markerPos[1], markerPos[2]);
+    if(markerPos[0] == marker[0] && markerPos[1] == marker[1] && markerPos[2] == marker[2]){
+      fill(0, 255, 0);
+    }else{
+      fill(255, 0, 0);
+    }
     sphere(2);
     popMatrix();
   }

@@ -1,4 +1,4 @@
-import de.fhpotsdam.unfolding.*; //<>// //<>//
+import de.fhpotsdam.unfolding.*; //<>// //<>// //<>//
 import de.fhpotsdam.unfolding.core.*;
 import de.fhpotsdam.unfolding.data.*;
 import de.fhpotsdam.unfolding.events.*;
@@ -64,7 +64,9 @@ int arrowClicked = 0;
 ArrowWidget rightArrow = new ArrowWidget(150, 185, 65, 30, "Right Arrow", color(255, 0, 0), stdFont, EVENT_RIGHT_ARROW, "right");
 ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(0, 255, 0), stdFont, EVENT_LEFT_ARROW, "left");
 Location americaLocation = new Location(39.8283f, -98.5795f);
-
+ArrayList<SimpleLinesMarker> lineMarker = new ArrayList<SimpleLinesMarker>();
+ArrayList<SimplePointMarker> pointMarker = new ArrayList<SimplePointMarker>();
+ArrayList<ImageMarker> imageMarker = new ArrayList<ImageMarker>();
 DataPoint data;
 PApplet mainApplet;
 Chart barchart;
@@ -157,21 +159,27 @@ void controlEvent(ControlEvent event) {
 
 //not used rn
 void setMarkerImage(Location startLocation, Location endLocation) {
-  ImageMarker start = new ImageMarker(startLocation, loadImage("ui/marker_gray.png"), "Origin");
-  ImageMarker end = new ImageMarker(endLocation, loadImage("ui/marker_red.png"), "Destination");
+  ImageMarker startMarker = new ImageMarker(startLocation, loadImage("ui/marker_gray.png"), "Origin");
+  ImageMarker endMarker = new ImageMarker(endLocation, loadImage("ui/marker_red.png"), "Destination");
   SimpleLinesMarker connectionMarker = new SimpleLinesMarker(startLocation, endLocation);
   map.addMarker(connectionMarker);
-  map.addMarkers(start, end);
+  map.addMarkers(startMarker, endMarker);
+  lineMarker.add(connectionMarker);
+  imageMarker.add(startMarker);
+  imageMarker.add(endMarker);
 }
 void setMarker(Location startLocation, Location endLocation) {
 
-  SimplePointMarker berlinMarker = new SimplePointMarker(startLocation);
-  SimplePointMarker dublinMarker = new SimplePointMarker(endLocation);
+  SimplePointMarker startMarker = new SimplePointMarker(startLocation);
+  SimplePointMarker endMarker = new SimplePointMarker(endLocation);
   SimpleLinesMarker connectionMarker = new SimpleLinesMarker(startLocation, endLocation);
-  berlinMarker.setColor(color(255, 0, 0, 100));
-  dublinMarker.setColor(color(0, 0, 0, 100));
+  endMarker.setColor(color(255, 0, 0, 100));
+  startMarker.setColor(color(0, 255, 0, 100));
   map.addMarker(connectionMarker);
-  map.addMarkers(berlinMarker, dublinMarker);
+  map.addMarkers(startMarker, endMarker);
+  lineMarker.add(connectionMarker);
+  pointMarker.add(startMarker);
+  pointMarker.add(endMarker);
 }
 
 void mousePressed() {

@@ -370,9 +370,22 @@ class AirportLocations {
     airportMap.put("XWA", XWA);
     airportMap.put("YKM", YKM);
     airportMap.put("YUM", YUM);
+    airportMap.put("STT", new Location(18.3378, -64.9739)); 
+    airportMap.put("STX", new Location(17.7019, -64.7986)); 
+    airportMap.put("PSE", new Location(18.0086, -66.5630)); 
+    airportMap.put("SPN", new Location(15.1196, 145.7299)); 
+    airportMap.put("ATY", new Location(44.9122, -97.1551)); 
+    airportMap.put("PPG", new Location(-14.3267, -170.7103));
   }
 
   public Location getLocation(String airportCode) {
-    return airportMap.get(airportCode);
+    if (airportMap.containsKey(airportCode)) {
+            // If the airport code is present, return the corresponding Location
+            return airportMap.get(airportCode);
+        } else {
+            // If the airport code is not present
+            println(airportCode, "does not exist");
+            return null;
+        }
   }
 }

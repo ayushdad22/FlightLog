@@ -4,7 +4,6 @@ class Maps extends Screens {
   boolean state = false;
   float scaleFactor = 1.0;
   PApplet applet;
-  DataPoint data;
   boolean drawPath = false;
   float angleX = -0.6299998;
   float angleY = 3.3899996;
@@ -38,14 +37,14 @@ class Maps extends Screens {
       scale(scaleFactor);
       rotateX(angleX);
       rotateY(angleY);
-      if (dropdown2.getSelectedOption() != null && drawPath && dropdown1.getSelectedOption() != null) {
+      if (dropdown2.getSelectedOption() != null && drawPath && dropdown3.getSelectedOption() != null) {
         markers.createPath();
       }
 
       earth.draw();
       popMatrix();
     } else {
-      if (dropdown2.getSelectedOption() != null && drawPath && dropdown1.getSelectedOption() != null) {
+      if (dropdown2.getSelectedOption() != null && drawPath && dropdown3.getSelectedOption() != null) {
         markers.unfoldingMapCreatePath();
       }
 
@@ -54,9 +53,7 @@ class Maps extends Screens {
 
     dropdown1.draw();
     dropdown2.draw();
-    if(dropdown1.getSelectedOption() != "All"){
-      dropdown3.draw();
-    }
+    dropdown3.draw();
     if (mouseX > 100 + 3 * 800 / 4 && mouseX < 100 + 3 * 800 / 4 + 800 / 4 &&
       mouseY > 160 && mouseY < 160 + 30) {
       fill(color(100, 200, 255) + 100);
@@ -91,45 +88,30 @@ class Maps extends Screens {
     distance = constrain(distance, 100, 1000);
     dropdown1.mouseWheel(event);
     dropdown2.mouseWheel(event);
-    if(dropdown1.getSelectedOption() != "All"){
-      dropdown3.mouseWheel(event);
-    }
+    dropdown3.mouseWheel(event);
   }
 
   void mousePressed() {
     dropdown1.mousePressed();
     dropdown2.mousePressed();
-    if(dropdown1.getSelectedOption() != "All"){
-      dropdown3.mousePressed();
-    }
+    dropdown3.mousePressed();
+    
     if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
       mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) {
-      if (dropdown2.getSelectedOption() != null && dropdown1.getSelectedOption() != null) {
-        clearMap();
-        switch(dropdown1.getSelectedOption()){
-          case "Direct":
-          if(dropdown3.getSelectedOption() != null){
-            String[] airportArray = {
-            dropdown3.getSelectedOption()
-          };
-          markers = new Marker(dropdown2.getSelectedOption(), airportArray, "ImageMarker");
-          drawPath = true;
-          }
-          
-          break;
-          case "All":
-          dataLoadFuture.thenAcceptAsync(dataPoint -> {
-            String[] stringArray = dataPoint.airportOrigin().toArray(new String[0]);
-            markers = new Marker(dropdown2.getSelectedOption(), stringArray, "SimpleMarker");
-            drawPath = true;
-            }
-          );
-          
-          break;
-        }
         
-        
+      if (dropdown2.getSelectedOption() != null &&  dropdown3.getSelectedOption() != null) {
+        //String[] airportArray = {
+        //  "ATL", "ATW", "AUS", "AZA", "BDL", "BET", "BHM", "BIL", "BIS", "BLI",
+        //  "BLV", "BNA", "BOI", "BOS", "BRW", "BUF", "BUR", "BWI", "BZN", "CDV",
+        //  "CHS", "CID", "CLE", "CLT", "CMH"
+        //};
+        String[] airportArray = {
+          dropdown3.getSelectedOption()
+        };
+        drawPath = true;
+        markers = new Marker(dropdown2.getSelectedOption(), airportArray);
       }
+      
     } else if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
       mouseY > 590 && mouseY < 590 + 30) {
       state = !state;
@@ -138,27 +120,18 @@ class Maps extends Screens {
   void mouseMoved() {
     dropdown1.mouseMoved();
     dropdown2.mouseMoved();
-    if(dropdown1.getSelectedOption() != "All"){
-      dropdown3.mouseMoved();
-    }
+    dropdown3.mouseMoved();
   }
   void clearMap(){
-    if(lineMarker. size() != 0){
-      for (SimpleLinesMarker marker : lineMarker) {
-          map.getDefaultMarkerManager().removeMarker(marker);
-        }
-      if(pointMarker.size() != 0){
-        for (SimplePointMarker marker : pointMarker) {
+    if(lineArray.size() != 0){
+      for(SimplePointMarker marker : markerArray){
         map.getDefaultMarkerManager().removeMarker(marker);
       }
-      }else{
-        for (ImageMarker marker : imageMarker) {
-          map.getDefaultMarkerManager().removeMarker(marker);
-        }
+      for(SimpleLinesMarker line : lineArray){
+        map.getDefaultMarkerManager().removeMarker(line);
       }
-      imageMarker.clear();
-      pointMarker.clear();
-      lineMarker.clear();
+      lineArray.clear();
+      markerArray.clear();
     }
   }
 }
