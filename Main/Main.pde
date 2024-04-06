@@ -175,7 +175,7 @@ void setMarker(Location startLocation, Location endLocation) {
   SimpleLinesMarker connectionMarker = new SimpleLinesMarker(startLocation, endLocation);
   endMarker.setColor(color(255, 0, 0, 100));
   startMarker.setColor(color(0, 255, 0, 100));
-  map.addMarker(connectionMarker);
+  //map.addMarker(connectionMarker);
   map.addMarkers(startMarker, endMarker);
   lineMarker.add(connectionMarker);
   pointMarker.add(startMarker);
