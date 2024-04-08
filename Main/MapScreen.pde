@@ -165,7 +165,7 @@ class Maps extends Screens {
 
   void drawText() {
     if (dropdown2.getSelectedOption() != null && dropdown1.getSelectedOption() != null  & (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
-      mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen)) {
+      mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) && mousePressed) {
       switch (dropdown1.getSelectedOption()) {
       case "Direct":
         if (dropdown3.getSelectedOption() != null) {
