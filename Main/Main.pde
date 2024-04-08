@@ -186,7 +186,7 @@ void mousePressed() {
   GraphScreen.mousePressed();
   LogScreen.mousePressed();
   MapsScreen.mousePressed();
-  
+
   int event = currentScreen.getEvent(); // Get event from the current screen
   switch(event) {
   case EVENT_BUTTON1:
@@ -215,7 +215,7 @@ void mousePressed() {
     mouseY > 160 && mouseY < 160 + 30 && currentScreen == GraphScreen)
   {
     clickedDropDown();
-  } 
+  }
   int startX = rightArrow.getShaftStartX();
   int endX = rightArrow.getHeadBaseEndX();
   int startY = rightArrow.getShaftY() - 5; // Assuming a small margin around the shaft for click detection

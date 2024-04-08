@@ -3,6 +3,7 @@ class Maps extends Screens {
   DropDownMenu dropdown1, dropdown2, dropdown3;
   boolean state = false;
   float scaleFactor = 1.0;
+  String info = "";
   PApplet applet;
   DataPoint data;
   boolean drawPath = false;
@@ -54,7 +55,7 @@ class Maps extends Screens {
 
     dropdown1.draw();
     dropdown2.draw();
-    if(dropdown1.getSelectedOption() != "All"){
+    if (dropdown1.getSelectedOption() != "All") {
       dropdown3.draw();
     }
     if (mouseX > 100 + 3 * 800 / 4 && mouseX < 100 + 3 * 800 / 4 + 800 / 4 &&
@@ -75,6 +76,8 @@ class Maps extends Screens {
     text("Submit", 173 + 3 * 800 / 4, 173);
 
     text(state ? "3D" : "2D", 173 + 3 * 800 / 4, 603);
+
+    drawText();
   }
   void mouseDragged() {
     println(angleX, angleY);
@@ -91,7 +94,7 @@ class Maps extends Screens {
     distance = constrain(distance, 100, 1000);
     dropdown1.mouseWheel(event);
     dropdown2.mouseWheel(event);
-    if(dropdown1.getSelectedOption() != "All"){
+    if (dropdown1.getSelectedOption() != "All") {
       dropdown3.mouseWheel(event);
     }
   }
@@ -99,36 +102,34 @@ class Maps extends Screens {
   void mousePressed() {
     dropdown1.mousePressed();
     dropdown2.mousePressed();
-    if(dropdown1.getSelectedOption() != "All"){
+    if (dropdown1.getSelectedOption() != "All") {
       dropdown3.mousePressed();
     }
     if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
       mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) {
       if (dropdown2.getSelectedOption() != null && dropdown1.getSelectedOption() != null) {
         clearMap();
-        switch(dropdown1.getSelectedOption()){
-          case "Direct":
-          if(dropdown3.getSelectedOption() != null){
+        switch(dropdown1.getSelectedOption()) {
+        case "Direct":
+          if (dropdown3.getSelectedOption() != null) {
             String[] airportArray = {
-            dropdown3.getSelectedOption()
-          };
-          markers = new Marker(dropdown2.getSelectedOption(), airportArray, "ImageMarker");
-          drawPath = true;
+              dropdown3.getSelectedOption()
+            };
+            markers = new Marker(dropdown2.getSelectedOption(), airportArray, "ImageMarker");
+            drawPath = true;
           }
-          
+
           break;
-          case "All":
+        case "All":
           dataLoadFuture.thenAcceptAsync(dataPoint -> {
             String[] stringArray = dataPoint.airportOrigin().toArray(new String[0]);
             markers = new Marker(dropdown2.getSelectedOption(), stringArray, "SimpleMarker");
             drawPath = true;
-            }
+          }
           );
-          
+
           break;
         }
-        
-        
       }
     } else if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
       mouseY > 590 && mouseY < 590 + 30) {
@@ -138,20 +139,20 @@ class Maps extends Screens {
   void mouseMoved() {
     dropdown1.mouseMoved();
     dropdown2.mouseMoved();
-    if(dropdown1.getSelectedOption() != "All"){
+    if (dropdown1.getSelectedOption() != "All") {
       dropdown3.mouseMoved();
     }
   }
-  void clearMap(){
-    if(lineMarker. size() != 0){
+  void clearMap() {
+    if (lineMarker. size() != 0) {
       for (SimpleLinesMarker marker : lineMarker) {
-          map.getDefaultMarkerManager().removeMarker(marker);
-        }
-      if(pointMarker.size() != 0){
-        for (SimplePointMarker marker : pointMarker) {
         map.getDefaultMarkerManager().removeMarker(marker);
       }
-      }else{
+      if (pointMarker.size() != 0) {
+        for (SimplePointMarker marker : pointMarker) {
+          map.getDefaultMarkerManager().removeMarker(marker);
+        }
+      } else {
         for (ImageMarker marker : imageMarker) {
           map.getDefaultMarkerManager().removeMarker(marker);
         }
@@ -159,6 +160,29 @@ class Maps extends Screens {
       imageMarker.clear();
       pointMarker.clear();
       lineMarker.clear();
+    }
+  }
+
+  void drawText() {
+    if (dropdown2.getSelectedOption() != null && dropdown1.getSelectedOption() != null  & (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
+      mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen)) {
+      switch (dropdown1.getSelectedOption()) {
+      case "Direct":
+        if (dropdown3.getSelectedOption() != null) {
+          info = String.format("This is a visual of the %s flight between %s and %s",
+            dropdown1.getSelectedOption().toLowerCase(),
+            dropdown2.getSelectedOption(), dropdown3.getSelectedOption());
+        }
+        break;
+      case "All":
+        info = String.format("This is a visual of %s the flights from %s",
+          dropdown1.getSelectedOption().toLowerCase(),
+          dropdown2.getSelectedOption());
+        break;
+      }
+    }
+    if (!info.isEmpty()) {
+      text(info, 110, 600);
     }
   }
 }
