@@ -1,11 +1,11 @@
 class Home extends Screens {
-  private Planet earth;
+  private HeightMapEarth earth;
   float angle = 0;
   PImage imageLogo;
   Home(color backgroundColor, String screenText) {
     super(backgroundColor, screenText);
-    earth = new Planet(170);
-    imageLogo = loadImage("PlaneWatcherLogo.png");
+    earth = new HeightMapEarth();
+    imageLogo = loadImage("PlaneWatcherLogo-removebg-preview.png");
   }
   void draw() {
     angle += 1;
@@ -19,13 +19,11 @@ class Home extends Screens {
     popMatrix();
     popStyle();
 
-    // Disable depth testing to draw the image on top of everything
     hint(DISABLE_DEPTH_TEST);
     pushStyle();
     lights();
     image(imageLogo, 190, 270, 300, 300);
     popStyle();
-    // Re-enable depth testing for future 3D drawings
     hint(ENABLE_DEPTH_TEST);
   }
 }

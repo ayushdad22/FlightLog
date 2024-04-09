@@ -80,7 +80,6 @@ class Maps extends Screens {
     drawText();
   }
   void mouseDragged() {
-    println(angleX, angleY);
     angleX += (pmouseY - mouseY) * 0.01;
     angleY -= (pmouseX - mouseX) * 0.01;
   }
