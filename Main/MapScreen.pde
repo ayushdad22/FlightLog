@@ -1,5 +1,6 @@
 class Maps extends Screens {
   private Planet earth;
+  private PImage mapUsa;
   DropDownMenu dropdown1, dropdown2, dropdown3;
   boolean state = false;
   float scaleFactor = 1.0;
@@ -14,6 +15,7 @@ class Maps extends Screens {
   Maps(PApplet applet, color backgroundColor, String screenText) {
     super(backgroundColor, screenText);
     earth = new Planet(170);
+    mapUsa = loadImage("ImageUSA.png");
     String[] options = {""};
     String[] select = {"All", "Direct"};
     this.applet = applet;
@@ -49,7 +51,7 @@ class Maps extends Screens {
       if (dropdown2.getSelectedOption() != null && drawPath && dropdown1.getSelectedOption() != null) {
         markers.unfoldingMapCreatePath();
       }
-
+      image(mapUsa,100, 190, 800, 400);
       map.draw();
     }
 
