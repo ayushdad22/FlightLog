@@ -2,10 +2,12 @@ class Home extends Screens {
   private Planet earth;
   float angle = 0;
   PImage imageLogo;
+  PFont text;
   Home(color backgroundColor, String screenText) {
     super(backgroundColor, screenText);
     earth = new Planet(170);
     imageLogo = loadImage("PlaneWatcherLogo.png");
+    text = createFont("Aachen Bold.ttf", 20);
   }
   void draw() {
     angle += 1;
@@ -24,6 +26,9 @@ class Home extends Screens {
     pushStyle();
     lights();
     image(imageLogo, 190, 270, 300, 300);
+    textFont(text);
+    fill(18, 188, 252);
+    text("Group 15: Ayush, Shuban, Brian, Abdul, Thai, Patrick", 125, 640);
     popStyle();
     // Re-enable depth testing for future 3D drawings
     hint(ENABLE_DEPTH_TEST);
