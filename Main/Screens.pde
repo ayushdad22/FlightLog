@@ -21,13 +21,26 @@ abstract class Screens {
     widgetList.add(nextButton);
   }
 
-  void draw() {
-    fill(0);
-    background(100, 200, 255);
-    for (Widget widget : widgetList) {
-      widget.draw();
-    }
+void draw() {
+  fill(0);
+  background(100, 200, 255);
+
+  pushStyle();
+  fill(255, 255, 255, 200);
+  noStroke(); 
+  rect(110, 105, 805, 40);
+  popStyle();
+  
+  pushStyle();
+  fill(255, 255, 255, 200);
+  noStroke(); 
+  rect(110, 165, 805, 510);
+  popStyle();
+
+  for (Widget widget : widgetList) {
+    widget.draw();
   }
+}
 
   int getEvent() {
     for (Widget widget : widgetList) {
