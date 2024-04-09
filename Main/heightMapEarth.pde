@@ -4,7 +4,6 @@ class HeightMapEarth{
   int scl = 2;
   float[][] terrain;
   float radius = 150; 
-  
   HeightMapEarth(){
     //img = loadImage("Earth_Height_Map.jpg");
     img = loadImage("World_elevation_map.png");
@@ -66,5 +65,4 @@ class HeightMapEarth{
 
     return new PVector(xPos, yPos, zPos);
   }
-
 }

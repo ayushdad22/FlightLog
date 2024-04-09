@@ -15,7 +15,7 @@ class Home extends Screens {
     pushMatrix();
     translate(540, 400, 100);
     directionalLight(255, 250, 245, -0.9, 0.7, 0);
-    rotateY(radians(angle));
+    rotateY(radians(200+angle));
     earth.draw();
     popMatrix();
     popStyle();
@@ -26,7 +26,7 @@ class Home extends Screens {
     image(imageLogo, 190, 270, 300, 300);
     text = createFont("Aachen Bold.ttf", 20);
     textFont(text);
-    fill(255, 200);
+    fill(100, 200);
     text("Group 15: Ayush, Shuban, Brian, Abdul, Thai, Patrick", 127, 642);
     fill(18, 188, 252);
     text("Group 15: Ayush, Shuban, Brian, Abdul, Thai, Patrick", 125, 640);

@@ -88,7 +88,7 @@ void setup() {
   mainApplet = this;
   mapSettings();
   imgEarth = loadImage("Earth_Texture.jpg");
-  stdFont = createFont("arial", 20);
+  stdFont = createFont("Aachen Bold.ttf", 20);
   searchbar = new ControlP5(this);
   LogScreen = new Logs(mainApplet, color(225), "");
   GraphScreen = new Graphs(mainApplet, color(225), "");
@@ -445,7 +445,7 @@ void textArea() {
     textArea = cp5.addTextarea("txt")
       .setPosition(100, 400)
       .setSize(800, 260)
-      .setFont(createFont("arial", 20))
+      .setFont(stdFont)
       .setLineHeight(20)
       .setColor(0)
       .setColorBackground(color(255))
