@@ -6,6 +6,7 @@ class HeightMapEarth{
   float radius = 150; 
   
   HeightMapEarth(){
+    //img = loadImage("Earth_Height_Map.jpg");
     img = loadImage("World_elevation_map.png");
     img1 = loadImage("Earth_Texture.jpg");
     img1.resize(width, height);
