@@ -368,6 +368,7 @@ void searchBar() {
 }
 void mouseDragged() {
   MapsScreen.mouseDragged();
+  HomeScreen.mouseDragged();
 }
 void createCharts() {
   barchart = new Chart(mainApplet, airportOrign, airportCancelled, "Bar");
