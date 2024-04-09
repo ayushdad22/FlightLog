@@ -444,7 +444,7 @@ void textArea() {
     cp5 = new ControlP5(this);
     textArea = cp5.addTextarea("txt")
       .setPosition(100, 400)
-      .setSize(800, 300)
+      .setSize(800, 260)
       .setFont(createFont("arial", 20))
       .setLineHeight(20)
       .setColor(0)
