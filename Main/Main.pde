@@ -157,10 +157,10 @@ void controlEvent(ControlEvent event) {
   }
 }
 
-//not used rn
 void setMarkerImage(Location startLocation, Location endLocation) {
-  ImageMarker startMarker = new ImageMarker(startLocation, loadImage("ui/marker_gray.png"), "Origin");
-  ImageMarker endMarker = new ImageMarker(endLocation, loadImage("ui/marker_red.png"), "Destination");
+  ImageMarker startMarker = new ImageMarker(startLocation, loadImage("ui/marker_gray.png"), 
+  MapsScreen.dropdown2.getSelectedOption());
+  ImageMarker endMarker = new ImageMarker(endLocation, loadImage("ui/marker_red.png"), MapsScreen.dropdown3.getSelectedOption());
   SimpleLinesMarker connectionMarker = new SimpleLinesMarker(startLocation, endLocation);
   map.addMarker(connectionMarker);
   map.addMarkers(startMarker, endMarker);
