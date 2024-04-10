@@ -98,7 +98,7 @@ public class DataPoint {
     }
     return flightsFromOrigin;
   }
- //completing future loads the data and checks the cancelled flights data and compares airport to airport data from above functions -Ayush
+ //completing future loads the data and checks the cancelled flights data and compares airport to airport data from above functions -Brian
   public CompletableFuture<Integer> getCancelledFlightsCount(String airportName) {
     CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> {
       int cancelledFlightsCount = 0;
