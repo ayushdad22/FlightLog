@@ -100,6 +100,8 @@ void setup() {
   GraphScreen.graphSetup();
   loc = new AirportLocations();
 }
+
+//creates 2d map usong unfolding - Shuban
 void mapSettings() {
   map = new UnfoldingMap(this, 100, 190, 800, 400);
   MapUtils.createDefaultEventDispatcher(this, map);
@@ -218,13 +220,14 @@ void mousePressed() {
   }
   int startX = rightArrow.getShaftStartX();
   int endX = rightArrow.getHeadBaseEndX();
-  int startY = rightArrow.getShaftY() - 5; // Assuming a small margin around the shaft for click detection
+  int startY = rightArrow.getShaftY() - 5; 
   int endY = rightArrow.getShaftY() + 5;
 
-  int leftStartX = leftArrow.getHeadBaseEndX(); // The leftmost point of the arrowhead
-  int leftEndX = leftArrow.getShaftStartX();    // The rightmost point of the arrow shaft
-  int leftStartY = leftArrow.getShaftY() - 5;   // Assuming a small margin around the shaft for click detection
+  int leftStartX = leftArrow.getHeadBaseEndX(); 
+  int leftEndX = leftArrow.getShaftStartX();    
+  int leftStartY = leftArrow.getShaftY() - 5;   
   int leftEndY = leftArrow.getShaftY() + 5;
+  
   // Click detection logic
   if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY)
   {
@@ -247,10 +250,10 @@ void mousePressed() {
 }
 
 /**
- * This function handles the logic when the "Cancelled" option is selected in dropdown1.
+ * This function handles the logic when the sorting options are selected in dropdown1.
  * It retrieves data from dataLoadFuture and then calculates the number of cancelled flights for the options selected in dropdown2 and dropdown3.
  * It updates the airportOrign and airportCancelled lists based on the selected options and retrieved data.
- * Finally, it calls createCharts() to generate charts and sets chartLoaded to true. - Brian  
+ * Finally, it calls createCharts() to generate charts and sets chartLoaded to true. - Brian /Shuban
  */
 void clickedDropDown() {
   switch(GraphScreen.dropdown1.getSelectedOption()) {
@@ -360,8 +363,8 @@ void mouseWheel(MouseEvent event) {
   }
 }
 
+// creates search bara using control p5 - Shuban
 void searchBar() {
-  // Check if the search bar already exists
   if (searchbar.getController("SEARCH") == null) {
     searchbar.addTextfield("SEARCH")
       .setPosition(370, 300)
@@ -386,11 +389,11 @@ void createCharts() {
 }
 /**
  * This function filters the flight data based on the selected search option and data type, 
- * and displays the filtered data in the text area. - Brian
+ * and displays the filtered data in the text area. - Shuban
  */
 void textArea() {
   ArrayList<String[]> tempFilteredDataList = new ArrayList<>();
-  StringBuilder filteredData = new StringBuilder();
+  StringBuilder filteredData = new StringBuilder(); //string builder to build string from an arrayList of string values
   String selectedOption = LogScreen.dropdownSearch.getSelectedOption();
   String dataType = LogScreen.dropdownSort.getSelectedOption();
   
@@ -433,11 +436,11 @@ void textArea() {
       }
       break;
     }
-
-    // Sort the filtered data if necessary, you can include your sorting method here
+    
+    // sorts/filetrs the data by distance
     data.sortByDistance(dataType, tempFilteredDataList);
 
-    // Convert the filtered and possibly sorted list into a string
+    // converts the filtered and sorted list into a string
     for (String[] flightInfo : tempFilteredDataList) {
       for (String flightDetail : flightInfo) {
         filteredData.append(flightDetail).append(" ");
@@ -449,7 +452,7 @@ void textArea() {
 
 
 
-  // Update the TextArea with the filtered data
+  // Update the TextArea with the filtered data - Shuban
   if (textArea != null) {
     textArea.setText(filteredData.toString());
   } else {
