@@ -1,6 +1,8 @@
+// Graphs class: Manages the interactive graph screen within the UI, including dropdown menus for graph control. - Abdul/Brian
 class Graphs extends Screens {
   DropDownMenu dropdown1, dropdown2, dropdown3;
   PApplet applet;
+  // Constructor: Sets up the graph screen with dropdown menus.
   Graphs(PApplet applet, color backgroundColor, String screenText) {
     super(backgroundColor, screenText);
     this.applet = applet;
@@ -9,11 +11,11 @@ class Graphs extends Screens {
     dropdown2 = new DropDownMenu(applet, 100+ 800/4, 160, 800/4, 30, options);
     dropdown3 = new DropDownMenu(applet, 100+ 2*800/4, 160, 800/4, 30, options);
   }
- /**
- * This function asynchronously loads flight data from flights_full CSV file, processes it, and populates dropdowns.
- *
- * Uses CompletableFuture for asynchronous data loading and processing. - Brian
- */
+  /**
+   * This function asynchronously loads flight data from flights_full CSV file, processes it, and populates dropdowns.
+   *
+   * Uses CompletableFuture for asynchronous data loading and processing. - Brian
+   */
 
   void graphSetup() {
 
@@ -51,6 +53,7 @@ class Graphs extends Screens {
     }
     );
   }
+
   void draw() {
     super.draw();
     dropdown1.draw();
@@ -62,26 +65,31 @@ class Graphs extends Screens {
     } else {
       fill(100, 200, 255);
     }
-   
+
     rect(100+ 3*800/4, 160, 800/4, 30);
     fill(255);
     text("Submit", 173+ 3*800/4, 173);
   }
+
+  // Handles mouse press interactions, primarily for the dropdowns and submit button.
   void mousePressed() {
     dropdown1.mousePressed();
     dropdown2.mousePressed();
     dropdown3.mousePressed();
     if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
-      mouseY > 160 && mouseY < 160 + 30){
+      mouseY > 160 && mouseY < 160 + 30) {
       clickedDropDown();
     }
   }
+
+  // Tracks mouse movement for interactive elements, such as dropdown menus.
   void mouseMoved() {
     dropdown1.mouseMoved();
     dropdown2.mouseMoved();
     dropdown3.mouseMoved();
   }
 
+  // Processes mouse wheel interactions for scrolling through dropdown menu items.
   void mouseWheel(MouseEvent event) {
     dropdown1.mouseWheel(event);
     dropdown2.mouseWheel(event);
