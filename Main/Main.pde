@@ -1,4 +1,4 @@
-import de.fhpotsdam.unfolding.*;  //<>//
+import de.fhpotsdam.unfolding.*;  //<>// //<>//
 import de.fhpotsdam.unfolding.core.*;
 import de.fhpotsdam.unfolding.data.*;
 import de.fhpotsdam.unfolding.events.*;
@@ -218,7 +218,7 @@ void mousePressed() {
   {
     clickedDropDown();
   }
-  int startX = rightArrow.getShaftStartX();
+    int startX = rightArrow.getShaftStartX();
   int endX = rightArrow.getHeadBaseEndX();
   int startY = rightArrow.getShaftY() - 5; 
   int endY = rightArrow.getShaftY() + 5;

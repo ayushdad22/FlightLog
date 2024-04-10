@@ -1,3 +1,4 @@
+//used for map screen, containing the 2d and 3d visuals of data - Shuban/Ayush
 class Maps extends Screens {
   private Planet earth;
   private PImage mapUsa;
@@ -12,6 +13,7 @@ class Maps extends Screens {
   float angleY = 3.3899996;
   float distance = 500;
   Marker markers;
+  // Loads necessary images, initializes dropdown menus, and sets up the future data loading.
   Maps(PApplet applet, color backgroundColor, String screenText) {
     super(backgroundColor, screenText);
     earth = new Planet(170);
@@ -81,11 +83,14 @@ class Maps extends Screens {
 
     drawText();
   }
+  
+  // Handles the dragging interaction for rotating the 3D earth model.
   void mouseDragged() {
     angleX += (pmouseY - mouseY) * 0.01;
     angleY -= (pmouseX - mouseX) * 0.01;
   }
 
+// Manages zooming in and out of the 3D earth model using the mouse wheel.
   void mouseWheel(MouseEvent event) {
     float e = event.getCount();
     scaleFactor -= e * 0.05; // Adjust zoom speed here
@@ -100,6 +105,7 @@ class Maps extends Screens {
     }
   }
 
+// Processes mouse click events, updating the dropdown selections and toggling the 2D/3D state.
   void mousePressed() {
     dropdown1.mousePressed();
     dropdown2.mousePressed();
@@ -144,6 +150,8 @@ class Maps extends Screens {
       dropdown3.mouseMoved();
     }
   }
+  
+  // Clears all markers from the map when a new selection is made or the map needs to be reset.
   void clearMap() {
     if (lineMarker. size() != 0) {
       for (SimpleLinesMarker marker : lineMarker) {
@@ -164,6 +172,7 @@ class Maps extends Screens {
     }
   }
 
+// Draws informational text on the screen based on the current dropdown selections.
   void drawText() {
     if (dropdown2.getSelectedOption() != null && dropdown1.getSelectedOption() != null  & (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
       mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) && mousePressed) {
