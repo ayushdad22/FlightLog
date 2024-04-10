@@ -245,6 +245,13 @@ void mousePressed() {
     }
   }
 }
+
+/**
+ * This function handles the logic when the "Cancelled" option is selected in dropdown1.
+ * It retrieves data from dataLoadFuture and then calculates the number of cancelled flights for the options selected in dropdown2 and dropdown3.
+ * It updates the airportOrign and airportCancelled lists based on the selected options and retrieved data.
+ * Finally, it calls createCharts() to generate charts and sets chartLoaded to true. - Brian
+ */
 void clickedDropDown() {
   switch(GraphScreen.dropdown1.getSelectedOption()) {
   case "Cancelled":
@@ -377,12 +384,16 @@ void createCharts() {
   piechart = new Chart(mainApplet, airportOrign, airportCancelled, "Pie");
   chartLoaded = true;
 }
-
+/**
+ * This function filters the flight data based on the selected search option and data type, 
+ * and displays the filtered data in the text area. - Brian
+ */
 void textArea() {
   ArrayList<String[]> tempFilteredDataList = new ArrayList<>();
   StringBuilder filteredData = new StringBuilder();
   String selectedOption = LogScreen.dropdownSearch.getSelectedOption();
   String dataType = LogScreen.dropdownSort.getSelectedOption();
+  
 
   if (dataLoadFuture.isDone() && selectedOption != null) {
     switch(selectedOption) {

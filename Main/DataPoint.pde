@@ -7,13 +7,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import org.gicentre.utils.stat.*;
 
-// for charts:
-// num of flights in a day
-// flights to aiport in a week
-// longest flight distance
-// most number of flights from airlines
-
-//Super cLass DataPoint - Brian
+/**
+ * This class represents a DataPoint containing flight information.
+ * It holds the data in a two-dimensional ArrayList of strings (arrayData).
+ * It also has an AirportLocations object (location) for potential location-related functionalities (not shown here).- Brian
+ */
 public class DataPoint {
   private ArrayList<String[]> arrayData;
   private AirportLocations location;
@@ -21,10 +19,14 @@ public class DataPoint {
     this.arrayData = arrayData;
     location = new AirportLocations();
   }
-
+  /**
+   * This defines a constant array of options for filtering data (Cancelled, Delayed, Diverted, All). - Brian
+   */
   String[] selectData = {"Cancelled", "Delayed", "Diverted", "All"};
   
-  // Sorts the data alphabetically by city and airport - Brian
+/**
+ * This function retrieves all flight data from the class and returns it as a single string, sorted alphabetically by city and airport. - Brian
+ */
   public String getAllDataSortedAlphabetically() {
     sortDataByCityAndAirport(); 
 
@@ -36,7 +38,9 @@ public class DataPoint {
     return result.toString();
   }
 
-  //Finding the dates  - Brian
+  /**
+ * This function extracts the date information from each flight record and returns them as a list of strings. - Brian
+ */
   public ArrayList<String>  dateData() {
     ArrayList<String> dateData = new ArrayList<String>();
     for (String[] data : arrayData) {
@@ -45,7 +49,9 @@ public class DataPoint {
     return dateData;
   }
 
-  //finding airport origin - Brian 
+/**
+ * This function extracts a list of unique origin airports from the flight data. - Brian
+ */
   public ArrayList<String>  airportOrigin() {
     ArrayList<String> originData = new ArrayList<String>();
     for (String[] data : arrayData) {
@@ -55,7 +61,10 @@ public class DataPoint {
     }
     return originData;
   }
-  //Finding the distance between two airports - Brian
+
+/**
+ * This function extracts the distance information for each flight record and returns them as a list of strings. - Brian
+ */
   public ArrayList<String>  distanceData() {
     ArrayList<String> distData = new ArrayList<String>();
     for (String[] data : arrayData) {
@@ -63,7 +72,9 @@ public class DataPoint {
     }
     return distData;
   }
-  //cancelled flights data for the flights - Brian
+/**
+ * This function extracts the cancellation status for each flight record and returns them as a list of strings. - Brian
+ */
   public ArrayList<String>  canceledData() {
     ArrayList<String> cnclData = new ArrayList<String>();
     for (String[] data : arrayData) {
@@ -71,7 +82,10 @@ public class DataPoint {
     }
     return cnclData;
   }
-  //gets the airline data -Brian
+
+/**
+ * This function extracts the airline information for each flight record and returns them as a list of strings. - Brian
+ */
   public ArrayList<String>  airlineData() {
     ArrayList<String> arlnData = new ArrayList<String>();
     for (String[] data : arrayData) {
@@ -80,7 +94,9 @@ public class DataPoint {
     return arlnData;
   }
 
-  //destination of the airport data used in dropdown menus - Brian
+/**
+ * This function extracts the destination airport code for each flight record and returns them as a list of strings. - Brian
+ */
   public ArrayList<String> destinationAirportData() {
     ArrayList<String> airData = new ArrayList<String>();
     for (String[] data : arrayData) {
@@ -88,7 +104,13 @@ public class DataPoint {
     }
     return airData;
   }
-  // counting the flights from origin and adding the data up - Brian
+
+/**
+ * This function counts the number of flights originating from a specific airport.
+ *
+ * @param originAirportCode The code of the airport to consider as the origin.
+ * @return The number of flights in the data that originate from the specified airport. - Brian
+ */
   public int countFlightsFromOrigin(String originAirportCode) {
     int flightsFromOrigin = 0;
     for (String[] data : arrayData) {
@@ -98,7 +120,13 @@ public class DataPoint {
     }
     return flightsFromOrigin;
   }
- //completing future loads the data and checks the cancelled flights data and compares airport to airport data from above functions -Brian
+  
+ /**
+ * This function asynchronously retrieves the number of cancelled flights from a specified airport.
+ *
+ * @param airportName The name of the airport to check for cancelled flights.
+ * @return A CompletableFuture object that will eventually hold the count of cancelled flights. - Brian
+ */
   public CompletableFuture<Integer> getCancelledFlightsCount(String airportName) {
     CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> {
       int cancelledFlightsCount = 0;
@@ -113,7 +141,11 @@ public class DataPoint {
     return future;
   }
 
-  //This function is used to get the longest flight data by distance - Brian
+/**
+ * This function finds the flight with the longest distance among all flights in the data.
+ *
+ * @return The origin code (data[2]) of the flight with the longest distance, or null if no data is available. - Brian
+ */
   public String getFlightWithLongestDistance() {
     float maxDistance = 0;
     String flightWithLongestDistance = null;
@@ -128,7 +160,12 @@ public class DataPoint {
 
     return flightWithLongestDistance;
   }
-  //flights for each airline that it iterates through - Brian
+  /**
+ * This function counts the number of flights operated by a specific airline.
+ *
+ * @param airline The name of the airline to consider for counting flights.
+ * @return The number of flights in the data that are operated by the specified airline. - Brian
+ */
   public int countFlightsForAirline(String airline) {
     int count = 0;
     for (String[] data : arrayData) {
@@ -138,6 +175,15 @@ public class DataPoint {
     }
     return count;
   }
+  
+  /**
+ * This function attempts to find the distance between two airports.
+ *
+ * @param originAirport The code of the origin airport.
+ * @param destinationAirport The code of the destination airport.
+ * @return The distance between the airports in meters as a string, 
+ *         or "Distance Not Found" if no match is found in the data or location lookup fails. - Brian
+ */
   public String distanceBetweenTwoAirports(String originAirport, String destinationAirport){
     for(String[]data : arrayData){
       if(data[2].equals(originAirport) && data[4].equals(destinationAirport)){
@@ -146,6 +192,14 @@ public class DataPoint {
     }
     return str((int)location.getLocation(originAirport).getDistance(location.getLocation(destinationAirport))) + "m";
   }
+  /**
+ * This function attempts to find the distance between two airports based on information in the data.
+ *
+ * @param originAirport The code of the origin airport.
+ * @param destinationAirport The code of the destination airport.
+ * @return The distance between the airports in units specified by data[5] (assuming it's a number), 
+ *         or 0 if no match is found in the data. - Brian
+ */
   public int distanceBetweenAirports(String originAirport, String destinationAirport){
     for (String[] data : arrayData) {
       if(data[1] ==  originAirport && data[3] ==  destinationAirport){
@@ -155,7 +209,12 @@ public class DataPoint {
       return 0;
   }
   
- //sorting the number of delayed flights - Brian
+ /**
+ * This function counts the number of delayed flights from a specified airport.
+ *
+ * @param airportName The name of the airport to consider for counting delayed flights.
+ * @return The number of flights originating from the specified airport that are delayed. - Brian
+ */
   public int countDelayed(String airportName) {
     int count = 0;
     for (String[] data : arrayData) {
@@ -166,8 +225,13 @@ public class DataPoint {
     return count;
   }
 
+/**
+ * This function counts the number of flights occurring on a specific date.
+ *
+ * @param date The date in the format used by the data (assuming data[0]) to consider for counting flights.
+ * @return The number of flights in the data that occur on the specified date. - Brian
+ */
 
-  //count all the flights in one day - Brian 
   public int countFlightsInOneDay(String date) {
     int count = 0;
     for (String[] data : arrayData) {
@@ -177,8 +241,10 @@ public class DataPoint {
     }
     return count;
   }
-
-  //Counting the number of flights in one week - Brian 
+  
+/**
+ * Counts flights within a week of the provided start date (inclusive). - Brian
+ */
   public int countFlightsInOneWeek(String startDate) {
     int count = 0;
 
@@ -193,7 +259,9 @@ public class DataPoint {
     }
     return count;
   }
-  //count diverted flights by airport name  - Brian
+/**
+ * Counts diverted flights from a specified airport. - Brian
+ */
   public int countDiverted(String airportName) {
     int count = 0;
     for (String[] data : arrayData) {
@@ -203,7 +271,17 @@ public class DataPoint {
     }
     return count;
   }
-  //sorting the distance by data and taking arrayList and it's data type sorted - Brian
+  
+ /**
+ * Sorts flight data in the provided array based on the specified data type.
+ *
+ * @param dataType The type of data to use for sorting ("Distance" or "Alphabetical").
+ * @param arraySortData The ArrayList containing flight data (String arrays) to be sorted.
+ *
+ * This function supports sorting by distance (ascending order) or alphabetically by city and airport. 
+ * If an unsupported data type is provided, the default behavior can be defined here   - Brian 
+ * (currently empty).
+ */
   private void sortByDistance(String dataType, ArrayList<String[]> arraySortData) {
     if (dataType != null) {
       switch (dataType) {
@@ -224,7 +302,14 @@ public class DataPoint {
       }
     }
   }
-  //function for sortingData by city and airport - Brian
+  
+ /**
+ * Sorts flight data in the array based on city/state and then airport code (ascending order).
+ *
+ * This function sorts flight data assuming the first element (`[0]`) contains the city and state information 
+ * and the second element (`[1]`) holds the airport code. It sorts by city/state first (ascending order) 
+ * and if cities/states are the same, it uses the airport code for further sorting (also ascending order).   - Brian
+ */
   private void sortDataByCityAndAirport() {
     arrayData.sort(new Comparator<String[]>() {
       @Override
@@ -240,8 +325,13 @@ public class DataPoint {
     }
     );
   }
-  
-  //counting flights between airport 1 and 2 and so on for the search bar menu - Brian
+ /**
+ * Counts the number of flights traveling from a specific origin airport to a specific destination airport.
+ *
+ * @param originAirportCode The code of the origin airport.
+ * @param destinationAirportCode The code of the destination airport.
+ * @return The number of flights in the data that travel from the origin airport to the destination airport. - Brian
+ */
   public int countFlightsBetweenAirports(String originAirportCode, String destinationAirportCode) {
     int count = 0;
     for (String[] data : arrayData) {
@@ -252,7 +342,13 @@ public class DataPoint {
     return count;
   }
 
-  //getting the distance of the origin Airport by it's code for the search bar menu - Brian
+/**
+ * Finds a list of destination airports reachable from a specified origin airport.
+ *
+ * @param originAirportCode The code of the origin airport.
+ * @return An array of destination airport codes reachable from the specified origin airport,  - Brian
+ *         or an empty array if no destinations are found.
+ */
   public String[] getDestinations(String originAirportCode) {
     ArrayList<String> destinations = new ArrayList<>();
 

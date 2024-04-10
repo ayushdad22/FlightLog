@@ -9,6 +9,11 @@ class Graphs extends Screens {
     dropdown2 = new DropDownMenu(applet, 100+ 800/4, 160, 800/4, 30, options);
     dropdown3 = new DropDownMenu(applet, 100+ 2*800/4, 160, 800/4, 30, options);
   }
+ /**
+ * This function asynchronously loads flight data from flights_full CSV file, processes it, and populates dropdowns.
+ *
+ * Uses CompletableFuture for asynchronous data loading and processing. - Brian
+ */
 
   void graphSetup() {
 
