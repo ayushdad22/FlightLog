@@ -7,7 +7,23 @@ class HeightMapEarth{
   float[][] terrain; // Array to store elevation data
   float radius = 150; // Radius of the sphere (earth) in pixels
 
-  // Constructor of the HeightMapEarth class
+  /**
+ * HeightMapEarth constructor: Initializes a 3D terrain representing the Earth's surface.
+ *
+ * This constructor performs the following tasks:
+ *  - Loads an elevation map image ("World_elevation_map.png") and a texture image ("Earth_Texture.jpg").
+ *  - Resizes both images to match the display window dimensions (width and height).
+ *  - Converts the elevation map to grayscale using the `filter(GRAY)` method.
+ *  - Calculates the number of columns and rows for the terrain based on image resolution and a scale factor (`scl`).
+ *  - Creates a 2D array `terrain` to store the elevation values for each point on the terrain.
+ *  - Loads the pixels of the elevation map image for processing.
+ *  - Iterates through each pixel in the elevation map:
+ *      - Converts the pixel's brightness value to an elevation value using `brightness(img.pixels[index(x * scl, y * scl)])`.
+ *      - Maps the brightness (0-255) to an elevation value (-elevationScale to elevationScale) using the `map` function. This creates a more visually pronounced terrain effect.
+ *  - Stores the calculated elevation value in the corresponding position of the `terrain` array.
+ *
+ * - Ayush
+ */
   HeightMapEarth(){
     // Loads the elevation and texture images
     img = loadImage("World_elevation_map.png");
@@ -36,8 +52,26 @@ class HeightMapEarth{
   int index(int x, int y) {
     return x + y * img.width;
   }
-  
-  // Renders the 3D model of Earth with the applied texture and elevation
+  /**
+ * Renders the 3D model of the Earth with the applied texture and elevation data.
+ *
+ * This method performs the following tasks:
+ *  - Sets texture mode to `NORMAL` for normalized texture coordinates.
+ *  - Disables strokes (outlines) for a smoother appearance.
+ *  - Rotates the model by 180 degrees on the X-axis for proper orientation.
+ *  - Iterates through a grid of points representing the terrain:
+ *      - Begins a new shape (`TRIANGLE_STRIP`) for efficient rendering of connected triangles.
+ *      - Applies the Earth texture (`img1`) to the shape.
+ *      - Iterates through each column, wrapping around for a seamless sphere:
+ *          - Calculates normalized texture coordinates (`u` and `v`) based on the current position in the grid.
+ *          - Uses the `getPointOnSphere` function (likely defined elsewhere) to calculate the 3D position of a vertex considering elevation.
+ *          - Adds two vertices to the shape with their positions and texture coordinates.
+ *      - Closes the shape (`CLOSE`) to complete the connected triangle strip.
+ *
+ * This approach creates a textured and slightly deformed sphere representing the Earth's surface based on the loaded elevation data.
+ *
+ *  - Ayush
+ */
   void draw(){
     textureMode(NORMAL); // Uses normalized coordinates for textures
     noStroke(); // Disables drawing an outline for shapes

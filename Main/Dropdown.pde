@@ -1,10 +1,11 @@
 import processing.core.*;
 
-/* 
-This class is for the dropdown menus and it uses the ControlP5 library and PApplet. 
-Thai
-*/
-
+/**
+ * DropDownMenu class provides a user interface element for selecting options from a list. - Thai
+ * 
+ * This class utilizes the ControlP5 library to create a dropdown menu within a Processing (PApplet) sketch.
+ * It manages the visual state (open/closed), selected option, hover state, and scrolling behavior for the menu.
+ */
 public class DropDownMenu {
   PApplet parent;
   float x, y;
@@ -17,6 +18,16 @@ public class DropDownMenu {
   int maxDisplayedOptions = 5;
   int scrollOffset = 0;
 
+/**
+ * DropDownMenu constructor that initializes the menu with provided parameters.
+ *
+ * @param p A reference to the parent Processing (PApplet) sketch.
+ * @param x X-coordinate of the top-left corner of the menu.
+ * @param y Y-coordinate of the top-left corner of the menu.
+ * @param w Width of the menu.
+ * @param h Height of the menu.
+ * @param options An array of Strings representing the available options in the dropdown menu.
+ */
   public DropDownMenu(PApplet p, float x, float y, float w, float h, String[] options) {
     parent = p;
     this.x = x;
@@ -26,7 +37,21 @@ public class DropDownMenu {
     this.options = options;
   }
 
-  // Draws the tabs for the dropdown menu.
+/**
+ * Draws the dropdown menu on the screen, handling visual elements and interaction.
+ *
+ * This method performs the following tasks:
+ *  1. Sets the text size for the menu options.
+ *  2. Changes the background color based on mouse hover (lighter color when hovering).
+ *  3. Draws a rectangle for the menu background.
+ *  4. Displays the selected option text or a default "Select data" message.
+ *  5. If the menu is open (based on `isOpen` flag):
+ *      - Calculates the number of options to display based on `maxDisplayedOptions` and scrolling.
+ *      - Loops through the visible options:
+ *          - Draws a rectangle for each option.
+ *          - Changes the background color based on hover state (lighter color when hovering).
+ *          - Displays the text for each option.
+ */
   public void draw() {
 
     textSize(15);
@@ -82,6 +107,19 @@ public class DropDownMenu {
       }
     }
   }
+  
+/**
+ * Updates the hover state of the dropdown menu based on the provided mouse Y-coordinate.
+ *
+ * This method is likely called when the mouse is moved to update the visual indication of which option is being hovered over.
+ *  - If the menu is open (`isOpen` is true):
+ *      - Resets the `hoverIndex` to -1 (assuming no hover initially).
+ *      - Calculates the number of visible options based on `maxDisplayedOptions` and scrolling.
+ *      - Loops through the visible options:
+ *          - Checks if the mouse Y-coordinate is within the bounds of the current option.
+ *          - If there's a match, sets the `hoverIndex` to the corresponding option index (including scroll offset).
+ *          - Breaks out of the loop since only one option can be hovered at a time.
+ */
 
   public void updateHover(int mouseY) {
     if (isOpen) {

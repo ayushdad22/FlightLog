@@ -1,5 +1,16 @@
-
-//used for map screen, containing the 2d and 3d visuals of data - Shuban/Ayush
+/**
+ * Maps class represents the screen for visualizing flight data on a 2D map and a 3D globe.
+ *
+ * This class extends the Screens class and provides functionalities for:
+ *  - Displaying a 2D map (potentially of a specific region like the USA using `mapUsa`).
+ *  - Displaying a 3D globe (`earth`) for an alternative data visualization perspective.
+ *  - Offering search and filter options through dropdown menus (`dropdown1`, `dropdown2`, `dropdown3`).
+ *  - Highlighting data points of interest (`markers`).
+ *  - Allowing data path visualization (`drawPath`).
+ *  - Displaying additional information related to the data points (`info`).
+ *
+ *  -Shuban/Ayush
+ */
 class Maps extends Screens {
   private Planet earth;
   private PImage mapUsa;
@@ -14,7 +25,19 @@ class Maps extends Screens {
   float angleY = 3.3899996;
   float distance = 500;
   Marker markers;
-  // Loads necessary images, initializes dropdown menus, and sets up the future data loading.
+  /**
+ *  Maps class constructor: Initializes the flight data visualization screen.
+ *
+ *  This constructor performs the following tasks:
+ *  - Calls the parent class constructor to set background color and screen text.
+ *  - Creates a 3D globe object (`earth`) of a certain radius (170 in this case).
+ *  - Loads a 2D map image (`mapUsa`).
+ *  - Initializes empty dropdown menus (`dropdown1`, `dropdown2`, `dropdown3`).
+ *  - Stores a reference to the PApplet instance (`applet`).
+ *  - Sets up the first dropdown (`dropdown1`) with options like "All" and "Direct" (potentially for flight filtering).
+ *  - Sets up the second and third dropdowns (`dropdown2`, `dropdown3`) with options to be populated later.
+ *  - Uses `dataLoadFuture` (likely an asynchronous data loading mechanism) to populate the second and third dropdowns with unique origin airports from the loaded data.
+ */
   Maps(PApplet applet, color backgroundColor, String screenText) {
     super(backgroundColor, screenText);
     earth = new Planet(170);
@@ -32,7 +55,20 @@ class Maps extends Screens {
     }
     );
   }
-
+  
+ /**
+ * Draws the UI elements and map visualization for the flight data screen.
+ *
+ * This method likely performs the following tasks:
+ *  - Calls the parent class's `draw` method (likely for background).
+ *  - Conditionally renders either 2D or 3D based on the `state` variable:
+ *      - 3D globe (`earth`) with rotation and scaling controls (if `state` is true).
+ *          - Shows paths between airports if dropdown selections and `drawPath` are set.
+ *      - 2D map image (`mapUsa`) with path visualization (if `state` is false).
+ *  - Draws dropdown menus (`dropdown1`, `dropdown2`, `dropdown3`) based on selections.
+ *  - Handles highlighting buttons based on mouse hover for "Submit" and 2D/3D toggle.
+ *  - Draws text labels for "Submit", "2D/3D" mode, and potentially other information using `drawText`.
+ */
   void draw() {
     super.draw();
     // if state is true 3D is true and state false 2d is true
@@ -111,7 +147,19 @@ class Maps extends Screens {
     }
   }
 
-// Processes mouse click events, updating the dropdown selections and toggling the 2D/3D state.
+/**
+ * Handles mouse press interactions on the flight data screen.
+ *
+ * This method performs the following tasks:
+ *  - Delegates mouse presses to dropdown menus (`dropdown1`, `dropdown2`, `dropdown3`).
+ *  - Handles clicks on the "Submit" button (at 100 + 3 * 800/4, 160):
+ *      - Checks if dropdowns have valid selections for origin and destination (if applicable based on dropdown1).
+ *      - Clears the map data (likely removes previous markers or paths).
+ *      - Creates markers based on dropdown selections and marker type ("ImageMarker" or "SimpleMarker").
+ *      - Sets the `drawPath` flag to enable path visualization.
+ *  - Handles clicks on the 2D/3D toggle button (at 100 + 3 * 800/4, 590):
+ *      - Switches the `state` variable to toggle between 2D and 3D map view.
+ */
   void mousePressed() {
     dropdown1.mousePressed();
     dropdown2.mousePressed();
@@ -157,7 +205,14 @@ class Maps extends Screens {
     }
   }
   
-  // Clears all markers from the map when a new selection is made or the map needs to be reset.
+ /**
+ * Clears existing markers from the map to prepare for new selections or a reset.
+ *
+ * This method likely performs the following tasks:
+ *  - Checks if any markers exist on the map.
+ *  - Iterates through different marker types (lines, points, images) and removes them from the map's marker manager.
+ *  - Additionally clears the internal collections holding these markers for proper memory management.
+ */
   void clearMap() {
     if (lineMarker. size() != 0) {
       for (SimpleLinesMarker marker : lineMarker) {
@@ -178,7 +233,19 @@ class Maps extends Screens {
     }
   }
 
-// Draws informational text on the screen based on the current dropdown selections.
+/**
+ * Updates and displays informational text based on user interactions and dropdown selections.
+ *
+ * This method likely performs the following tasks:
+ *  - Checks for specific conditions:
+ *      - User has selected valid options from dropdowns (origin and potentially destination based on dropdown1).
+      - User has clicked on the "Submit" button (mouse interaction check).
+ *  - Based on the selection in dropdown1:
+ *      - "Direct": Fetches data asynchronously (using `dataLoadFuture`) to calculate distance
+        between the origin (dropdown2) and destination (dropdown3) airports and update the `info` string.
+      - "All": Updates the `info` string to indicate it's displaying all flights from the origin (dropdown2).
+ *  - If `info` is not empty, it gets displayed on the screen using `text`.
+ */
   void drawText() {
     if (dropdown2.getSelectedOption() != null && dropdown1.getSelectedOption() != null  & (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
       mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) && mousePressed) {

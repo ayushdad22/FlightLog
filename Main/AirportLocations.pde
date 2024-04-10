@@ -1,3 +1,4 @@
+// Class used to associate airport codes (e.g., LAX) with corresponding Location objects for hash maps
 import java.util.HashMap;
 // class used to assign each value of the airport to its string representation - Shuban
 class AirportLocations {
@@ -5,7 +6,8 @@ class AirportLocations {
 
   public AirportLocations() {
     airportMap = new HashMap<String, Location>();
-
+    // Populates the hash map with key-value pairs of airport codes and their Location objects
+    
     airportMap.put("LAX", LAX);
     airportMap.put("JFK", JFK);
     airportMap.put("DCA", DCA);

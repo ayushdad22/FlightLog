@@ -1,9 +1,21 @@
-//Abstract class that makes a template for the 4 different screens.-Patrick
+/**
+ * Abstract base class providing a template for the four different application screens.
+ *
+ * This class defines common properties and functionalities for all screens in the application.
+ * Specific screen implementations can extend this class and provide custom behavior.
+ *
+ * -Patrick
+ */
 abstract class Screens {
   color backgroundColor;
   String screenText;
   protected ArrayList<Widget> widgetList;
-  //Constructor for the screens.-Patrick
+  /**
+   * Constructor: Initializes basic screen properties.
+   *
+   * @param backgroundColor Background color of the screen
+   * @param screenText Text displayed at the top of the screen - Patrick
+   */
   Screens(color backgroundColor, String screenText) {
     this.backgroundColor = backgroundColor;
     this.screenText = screenText;
@@ -21,7 +33,16 @@ abstract class Screens {
     widgetList.add(widget3);
     widgetList.add(nextButton);
   }
-//Draws the general layout for the screens.-Patrick
+/**
+ * Draws the general layout of the screen, including background and widget areas.
+ *
+ * This method likely performs the following tasks:
+ *  - Fills the background with a light blue color (100, 200, 255).
+ *  - Creates a subtle shadow effect for the screen and widgets using two rectangles.
+ *  - Iterates through the `widgetList` and calls the `draw` method on each widget to render them on the screen.
+ *
+ * - Patrick
+ */
 void draw() {
   fill(0);
   background(100, 200, 255);

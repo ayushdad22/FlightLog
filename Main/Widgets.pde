@@ -1,4 +1,11 @@
-//Creates widgets template that is used/ called in all screens-Patrick
+/**
+ * Widget class represents a basic interactive element displayed on the application screens.
+ *
+ * This class defines the properties and structure of a generic widget used across all screens.
+ * Each widget has properties like position, size, label, color, font, and an associated event code.
+ *
+ * -Patrick
+ */
 class Widget {
   int x, y, Width, Height;
   String label;
@@ -19,7 +26,20 @@ class Widget {
     labelColor= color(255);
     borderColor = defaultBorderColor;
   }
-  //Draws 4 different widgets that return a case when pressed.-Patrick
+  /**
+ * Draws the widget on the screen and handles its visual appearance based on mouse interaction.
+ *
+ * This method likely performs the following tasks:
+ *  - Fills the widget with its background color (`widgetColor`).
+ *  - Changes the fill color slightly to a brighter shade if the mouse is hovering over the widget.
+ *  - Draws a rectangle for the widget body.
+ *  - Draws the widget label using the specified font (`widgetFont`).
+ *  - Depending on the widget label (e.g., "Flight Logs", "Graphs", "Home", "Maps"):
+ *      - Draws custom icons or shapes to represent the widget's functionality.
+ *  - Fills a black rectangle behind the widget text to ensure proper contrast.
+ *
+ * @-Patrick
+   */
   void draw() {
     fill(widgetColor);
     stroke(0);

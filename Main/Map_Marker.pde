@@ -1,4 +1,10 @@
-//creates marker for the 2d unfolding map - Shuban
+/**
+ * Marker class represents data points visualized on the map.
+ *
+ * This class likely deals with creating and managing markers for flight data visualization on the 2D map.
+ *
+ * -Shuban
+ */
 public class Marker{
   Path firstAirport;
   String location;

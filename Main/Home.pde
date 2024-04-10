@@ -1,3 +1,12 @@
+/**
+ * Home class represents the main screen of the application. - Ayush
+ *
+ * This class extends the Screens class and provides the following functionalities:
+ *  - Displays a rotating 3D globe using the HeightMapEarth library (`earth`).
+ *  - Loads and displays an image logo (`imageLogo`).
+ *  - Shows the group member names as text with a slight shadow effect.
+ *  - Handles mouse dragging to rotate the globe around the X and Y axes (`mouseDragged`).
+ */
 class Home extends Screens {
   private HeightMapEarth earth;
   float angle = 0;

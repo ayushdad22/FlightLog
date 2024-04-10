@@ -1,4 +1,6 @@
-// data for the latitude and longitude of every airport in data set, used for the map and globe...a built-in unfolding maps class - Shuban
+// Airport location data for visualization on maps and globes.
+// This class provides a convenient way to access the latitude and longitude
+// coordinates of major airports, potentially using a built-in unfolding maps library. - Shuban
 Location LAX = new Location(33.9425, -118.4081);
 Location JFK = new Location(40.6446, -73.780968);
 Location DCA = new Location(38.8512, -77.0402);

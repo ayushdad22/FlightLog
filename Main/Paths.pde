@@ -1,9 +1,21 @@
-//Ayush
+/**
+ * Path class represents a flight path visualized on the 3D globe.
+ *
+ * This class handles the creation and drawing of curved paths connecting airports on a 3D globe.
+ *
+ * Ayush
+ */
 public class Path {
-  
+  // Color of the path line
   color pathColor;
   float latitude, longitude, earthRadius;
   float[] marker;
+  /**
+   * Path constructor: Initializes path properties based on color and origin airport location.
+   *
+   * @param pathColor Color of the path
+   * @param airport Location object representing the origin airport
+   */
   Path(color pathColor, Location airport) {// path color and origin airport is used as parameters
     this.latitude = radians(airport.x);
     this.longitude = radians(airport.y);
@@ -11,7 +23,13 @@ public class Path {
     this.pathColor = pathColor;
     marker = getPosition(latitude, longitude);
   }
-  //create x and y and z coordinates using mathematical conversion. 
+  /**
+   * Calculates x, y, and z coordinates for a given latitude and longitude (in radians).
+   *
+   * @param latitude Latitude value (in radians)
+   * @param longitude Longitude value (in radians)
+   * @return Array containing x, y, and z coordinates
+   */
   float[] getPosition( float latitude, float longitude){
      float x = earthRadius *  -cos(latitude) * cos(longitude) ; 
     float z = earthRadius * cos(latitude) * sin(longitude);
@@ -21,7 +39,11 @@ public class Path {
   } 
   //minor information: The negative values exist due to processings flipped coordinate system, 
   //Pvectors for some reason changed the values creating inaccurate marking so floats were used instead
-
+  /**
+   * Draws a curved path connecting the origin airport to the destination airport on the 3D globe.
+   *
+   * @param location Location object representing the destination airport
+   */
   void drawCurve(Location location) {// desintation airport is used as parameter
     
     
@@ -40,6 +62,11 @@ public class Path {
     popStyle();
     
   }
+  /**
+   * Draws a marker (sphere) at the given airport location coordinates.
+   *
+   * @param markerPos Array containing x, y, and z coordinates for the marker
+   */
   //creates markers at airport location
   void drawMarker(float[] markerPos){
     pushMatrix();

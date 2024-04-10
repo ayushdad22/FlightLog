@@ -1,4 +1,11 @@
-// Graphs class: Manages the interactive graph screen within the UI, including dropdown menus for graph control. - Abdul/Brian
+/**
+ * Graphs class manages the interactive graph screen within the user interface (UI).
+ * 
+ * This class provides functionalities for displaying graphs and allows users to control
+ * the displayed data through dropdown menus.
+ *
+ * Abdul/Brian 
+ */
 class Graphs extends Screens {
   DropDownMenu dropdown1, dropdown2, dropdown3;
   PApplet applet;
@@ -54,6 +61,18 @@ class Graphs extends Screens {
     );
   }
 
+/**
+ * Handles UI drawing and interaction for the graph screen.
+ *
+ * This code snippet:
+ *  - Draws the background and a "Submit" button.
+ *  - Delegates drawing to dropdown menus (`dropdown1`, `dropdown2`, `dropdown3`).
+ *  - Handles mouse interactions:
+ *      - Updates dropdown states on press (`mousePressed`).
+ *      - Triggers a `clickedDropDown` function on "Submit" button click.
+ *      - Updates dropdown hover states on mouse movement (`mouseMoved`).
+ *      - Processes mouse wheel events for dropdowns (`mouseWheel`).
+ */
   void draw() {
     super.draw();
     dropdown1.draw();

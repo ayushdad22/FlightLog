@@ -1,3 +1,13 @@
+/**
+ * Logs class represents the screen for managing and viewing flight log data.
+ *
+ * This class extends the Screens class and provides functionalities for:
+ *  - Search criteria selection: A dropdown menu (`dropdownSearch`) allows users to choose a search parameter
+ *      from options like "Origin Airport" or "Destination City".
+ *  - Sorting options: Another dropdown menu (`dropdownSort`) allows users to sort the log data
+ *      based on criteria like "Alphabetical" or "Distance".
+ */
+
 class Logs extends Screens {
   PApplet applet;
   DropDownMenu dropdownSearch, dropdownSort;
@@ -21,7 +31,19 @@ class Logs extends Screens {
       textArea = null;
     }
   }
-
+  
+/**
+ * Draws the UI elements for the flight log search screen.
+ *
+ * This method likely performs the following tasks:
+ *  - Calls the parent class's `draw` method (likely for background).
+ *  - Draws the dropdown menus (`dropdownSearch` and `dropdownSort`) using their `draw` methods.
+ *  - Pushes a style matrix to isolate changes made within this method.
+ *  - Draws a small arrow pointing downwards (likely using line and ellipse shapes).
+ *      - This might be a visual indicator for the search bar.
+ *  - Pops the style matrix to restore previous styling.
+ *  - Calls methods likely responsible for drawing the search bar UI (`textArea` and `searchBar`).
+ */
   void draw() {
     super.draw();
     dropdownSearch.draw();

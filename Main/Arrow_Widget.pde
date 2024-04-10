@@ -1,4 +1,14 @@
-// ArrowWidget class: This class extends Widget and is used to create an arrow-shaped widget on the screen - Abdul
+/**
+ * ArrowWidget represents a clickable arrow on the screen for user interaction.
+ * 
+ * Extends the base Widget class and inherits common properties like position, size, label, and color.
+ * This class specifically defines properties for an arrow:
+ *  - Arrow dimensions (width and height)
+ *  - Direction (left or right)
+ * 
+ * Provides methods for:
+ *  - Drawing the arrow shape (shaft and triangle head) on the screen. - Abdul 
+ */
 class ArrowWidget extends Widget
 {
   int arrowWidth = 215;
