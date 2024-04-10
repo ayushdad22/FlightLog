@@ -13,6 +13,7 @@ import org.gicentre.utils.stat.*;
 // longest flight distance
 // most number of flights from airlines
 
+//Super cLass DataPoint - Brian
 public class DataPoint {
   private ArrayList<String[]> arrayData;
 
@@ -21,9 +22,10 @@ public class DataPoint {
   }
 
   String[] selectData = {"Cancelled", "Delayed", "Diverted", "All"};
-
+  
+  // Sorts the data alphabetically by city and airport - Brian
   public String getAllDataSortedAlphabetically() {
-    sortDataByCityAndAirport(); // Sorts the data alphabetically by city and airport
+    sortDataByCityAndAirport(); 
 
     StringBuilder result = new StringBuilder();
     for (String[] flightInfo : arrayData) {
@@ -33,7 +35,7 @@ public class DataPoint {
     return result.toString();
   }
 
-  //dates
+  //Finding the dates  - Brian
   public ArrayList<String>  dateData() {
     ArrayList<String> dateData = new ArrayList<String>();
     for (String[] data : arrayData) {
@@ -42,7 +44,7 @@ public class DataPoint {
     return dateData;
   }
 
-  //airport origin
+  //finding airport origin - Brian 
   public ArrayList<String>  airportOrigin() {
     ArrayList<String> originData = new ArrayList<String>();
     for (String[] data : arrayData) {
@@ -52,15 +54,15 @@ public class DataPoint {
     }
     return originData;
   }
-  //distance data
+  //Finding the distance between two airports - Brian
   public ArrayList<String>  distanceData() {
     ArrayList<String> distData = new ArrayList<String>();
     for (String[] data : arrayData) {
-      distData.add(data[10]); //distance index
+      distData.add(data[10]); //distance index from the main functions
     }
     return distData;
   }
-  //cancelled data
+  //cancelled flights data for the flights - Brian
   public ArrayList<String>  canceledData() {
     ArrayList<String> cnclData = new ArrayList<String>();
     for (String[] data : arrayData) {
@@ -68,7 +70,7 @@ public class DataPoint {
     }
     return cnclData;
   }
-  //airline data
+  //gets the airline data -Brian
   public ArrayList<String>  airlineData() {
     ArrayList<String> arlnData = new ArrayList<String>();
     for (String[] data : arrayData) {
@@ -77,7 +79,7 @@ public class DataPoint {
     return arlnData;
   }
 
-  //destination airport data
+  //destination of the airport data used in dropdown menus - Brian
   public ArrayList<String> destinationAirportData() {
     ArrayList<String> airData = new ArrayList<String>();
     for (String[] data : arrayData) {
@@ -85,7 +87,7 @@ public class DataPoint {
     }
     return airData;
   }
-
+  // counting the flights from origin and adding the data up - Brian
   public int countFlightsFromOrigin(String originAirportCode) {
     int flightsFromOrigin = 0;
     for (String[] data : arrayData) {
@@ -95,7 +97,7 @@ public class DataPoint {
     }
     return flightsFromOrigin;
   }
-
+ //completing future loads the data and checks the cancelled flights data and compares airport to airport data from above functions -Ayush
   public CompletableFuture<Integer> getCancelledFlightsCount(String airportName) {
     CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> {
       int cancelledFlightsCount = 0;
@@ -110,7 +112,7 @@ public class DataPoint {
     return future;
   }
 
-
+  //This function is used to get the longest flight data by distance - Brian
   public String getFlightWithLongestDistance() {
     float maxDistance = 0;
     String flightWithLongestDistance = null;
@@ -125,7 +127,7 @@ public class DataPoint {
 
     return flightWithLongestDistance;
   }
-
+  //flights for each airline that it iterates through - Brian
   public int countFlightsForAirline(String airline) {
     int count = 0;
     for (String[] data : arrayData) {
@@ -135,11 +137,11 @@ public class DataPoint {
     }
     return count;
   }
-
+ //sorting the number of delayed flights - Brian
   public int countDelayed(String airportName) {
     int count = 0;
     for (String[] data : arrayData) {
-      if (data[2].equals(airportName) && data[6].equals("1")) { // Assuming airport name index is 2 and delayed status index is 6
+      if (data[2].equals(airportName) && data[6].equals("1")) { // Assuming airport name index is 2 and delayed status the index is 6
         count++;
       }
     }
@@ -147,7 +149,7 @@ public class DataPoint {
   }
 
 
-
+  //count all the flights in one day - Brian 
   public int countFlightsInOneDay(String date) {
     int count = 0;
     for (String[] data : arrayData) {
@@ -158,21 +160,22 @@ public class DataPoint {
     return count;
   }
 
+  //Counting the number of flights in one week - Brian 
   public int countFlightsInOneWeek(String startDate) {
     int count = 0;
 
     LocalDate start = LocalDate.parse(startDate);
-    LocalDate end = start.plusDays(6); // Adding 6 days to get the end date (one week later)
+    LocalDate end = start.plusDays(6); // Adding 6 days to get the data for one week after end date (one week later)
 
     for (String[] data : arrayData) {
-      LocalDate flightDate = LocalDate.parse(data[0]); // Assuming date index is 0
+      LocalDate flightDate = LocalDate.parse(data[0]); // Assuming date index if  0 is index
       if (!flightDate.isBefore(start) && !flightDate.isAfter(end)) {
         count++;
       }
     }
     return count;
   }
-
+  //count diverted flights by airport name  - Brian
   public int countDiverted(String airportName) {
     int count = 0;
     for (String[] data : arrayData) {
@@ -182,7 +185,7 @@ public class DataPoint {
     }
     return count;
   }
-
+  //sorting the distance by data and taking arrayList and it's data type sorted - Brian
   private void sortByDistance(String dataType, ArrayList<String[]> arraySortData) {
     if (dataType != null) {
       switch (dataType) {
@@ -203,7 +206,7 @@ public class DataPoint {
       }
     }
   }
-
+  //function for sortingData by city and airport - Brian
   private void sortDataByCityAndAirport() {
     arrayData.sort(new Comparator<String[]>() {
       @Override
@@ -219,7 +222,8 @@ public class DataPoint {
     }
     );
   }
-
+  
+  //counting flights between airport 1 and 2 and so on for the search bar menu - Brian
   public int countFlightsBetweenAirports(String originAirportCode, String destinationAirportCode) {
     int count = 0;
     for (String[] data : arrayData) {
@@ -230,7 +234,7 @@ public class DataPoint {
     return count;
   }
 
-
+  //getting the distance of the origin Airport by it's code for the search bar menu - Brian
   public String[] getDestinations(String originAirportCode) {
     ArrayList<String> destinations = new ArrayList<>();
 
@@ -240,7 +244,7 @@ public class DataPoint {
       }
     }
 
-    // Convert ArrayList to String array
+    // Convert ArrayList to String array :)
     String[] airports = destinations.toArray(new String[destinations.size()]);
 
     return airports;

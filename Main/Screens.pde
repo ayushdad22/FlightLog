@@ -26,13 +26,13 @@ void draw() {
   background(100, 200, 255);
 
   pushStyle();
-  fill(255, 255, 255, 200);
+  fill(100, 200);
   noStroke(); 
   rect(110, 105, 805, 40);
   popStyle();
   
   pushStyle();
-  fill(255, 255, 255, 200);
+  fill(100, 200);
   noStroke(); 
   rect(110, 165, 805, 510);
   popStyle();

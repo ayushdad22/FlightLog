@@ -1,4 +1,4 @@
-import de.fhpotsdam.unfolding.*; //<>// //<>// //<>//
+import de.fhpotsdam.unfolding.*;  //<>//
 import de.fhpotsdam.unfolding.core.*;
 import de.fhpotsdam.unfolding.data.*;
 import de.fhpotsdam.unfolding.events.*;
@@ -88,7 +88,7 @@ void setup() {
   mainApplet = this;
   mapSettings();
   imgEarth = loadImage("Earth_Texture.jpg");
-  stdFont = createFont("arial", 20);
+  stdFont = createFont("Aachen Bold.ttf", 20);
   searchbar = new ControlP5(this);
   LogScreen = new Logs(mainApplet, color(225), "");
   GraphScreen = new Graphs(mainApplet, color(225), "");
@@ -157,10 +157,10 @@ void controlEvent(ControlEvent event) {
   }
 }
 
-//not used rn
 void setMarkerImage(Location startLocation, Location endLocation) {
-  ImageMarker startMarker = new ImageMarker(startLocation, loadImage("ui/marker_gray.png"), "Origin");
-  ImageMarker endMarker = new ImageMarker(endLocation, loadImage("ui/marker_red.png"), "Destination");
+  ImageMarker startMarker = new ImageMarker(startLocation, loadImage("ui/marker_gray.png"), 
+  MapsScreen.dropdown2.getSelectedOption());
+  ImageMarker endMarker = new ImageMarker(endLocation, loadImage("ui/marker_red.png"), MapsScreen.dropdown3.getSelectedOption());
   SimpleLinesMarker connectionMarker = new SimpleLinesMarker(startLocation, endLocation);
   map.addMarker(connectionMarker);
   map.addMarkers(startMarker, endMarker);
@@ -368,6 +368,7 @@ void searchBar() {
 }
 void mouseDragged() {
   MapsScreen.mouseDragged();
+  HomeScreen.mouseDragged();
 }
 void createCharts() {
   barchart = new Chart(mainApplet, airportOrign, airportCancelled, "Bar");
@@ -444,8 +445,8 @@ void textArea() {
     cp5 = new ControlP5(this);
     textArea = cp5.addTextarea("txt")
       .setPosition(100, 400)
-      .setSize(800, 300)
-      .setFont(createFont("arial", 20))
+      .setSize(800, 260)
+      .setFont(stdFont)
       .setLineHeight(20)
       .setColor(0)
       .setColorBackground(color(255))
