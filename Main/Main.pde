@@ -1,4 +1,4 @@
-import de.fhpotsdam.unfolding.*;  //<>// //<>//
+import de.fhpotsdam.unfolding.*;  //<>// //<>// //<>// //<>//
 import de.fhpotsdam.unfolding.core.*;
 import de.fhpotsdam.unfolding.data.*;
 import de.fhpotsdam.unfolding.events.*;
@@ -101,7 +101,7 @@ void setup() {
   loc = new AirportLocations();
 }
 
-//creates 2d map usong unfolding - Shuban
+//creates 2d map using unfolding - Shuban
 void mapSettings() {
   map = new UnfoldingMap(this, 100, 190, 800, 400);
   MapUtils.createDefaultEventDispatcher(this, map);

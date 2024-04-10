@@ -1,3 +1,4 @@
+// screen for the Log/Search Bar Screen using the abstract class "Screens" - Shuban
 class Logs extends Screens {
   PApplet applet;
   DropDownMenu dropdownSearch, dropdownSort;
@@ -10,11 +11,11 @@ class Logs extends Screens {
     dropdownSearch = new DropDownMenu(applet, 100, 160, 800/4, 30, options);
     dropdownSort = new DropDownMenu(applet, 100+ 800/4, 160, 800/4, 30, sort);
   }
-
+//removes searchbar when not on the log screen - Shuban
   void removeSearchBar() {
     searchbar.remove("SEARCH");
   }
-
+//removes textArea when not on the log screen - Shuban
   void removeTextArea() {
     if (textArea != null) {
       cp5.remove("txt");
@@ -26,16 +27,6 @@ class Logs extends Screens {
     super.draw();
     dropdownSearch.draw();
     dropdownSort.draw();
-      pushStyle();
-    stroke(255);
-    strokeWeight(3);
-    line(343.5, 317, 348, 323);
-    fill(0);
-    ellipse(338.5, 313, 10, 10);
-
-    popStyle();
-    textArea();
-    searchBar();
   }
 
   void mousePressed() {
