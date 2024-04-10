@@ -183,6 +183,7 @@ void setMarker(Location startLocation, Location endLocation) {
   pointMarker.add(startMarker);
   pointMarker.add(endMarker);
 }
+
 //Switch case that switches current screen to chosen screen when widget is pressed.-Patrick
 void mousePressed() {
   GraphScreen.mousePressed();
@@ -213,31 +214,39 @@ void mousePressed() {
     break;
   }
 
+// Detect clicks within a dropdown area, but only when on the GraphScreen - Abdul
   if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
     mouseY > 160 && mouseY < 160 + 30 && currentScreen == GraphScreen)
   {
     clickedDropDown();
   }
-    int startX = rightArrow.getShaftStartX();
-  int endX = rightArrow.getHeadBaseEndX();
-  int startY = rightArrow.getShaftY() - 5; 
-  int endY = rightArrow.getShaftY() + 5;
-
-  int leftStartX = leftArrow.getHeadBaseEndX(); 
-  int leftEndX = leftArrow.getShaftStartX();    
-  int leftStartY = leftArrow.getShaftY() - 5;   
-  int leftEndY = leftArrow.getShaftY() + 5;
   
-  // Click detection logic
+// Retrieve the positions for the arrow click detection - Abdul
+int startX = 820;  
+int endX = 870;
+int startY = 395; 
+int endY = 405;
+
+int leftStartX = 135; 
+int leftEndX = 200;   
+int leftStartY = 395;   
+int leftEndY = 405;
+
+  
+  // Click detection logic for right arrow 
   if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY)
   {
     if (arrowClicked < 3)
     {
-      arrowClicked++;
+      arrowClicked++; // Increment arrowClicked if the right arrow is clicked and not at max
+
     } else {
-      arrowClicked = 0;
+      arrowClicked = 0;  // Reset arrowClicked to 0 if it reaches the maximum count
+
     }
   }
+
+// Click detection logic for the left arrow
 
   if (mouseX >= leftStartX && mouseX <= leftEndX && mouseY >= leftStartY && mouseY <= leftEndY)
   {
