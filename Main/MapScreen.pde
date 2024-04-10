@@ -1,3 +1,4 @@
+//Ayush and Shuabn
 class Maps extends Screens {
   private Planet earth;
   private PImage mapUsa;
@@ -32,17 +33,17 @@ class Maps extends Screens {
 
   void draw() {
     super.draw();
-
+    // if state is true 3D is true and state false 2d is true
     if (state) {
       pushMatrix();
       fill(255);
       //directional
       translate(500, 400, 100);
-      scale(scaleFactor);
-      rotateX(angleX);
-      rotateY(angleY);
+      scale(scaleFactor);//variables changed in mouseMoved
+      rotateX(angleX);//variable changed in mouseDragged
+      rotateY(angleY);//variable changed in mouseDragged
       if (dropdown2.getSelectedOption() != null && drawPath && dropdown1.getSelectedOption() != null) {
-        markers.createPath();
+        markers.createPath();//if dropdown 1 and 2 are not empty markers can be drawn
       }
 
       earth.draw();
@@ -51,7 +52,9 @@ class Maps extends Screens {
       if (dropdown2.getSelectedOption() != null && drawPath && dropdown1.getSelectedOption() != null) {
         markers.unfoldingMapCreatePath();
       }
-      image(mapUsa,100, 190, 800, 400);
+      
+      image(mapUsa,100, 190, 800, 400);//placeholder image incase user is offline
+      text("Offline mode", 100, 210);
       map.draw();
     }
 
@@ -60,6 +63,7 @@ class Maps extends Screens {
     if (dropdown1.getSelectedOption() != "All") {
       dropdown3.draw();
     }
+    //change color of buttons
     if (mouseX > 100 + 3 * 800 / 4 && mouseX < 100 + 3 * 800 / 4 + 800 / 4 &&
       mouseY > 160 && mouseY < 160 + 30) {
       fill(color(100, 200, 255) + 100);
@@ -81,18 +85,23 @@ class Maps extends Screens {
 
     drawText();
   }
+  //change rotation of earth
   void mouseDragged() {
-    angleX += (pmouseY - mouseY) * 0.01;
-    angleY -= (pmouseX - mouseX) * 0.01;
+    if(state){
+      angleX += (pmouseY - mouseY) * 0.01;
+      angleY -= (pmouseX - mouseX) * 0.01;
+    }
   }
-
+  //change scale of earth
   void mouseWheel(MouseEvent event) {
     float e = event.getCount();
-    scaleFactor -= e * 0.05; // Adjust zoom speed here
-    scaleFactor = constrain(scaleFactor, 0.1, 1.1); // Limit zoom range
-    float delta = event.getCount() * 10;
-    distance += delta;
-    distance = constrain(distance, 100, 1000);
+    if(state){
+      scaleFactor -= e * 0.05; // Adjust zoom speed here
+      scaleFactor = constrain(scaleFactor, 0.1, 1.1); // Limit zoom range
+      float delta = event.getCount() * 10;
+      distance += delta;
+      distance = constrain(distance, 100, 1000);
+    }
     dropdown1.mouseWheel(event);
     dropdown2.mouseWheel(event);
     if (dropdown1.getSelectedOption() != "All") {

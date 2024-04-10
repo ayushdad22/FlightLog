@@ -26,7 +26,7 @@ class Logs extends Screens {
     super.draw();
     dropdownSearch.draw();
     dropdownSort.draw();
-      pushStyle();
+     pushStyle();
     stroke(255);
     strokeWeight(3);
     line(343.5, 317, 348, 323);

@@ -52,7 +52,7 @@ Home HomeScreen;
 Logs LogScreen;
 ArrayList<Widget> widgetList;
 color defaultBorderColor = color(0);
-color rectColor;
+
 PFont stdFont;
 Screens screen5, currentScreen;
 ControlP5 cp5, cp, searchbar;
@@ -64,9 +64,7 @@ int arrowClicked = 0;
 ArrowWidget rightArrow = new ArrowWidget(150, 185, 65, 30, "Right Arrow", color(255, 0, 0), stdFont, EVENT_RIGHT_ARROW, "right");
 ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(0, 255, 0), stdFont, EVENT_LEFT_ARROW, "left");
 Location americaLocation = new Location(39.8283f, -98.5795f);
-ArrayList<SimpleLinesMarker> lineMarker = new ArrayList<SimpleLinesMarker>();
-ArrayList<SimplePointMarker> pointMarker = new ArrayList<SimplePointMarker>();
-ArrayList<ImageMarker> imageMarker = new ArrayList<ImageMarker>();
+
 DataPoint data;
 PApplet mainApplet;
 Chart barchart;
@@ -79,26 +77,33 @@ String selectingData = "";
 String search;
 Textarea textArea;
 
+ArrayList<SimpleLinesMarker> lineMarker = new ArrayList<SimpleLinesMarker>();
+ArrayList<SimplePointMarker> pointMarker = new ArrayList<SimplePointMarker>();
+ArrayList<ImageMarker> imageMarker = new ArrayList<ImageMarker>();
 ArrayList<String> airportOrign = new ArrayList<String>();
 ArrayList<Integer> airportCancelled = new ArrayList<Integer>();
 PImage imgEarth;
 
 void setup() {
   size(1024, 780, P3D);
-  mainApplet = this;
+  
   mapSettings();
   imgEarth = loadImage("Earth_Texture.jpg");
   stdFont = createFont("Aachen Bold.ttf", 20);
+  
   searchbar = new ControlP5(this);
-  LogScreen = new Logs(mainApplet, color(225), "");
-  GraphScreen = new Graphs(mainApplet, color(225), "");
+  
+  LogScreen = new Logs(this, color(225), "");
+  GraphScreen = new Graphs(this, color(225), "");
   MapsScreen = new Maps(this, color(225), "");
   HomeScreen = new Home(color(255), "");
   currentScreen = HomeScreen;
   widgetList = new ArrayList<Widget>();
+  
   println("System Loading...");
   GraphScreen.graphSetup();
   loc = new AirportLocations();
+  
 }
 
 //creates 2d map usong unfolding - Shuban
@@ -115,43 +120,28 @@ void draw() {
     Widget aWidget = widgetList.get(i);
     aWidget.draw();
   }
-
   currentScreen.draw();
-  if (currentScreen == LogScreen) {
-    push();
-    stroke(255);
-    strokeWeight(3);
-    line(343.5, 317, 348, 323);
-    fill(0);
-    ellipse(338.5, 313, 10, 10);
-
-    pop();
-    textArea();
-    searchBar();
-  } else {
+  if (currentScreen != LogScreen) {
     LogScreen.removeSearchBar();
     LogScreen.removeTextArea();
   }
-  if (chartLoaded && arrowClicked == 0 && currentScreen == GraphScreen)
-  {
-    linegraph.draw(280, 315, 450, 250);
-  }
-  if (chartLoaded && arrowClicked == 1 && currentScreen == GraphScreen)
-  {
-    barchart.draw(280, 315, 450, 220);
-  }
-  if (chartLoaded && arrowClicked == 2 && currentScreen == GraphScreen)
-  {
-
-    scatterplot.draw(280, 315, 450, 220);
-  }
-  if (chartLoaded && arrowClicked == 3 && currentScreen == GraphScreen)
-  {
-
-    piechart.draw(280, 315, 450, 220);
+  if(chartLoaded && currentScreen == GraphScreen){
+    switch(arrowClicked){
+      case 0:
+      linegraph.draw(280, 315, 450, 250);
+      break;
+      case 1:
+      barchart.draw(280, 315, 450, 220);
+      break;
+      case 2:
+      scatterplot.draw(280, 315, 450, 220);
+      break;
+      case 3:
+      piechart.draw(280, 315, 450, 220);
+      break;
+    }
   }
 }
-
 
 void controlEvent(ControlEvent event) {
   if (event.isAssignableFrom(Textfield.class)) {
@@ -160,6 +150,7 @@ void controlEvent(ControlEvent event) {
 }
 
 void setMarkerImage(Location startLocation, Location endLocation) {
+  
   ImageMarker startMarker = new ImageMarker(startLocation, loadImage("ui/marker_gray.png"), 
   MapsScreen.dropdown2.getSelectedOption());
   ImageMarker endMarker = new ImageMarker(endLocation, loadImage("ui/marker_red.png"), MapsScreen.dropdown3.getSelectedOption());
@@ -169,6 +160,7 @@ void setMarkerImage(Location startLocation, Location endLocation) {
   lineMarker.add(connectionMarker);
   imageMarker.add(startMarker);
   imageMarker.add(endMarker);
+  
 }
 void setMarker(Location startLocation, Location endLocation) {
 
@@ -182,13 +174,11 @@ void setMarker(Location startLocation, Location endLocation) {
   lineMarker.add(connectionMarker);
   pointMarker.add(startMarker);
   pointMarker.add(endMarker);
+  
 }
 //Switch case that switches current screen to chosen screen when widget is pressed.-Patrick
 void mousePressed() {
-  GraphScreen.mousePressed();
-  LogScreen.mousePressed();
-  MapsScreen.mousePressed();
-
+  currentScreen.mousePressed();
   int event = currentScreen.getEvent(); 
   switch(event) {
   case EVENT_BUTTON1:
@@ -211,12 +201,6 @@ void mousePressed() {
     currentScreen = screen5;
 
     break;
-  }
-
-  if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
-    mouseY > 160 && mouseY < 160 + 30 && currentScreen == GraphScreen)
-  {
-    clickedDropDown();
   }
   int startX = rightArrow.getShaftStartX();
   int endX = rightArrow.getHeadBaseEndX();
@@ -247,6 +231,16 @@ void mousePressed() {
       arrowClicked = 3;
     }
   }
+}
+void mouseMoved() {
+  currentScreen.mouseMoved();
+}
+void mouseWheel(MouseEvent event) {
+  currentScreen.mouseWheel(event);
+}
+
+void mouseDragged() {
+  currentScreen.mouseDragged();
 }
 
 /**
@@ -337,49 +331,6 @@ void clickedDropDown() {
     break;
   }
 }
-void mouseMoved() {
-  for (int i = 0; i < widgetList.size(); i++) {
-    Widget aWidget = widgetList.get(i);
-    if (aWidget.isMouseOver(mouseX, mouseY)) {
-      aWidget.setBorderColor(color(255));
-    } else {
-      aWidget.setBorderColor(defaultBorderColor);
-    }
-  }
-  GraphScreen.mouseMoved();
-  LogScreen.mouseMoved();
-  MapsScreen.mouseMoved();
-}
-
-void mouseWheel(MouseEvent event) {
-  if (currentScreen == LogScreen) {
-    if (textArea.isMouseOver()) {
-      int delta = event.getCount();
-      textArea.scroll(-delta * 10); // Adjust scrolling speed as needed
-    }
-  } else {
-    GraphScreen.mouseWheel(event);
-    MapsScreen.mouseWheel(event);
-  }
-}
-
-// creates search bara using control p5 - Shuban
-void searchBar() {
-  if (searchbar.getController("SEARCH") == null) {
-    searchbar.addTextfield("SEARCH")
-      .setPosition(370, 300)
-      .setSize(250, 30)
-      .setFont(stdFont)
-      .setColor(color(255))
-      .setLabel("")
-      .setColorBackground(color(30))
-      .setColorForeground(color(30));
-  }
-}
-void mouseDragged() {
-  MapsScreen.mouseDragged();
-  HomeScreen.mouseDragged();
-}
 void createCharts() {
   barchart = new Chart(mainApplet, airportOrign, airportCancelled, "Bar");
   linegraph = new Chart(mainApplet, airportOrign, airportCancelled, "Line");
@@ -448,10 +399,6 @@ void textArea() {
       filteredData.append("\n");
     }
   }
-
-
-
-
   // Update the TextArea with the filtered data - Shuban
   if (textArea != null) {
     textArea.setText(filteredData.toString());
@@ -466,5 +413,19 @@ void textArea() {
       .setColorBackground(color(255))
       .setColorForeground(color(255, 100));
     textArea.setText(filteredData.toString());
+  }
+}
+
+// creates search bara using control p5 - Shuban
+void searchBar() {
+  if (searchbar.getController("SEARCH") == null) {
+    searchbar.addTextfield("SEARCH")
+      .setPosition(370, 300)
+      .setSize(250, 30)
+      .setFont(stdFont)
+      .setColor(color(255))
+      .setLabel("")
+      .setColorBackground(color(30))
+      .setColorForeground(color(30));
   }
 }
