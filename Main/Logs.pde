@@ -26,6 +26,16 @@ class Logs extends Screens {
     super.draw();
     dropdownSearch.draw();
     dropdownSort.draw();
+      pushStyle();
+    stroke(255);
+    strokeWeight(3);
+    line(343.5, 317, 348, 323);
+    fill(0);
+    ellipse(338.5, 313, 10, 10);
+
+    popStyle();
+    textArea();
+    searchBar();
   }
 
   void mousePressed() {

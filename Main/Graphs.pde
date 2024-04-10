@@ -66,6 +66,10 @@ class Graphs extends Screens {
     dropdown1.mousePressed();
     dropdown2.mousePressed();
     dropdown3.mousePressed();
+    if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
+      mouseY > 160 && mouseY < 160 + 30){
+      clickedDropDown();
+    }
   }
   void mouseMoved() {
     dropdown1.mouseMoved();

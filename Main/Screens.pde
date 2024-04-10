@@ -51,4 +51,10 @@ void draw() {
     }
     return EVENT_NULL;
   }
+  
+  
+  void mousePressed(){}
+  void mouseWheel(MouseEvent event){}
+  void mouseDragged(){}
+  void mouseMoved(){}
 }
