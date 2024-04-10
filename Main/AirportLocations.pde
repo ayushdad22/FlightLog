@@ -127,7 +127,6 @@ class AirportLocations {
     airportMap.put("WRG", WRG);
     airportMap.put("XNA", XNA);
     airportMap.put("YAK", YAK);
-
     airportMap.put("ABE", ABE);
     airportMap.put("ABI", ABI);
     airportMap.put("ABR", ABR);

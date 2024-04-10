@@ -16,9 +16,10 @@ import org.gicentre.utils.stat.*;
 //Super cLass DataPoint - Brian
 public class DataPoint {
   private ArrayList<String[]> arrayData;
-
+  private AirportLocations location;
   public DataPoint(ArrayList<String[]> arrayData) {
     this.arrayData = arrayData;
+    location = new AirportLocations();
   }
 
   String[] selectData = {"Cancelled", "Delayed", "Diverted", "All"};
@@ -137,6 +138,23 @@ public class DataPoint {
     }
     return count;
   }
+  public String distanceBetweenTwoAirports(String originAirport, String destinationAirport){
+    for(String[]data : arrayData){
+      if(data[2].equals(originAirport) && data[4].equals(destinationAirport)){
+        return data[5] + "m";
+      }
+    }
+    return str((int)location.getLocation(originAirport).getDistance(location.getLocation(destinationAirport))) + "m";
+  }
+  public int distanceBetweenAirports(String originAirport, String destinationAirport){
+    for (String[] data : arrayData) {
+      if(data[1] ==  originAirport && data[3] ==  destinationAirport){
+        return int(data[5]);
+      }
+    }
+      return 0;
+  }
+  
  //sorting the number of delayed flights - Brian
   public int countDelayed(String airportName) {
     int count = 0;

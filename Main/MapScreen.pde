@@ -169,11 +169,14 @@ class Maps extends Screens {
       mouseY > 160 && mouseY < 160 + 30 && currentScreen == MapsScreen) && mousePressed) {
       switch (dropdown1.getSelectedOption()) {
       case "Direct":
+      dataLoadFuture.thenAcceptAsync(dataPoint -> {
         if (dropdown3.getSelectedOption() != null) {
-          info = String.format("This is a visual of the %s flight between %s and %s",
+          info = String.format("\nThis is a visual of the %s flight between %s and %s \n and distance between the aiports is %s",
             dropdown1.getSelectedOption().toLowerCase(),
-            dropdown2.getSelectedOption(), dropdown3.getSelectedOption());
+            dropdown2.getSelectedOption(), dropdown3.getSelectedOption(),
+            dataPoint.distanceBetweenTwoAirports(dropdown2.getSelectedOption(), dropdown3.getSelectedOption()));
         }
+      });
         break;
       case "All":
         info = String.format("This is a visual of %s the flights from %s",
