@@ -3,6 +3,7 @@ import java.util.Collections;
 import java.util.concurrent.*;
 import processing.core.PApplet;
 
+// Chart class: Handles the creation and rendering of different chart types using data provided - Abdul/Patrick
 class Chart {
   PApplet applet;
   BarChart barChart;
@@ -15,6 +16,7 @@ class Chart {
 ArrowWidget rightArrow = new ArrowWidget(150, 185, 65, 30, "Right Arrow", color(255), stdFont, EVENT_RIGHT_ARROW, "right");
 ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(255), stdFont, EVENT_LEFT_ARROW, "left");
 
+ // Constructor: Initializes the chart with a reference to the applet, the data, and the type of chart to display.
   Chart(PApplet applet, ArrayList<String> arrayNames, ArrayList<Integer> dataValues, String chartType) {
     this.applet = applet;
     this.arrayNames = arrayNames;
@@ -28,6 +30,7 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
     setupChart();
   }
 
+// Sets up a scatterplot chart with the data provided, configuring its appearance and behavior. - Abdul
   private void setupChart()
   {
     applet.textFont(applet.createFont("Arial", 11), 11);
@@ -55,6 +58,7 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
 
   }
 
+ // Sets up a bar chart with the data provided, including visual styles and axis information. - Abdul
   private void setupBarChart() {
     float[] values = new float[dataValues.size()];
     for (int i = 0; i < dataValues.size(); i++) {
@@ -68,7 +72,7 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
     
     barChart.setData(values);
     barChart.setMinValue(0);
-    barChart.setMaxValue(Collections.max(dataValues)); // Setting max value dynamically
+    barChart.setMaxValue(Collections.max(dataValues)); 
     barChart.setBarLabels(labels);
     barChart.setBarColour(applet.color(0, 71, 171));
     barChart.setBarGap(4);
@@ -78,6 +82,7 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
     barChart.showCategoryAxis(true);
   }
 
+  // Sets up a line chart with the data provided, defining its style and axis labels. - Abdul
   private void setupLineChart() {
 
     float[] xValues = new float[arrayNames.size()];
@@ -120,7 +125,7 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
     }
 }
 
-
+ // Draws the selected chart type on the screen, displaying additional chart information. - Abdul
  void draw(int x, int y, int w, int h) {
     fill(255);
     // Simplified the text display
@@ -130,7 +135,7 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
                         returnArrayPrints());
     text(chartInfo, 110, 260);
     
-    // Draw chart and arrows based on the chart 
+    // Draw chart and arrows based on the chart - Abdul
     switch (chartType) {
         case "Bar":
             barChart.draw(x, y, w, h);
@@ -148,6 +153,8 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
       rightArrow.draw();
     leftArrow.draw();
 }
+
+// Returns a formatted string of the array names to be used in displaying chart information. - Ayush
   public String returnArrayPrints(){
     String arrayString = "";
     for(String name: arrayNames){
