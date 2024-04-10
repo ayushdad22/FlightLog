@@ -1,5 +1,5 @@
 import java.util.HashMap;
-
+// used to assign each value of the airport to its string representation - Shuban
 class AirportLocations {
   private HashMap<String, Location> airportMap;
 
@@ -376,13 +376,11 @@ class AirportLocations {
     airportMap.put("ATY", new Location(44.9122, -97.1551)); 
     airportMap.put("PPG", new Location(-14.3267, -170.7103));
   }
-
+  // returns the corresponding location for the string passed in, if the airport code is present, used for map markers - Shuban
   public Location getLocation(String airportCode) {
     if (airportMap.containsKey(airportCode)) {
-            // If the airport code is present, return the corresponding Location
             return airportMap.get(airportCode);
         } else {
-            // If the airport code is not present
             println(airportCode, "does not exist");
             return null;
         }
