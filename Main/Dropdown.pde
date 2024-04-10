@@ -1,5 +1,10 @@
 import processing.core.*;
 
+/* 
+This class is for the dropdown menus and it uses the ControlP5 library and PApplet. 
+Thai
+*/
+
 public class DropDownMenu {
   PApplet parent;
   float x, y;
@@ -21,6 +26,7 @@ public class DropDownMenu {
     this.options = options;
   }
 
+  // Draws the tabs for the dropdown menu.
   public void draw() {
 
     textSize(15);
@@ -39,7 +45,8 @@ public class DropDownMenu {
     } else {
       parent.text(options[selectedIndex], x + 10, y + h / 2);
     }
-
+    
+    // Restricts the amount of displayed options when dropdown is clicked.
     if (isOpen) {
       int numDisplayedOptions = Math.min(options.length - scrollOffset, maxDisplayedOptions);
       for (int i = 0; i < numDisplayedOptions; i++) {
@@ -56,11 +63,13 @@ public class DropDownMenu {
       }
     }
   }
-
+  
+  // Toggles the dropdown to be open or not open.
   public void toggle() {
     isOpen = !isOpen;
   }
 
+  // When dropdown is open, returns selected option.
   public void selectOption() {
     if (isOpen) {
       for (int i = 0; i < options.length; i++) {
@@ -87,11 +96,13 @@ public class DropDownMenu {
       }
     }
   }
-
+  
+  // Scrolls through the tabs of options in the dropdown.
   public void scroll(int delta) {
     scrollOffset = PApplet.constrain(scrollOffset + delta, 0, PApplet.max(0, options.length - maxDisplayedOptions));
   }
-
+  
+  //Returns selected option.
   public String getSelectedOption() {
     if (selectedIndex != -1) {
       dataOption = options[selectedIndex];
@@ -100,20 +111,27 @@ public class DropDownMenu {
       return null;
     }
   }
+  
+  // Sets the options to whatever dropdown is pressed.
   public void setOptions(String[] newOptions) {
     options = newOptions;
     selectedIndex = -1;
     scrollOffset = 0;
   }
+  
+  // Updates hover based on mouse movement.
   public void mouseMoved() {
     updateHover(mouseY);
   }
 
+  // Scrolls through the available options when mousewheel is scrolled. 
   public void mouseWheel(MouseEvent event) {
     int delta = event.getCount();
 
     scroll(delta);
   }
+  
+  // Gets selected option when mouse is pressed.
   public void mousePressed() {
     if (mouseX > x && mouseX < x + w &&
       mouseY > y && mouseY < y + h) {

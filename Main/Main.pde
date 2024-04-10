@@ -1,4 +1,4 @@
-import de.fhpotsdam.unfolding.*;  //<>// //<>//
+import de.fhpotsdam.unfolding.*;  //<>//
 import de.fhpotsdam.unfolding.core.*;
 import de.fhpotsdam.unfolding.data.*;
 import de.fhpotsdam.unfolding.events.*;
@@ -33,13 +33,11 @@ import controlP5.*;
 final int SCROLLBAR_COLOR = #0799fa;
 final int SCREEN_X = 1024;
 final int SCREEN_Y = 780;
-
 final int EVENT_BUTTON1= 1;
 final int EVENT_BUTTON2= 2;
 final int EVENT_BUTTON3= 3;
 final int EVENT_BUTTON4 = 4;
 final int EVENT_BUTTON5 = 5;
-
 final int EVENT_BUTTON_NEXT = 6;
 final int EVENT_BUTTON_BACK = 7;
 final int EVENT_RIGHT_ARROW = 8;
@@ -66,11 +64,9 @@ int arrowClicked = 0;
 ArrowWidget rightArrow = new ArrowWidget(150, 185, 65, 30, "Right Arrow", color(255, 0, 0), stdFont, EVENT_RIGHT_ARROW, "right");
 ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(0, 255, 0), stdFont, EVENT_LEFT_ARROW, "left");
 Location americaLocation = new Location(39.8283f, -98.5795f);
-
 ArrayList<SimpleLinesMarker> lineMarker = new ArrayList<SimpleLinesMarker>();
 ArrayList<SimplePointMarker> pointMarker = new ArrayList<SimplePointMarker>();
 ArrayList<ImageMarker> imageMarker = new ArrayList<ImageMarker>();
-
 DataPoint data;
 PApplet mainApplet;
 Chart barchart;
@@ -78,7 +74,6 @@ Chart scatterplot;
 Chart linegraph;
 Chart piechart;
 AirportLocations loc;
-
 boolean chartLoaded = false;
 String selectingData = "";
 String search;
@@ -106,6 +101,7 @@ void setup() {
   loc = new AirportLocations();
 }
 
+//creates 2d map usong unfolding - Shuban
 void mapSettings() {
   map = new UnfoldingMap(this, 100, 190, 800, 400);
   MapUtils.createDefaultEventDispatcher(this, map);
@@ -114,7 +110,6 @@ void mapSettings() {
   map.setZoomRange(4, 8);
   map.setPanningRestriction(americaLocation, 3000);
 }
-
 void draw() {
   for (int i = 0; i < widgetList.size(); i++) {
     Widget aWidget = widgetList.get(i);
@@ -122,25 +117,38 @@ void draw() {
   }
 
   currentScreen.draw();
-  if (currentScreen != LogScreen) {
+  if (currentScreen == LogScreen) {
+    push();
+    stroke(255);
+    strokeWeight(3);
+    line(343.5, 317, 348, 323);
+    fill(0);
+    ellipse(338.5, 313, 10, 10);
+
+    pop();
+    textArea();
+    searchBar();
+  } else {
     LogScreen.removeSearchBar();
     LogScreen.removeTextArea();
   }
-  if(currentScreen == GraphScreen && chartLoaded){
-    switch(arrowClicked){
-      case 0:
-      linegraph.draw(280, 315, 450, 250);
-      break;
-      case 1:
-      barchart.draw(280, 315, 450, 220);
-      break;
-      case 2:
-      scatterplot.draw(280, 315, 450, 220);
-      break;
-      case 3:
-      piechart.draw(280, 315, 450, 220);
-      break;
-    }
+  if (chartLoaded && arrowClicked == 0 && currentScreen == GraphScreen)
+  {
+    linegraph.draw(280, 315, 450, 250);
+  }
+  if (chartLoaded && arrowClicked == 1 && currentScreen == GraphScreen)
+  {
+    barchart.draw(280, 315, 450, 220);
+  }
+  if (chartLoaded && arrowClicked == 2 && currentScreen == GraphScreen)
+  {
+
+    scatterplot.draw(280, 315, 450, 220);
+  }
+  if (chartLoaded && arrowClicked == 3 && currentScreen == GraphScreen)
+  {
+
+    piechart.draw(280, 315, 450, 220);
   }
 }
 
@@ -162,7 +170,6 @@ void setMarkerImage(Location startLocation, Location endLocation) {
   imageMarker.add(startMarker);
   imageMarker.add(endMarker);
 }
-
 void setMarker(Location startLocation, Location endLocation) {
 
   SimplePointMarker startMarker = new SimplePointMarker(startLocation);
@@ -176,10 +183,12 @@ void setMarker(Location startLocation, Location endLocation) {
   pointMarker.add(startMarker);
   pointMarker.add(endMarker);
 }
-
 //Switch case that switches current screen to chosen screen when widget is pressed.-Patrick
 void mousePressed() {
-  currentScreen.mousePressed();
+  GraphScreen.mousePressed();
+  LogScreen.mousePressed();
+  MapsScreen.mousePressed();
+
   int event = currentScreen.getEvent(); 
   switch(event) {
   case EVENT_BUTTON1:
@@ -204,15 +213,21 @@ void mousePressed() {
     break;
   }
 
+  if (mouseX > 100+ 3*800/4 && mouseX < 100+ 3*800/4 + 800/4 &&
+    mouseY > 160 && mouseY < 160 + 30 && currentScreen == GraphScreen)
+  {
+    clickedDropDown();
+  }
   int startX = rightArrow.getShaftStartX();
   int endX = rightArrow.getHeadBaseEndX();
-  int startY = rightArrow.getShaftY() - 5; // Assuming a small margin around the shaft for click detection
+  int startY = rightArrow.getShaftY() - 5; 
   int endY = rightArrow.getShaftY() + 5;
 
-  int leftStartX = leftArrow.getHeadBaseEndX(); // The leftmost point of the arrowhead
-  int leftEndX = leftArrow.getShaftStartX();    // The rightmost point of the arrow shaft
-  int leftStartY = leftArrow.getShaftY() - 5;   // Assuming a small margin around the shaft for click detection
+  int leftStartX = leftArrow.getHeadBaseEndX(); 
+  int leftEndX = leftArrow.getShaftStartX();    
+  int leftStartY = leftArrow.getShaftY() - 5;   
   int leftEndY = leftArrow.getShaftY() + 5;
+  
   // Click detection logic
   if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY)
   {
@@ -234,114 +249,12 @@ void mousePressed() {
   }
 }
 
-void mouseMoved() {
-  currentScreen.mouseMoved();
-}
-
-void mouseWheel(MouseEvent event) {
-  currentScreen.mouseWheel(event);
-}
-
-void mouseDragged() {
-  currentScreen.mouseDragged();
-}
-
-void searchBar() {
-  // Check if the search bar already exists
-  if (searchbar.getController("SEARCH") == null) {
-    searchbar.addTextfield("SEARCH")
-      .setPosition(370, 300)
-      .setSize(250, 30)
-      .setFont(stdFont)
-      .setColor(color(255))
-      .setLabel("")
-      .setColorBackground(color(30))
-      .setColorForeground(color(30));
-  }
-}
-
-void createCharts() {
-  barchart = new Chart(mainApplet, airportOrign, airportCancelled, "Bar");
-  linegraph = new Chart(mainApplet, airportOrign, airportCancelled, "Line");
-  scatterplot = new Chart(mainApplet, airportOrign, airportCancelled, "Scatter");
-  piechart = new Chart(mainApplet, airportOrign, airportCancelled, "Pie");
-  chartLoaded = true;
-}
-
-void textArea() {
-  ArrayList<String[]> tempFilteredDataList = new ArrayList<>();
-  StringBuilder filteredData = new StringBuilder();
-  String selectedOption = LogScreen.dropdownSearch.getSelectedOption();
-  String dataType = LogScreen.dropdownSort.getSelectedOption();
-
-  if (dataLoadFuture.isDone() && selectedOption != null) {
-    switch(selectedOption) {
-    case "Origin Airport":
-      for (String[] flightInfo : data.arrayData) {
-        if (flightInfo[2].equalsIgnoreCase(search)) {
-          tempFilteredDataList.add(flightInfo);
-        }
-      }
-      break;
-    case "Destination Airport":
-      for (String[] flightInfo : data.arrayData) {
-        if (flightInfo[4].equalsIgnoreCase(search)) {
-          tempFilteredDataList.add(flightInfo);
-        }
-      }
-      break;
-    case "Origin City":
-      for (String[] flightInfo : data.arrayData) {
-        if (flightInfo[1].equalsIgnoreCase(search)) {
-          tempFilteredDataList.add(flightInfo);
-        }
-      }
-      break;
-    case "Destination City":
-      for (String[] flightInfo : data.arrayData) {
-        if (flightInfo[3].equalsIgnoreCase(search)) {
-          tempFilteredDataList.add(flightInfo);
-        }
-      }
-      break;
-    case "Carrier":
-      for (String[] flightInfo : data.arrayData) {
-        if (flightInfo[7].equalsIgnoreCase(search)) {
-          tempFilteredDataList.add(flightInfo);
-        }
-      }
-      break;
-    }
-
-    // Sort the filtered data if necessary, you can include your sorting method here
-    data.sortByDistance(dataType, tempFilteredDataList);
-
-    // Convert the filtered and possibly sorted list into a string
-    for (String[] flightInfo : tempFilteredDataList) {
-      for (String flightDetail : flightInfo) {
-        filteredData.append(flightDetail).append(" ");
-      }
-      filteredData.append("\n");
-    }
-  }
-
-  // Update the TextArea with the filtered data
-  if (textArea != null) {
-    textArea.setText(filteredData.toString());
-  } else {
-    cp5 = new ControlP5(this);
-    textArea = cp5.addTextarea("txt")
-      .setPosition(100, 400)
-      .setSize(800, 260)
-      .setFont(stdFont)
-      .setLineHeight(20)
-      .setColor(0)
-      .setColorBackground(color(255))
-      .setColorForeground(color(255, 100));
-    textArea.setText(filteredData.toString());
-  }
-}
-
+/**
+ * This function handles the logic when the sorting options are selected in dropdown1.
+ * It retrieves data from dataLoadFuture and then calculates the number of cancelled flights for the options selected in dropdown2 and dropdown3.
+ * It updates the airportOrign and airportCancelled lists based on the selected options and retrieved data.
+ * Finally, it calls createCharts() to generate charts and sets chartLoaded to true. - Brian /Shuban
+ */
 void clickedDropDown() {
   switch(GraphScreen.dropdown1.getSelectedOption()) {
   case "Cancelled":
@@ -422,5 +335,136 @@ void clickedDropDown() {
     chartLoaded = true;
 
     break;
+  }
+}
+void mouseMoved() {
+  for (int i = 0; i < widgetList.size(); i++) {
+    Widget aWidget = widgetList.get(i);
+    if (aWidget.isMouseOver(mouseX, mouseY)) {
+      aWidget.setBorderColor(color(255));
+    } else {
+      aWidget.setBorderColor(defaultBorderColor);
+    }
+  }
+  GraphScreen.mouseMoved();
+  LogScreen.mouseMoved();
+  MapsScreen.mouseMoved();
+}
+
+void mouseWheel(MouseEvent event) {
+  if (currentScreen == LogScreen) {
+    if (textArea.isMouseOver()) {
+      int delta = event.getCount();
+      textArea.scroll(-delta * 10); // Adjust scrolling speed as needed
+    }
+  } else {
+    GraphScreen.mouseWheel(event);
+    MapsScreen.mouseWheel(event);
+  }
+}
+
+// creates search bara using control p5 - Shuban
+void searchBar() {
+  if (searchbar.getController("SEARCH") == null) {
+    searchbar.addTextfield("SEARCH")
+      .setPosition(370, 300)
+      .setSize(250, 30)
+      .setFont(stdFont)
+      .setColor(color(255))
+      .setLabel("")
+      .setColorBackground(color(30))
+      .setColorForeground(color(30));
+  }
+}
+void mouseDragged() {
+  MapsScreen.mouseDragged();
+  HomeScreen.mouseDragged();
+}
+void createCharts() {
+  barchart = new Chart(mainApplet, airportOrign, airportCancelled, "Bar");
+  linegraph = new Chart(mainApplet, airportOrign, airportCancelled, "Line");
+  scatterplot = new Chart(mainApplet, airportOrign, airportCancelled, "Scatter");
+  piechart = new Chart(mainApplet, airportOrign, airportCancelled, "Pie");
+  chartLoaded = true;
+}
+/**
+ * This function filters the flight data based on the selected search option and data type, 
+ * and displays the filtered data in the text area. - Shuban
+ */
+void textArea() {
+  ArrayList<String[]> tempFilteredDataList = new ArrayList<>();
+  StringBuilder filteredData = new StringBuilder(); //string builder to build string from an arrayList of string values
+  String selectedOption = LogScreen.dropdownSearch.getSelectedOption();
+  String dataType = LogScreen.dropdownSort.getSelectedOption();
+  
+
+  if (dataLoadFuture.isDone() && selectedOption != null) {
+    switch(selectedOption) {
+    case "Origin Airport":
+      for (String[] flightInfo : data.arrayData) {
+        if (flightInfo[2].equalsIgnoreCase(search)) {
+          tempFilteredDataList.add(flightInfo);
+        }
+      }
+      break;
+    case "Destination Airport":
+      for (String[] flightInfo : data.arrayData) {
+        if (flightInfo[4].equalsIgnoreCase(search)) {
+          tempFilteredDataList.add(flightInfo);
+        }
+      }
+      break;
+    case "Origin City":
+      for (String[] flightInfo : data.arrayData) {
+        if (flightInfo[1].equalsIgnoreCase(search)) {
+          tempFilteredDataList.add(flightInfo);
+        }
+      }
+      break;
+    case "Destination City":
+      for (String[] flightInfo : data.arrayData) {
+        if (flightInfo[3].equalsIgnoreCase(search)) {
+          tempFilteredDataList.add(flightInfo);
+        }
+      }
+      break;
+    case "Carrier":
+      for (String[] flightInfo : data.arrayData) {
+        if (flightInfo[7].equalsIgnoreCase(search)) {
+          tempFilteredDataList.add(flightInfo);
+        }
+      }
+      break;
+    }
+    
+    // sorts/filetrs the data by distance
+    data.sortByDistance(dataType, tempFilteredDataList);
+
+    // converts the filtered and sorted list into a string
+    for (String[] flightInfo : tempFilteredDataList) {
+      for (String flightDetail : flightInfo) {
+        filteredData.append(flightDetail).append(" ");
+      }
+      filteredData.append("\n");
+    }
+  }
+
+
+
+
+  // Update the TextArea with the filtered data - Shuban
+  if (textArea != null) {
+    textArea.setText(filteredData.toString());
+  } else {
+    cp5 = new ControlP5(this);
+    textArea = cp5.addTextarea("txt")
+      .setPosition(100, 400)
+      .setSize(800, 260)
+      .setFont(stdFont)
+      .setLineHeight(20)
+      .setColor(0)
+      .setColorBackground(color(255))
+      .setColorForeground(color(255, 100));
+    textArea.setText(filteredData.toString());
   }
 }

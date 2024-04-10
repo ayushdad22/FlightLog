@@ -1,5 +1,5 @@
 import java.util.HashMap;
-// used to assign each value of the airport to its string representation - Shuban
+// class used to assign each value of the airport to its string representation - Shuban
 class AirportLocations {
   private HashMap<String, Location> airportMap;
 

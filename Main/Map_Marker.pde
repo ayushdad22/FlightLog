@@ -1,4 +1,4 @@
-
+//creates marker for the 2d unfolding map - Shuban
 public class Marker{
   Path firstAirport;
   String location;
@@ -18,6 +18,8 @@ public class Marker{
       firstAirport.drawCurve((dataForAirport.getLocation(airport)));
     }
   }
+  
+    //creates marker based on the type of marker...SimpleMarker for "All" flights viewed, and "ImageMarker" for "Direct" flights viewed on map - Shuban
   void unfoldingMapCreatePath(){
     switch(markerType){
       case "SimpleMarker":
