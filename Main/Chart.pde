@@ -100,6 +100,7 @@ ArrowWidget leftArrow = new ArrowWidget(150, 215, 65, 30, "Left Arrow", color(25
     lineChart.setXAxisLabel("\nAirports:");
     lineChart.setYAxisLabel("Number of Flights\n");
   }
+  //Draws a pie chart representing the data chosen by the user.-Patrick
     void drawPieChart(int x, int y, int w, int h) {
     float lastAngle = 0;
     float total = 0;

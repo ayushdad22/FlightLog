@@ -181,13 +181,13 @@ void setMarker(Location startLocation, Location endLocation) {
   pointMarker.add(startMarker);
   pointMarker.add(endMarker);
 }
-
+//Switch case that switches current screen to chosen screen when widget is pressed.-Patrick
 void mousePressed() {
   GraphScreen.mousePressed();
   LogScreen.mousePressed();
   MapsScreen.mousePressed();
 
-  int event = currentScreen.getEvent(); // Get event from the current screen
+  int event = currentScreen.getEvent(); 
   switch(event) {
   case EVENT_BUTTON1:
     currentScreen = GraphScreen;
@@ -239,7 +239,7 @@ void mousePressed() {
   if (mouseX >= leftStartX && mouseX <= leftEndX && mouseY >= leftStartY && mouseY <= leftEndY)
   {
     if (arrowClicked > 0) {
-      arrowClicked--; // Decrease the arrowClicked counter if the left arrow is clicked
+      arrowClicked--; 
     } else {
       arrowClicked = 3;
     }

@@ -1,3 +1,4 @@
+//Creates widgets template that is used/ called in all screens-Patrick
 class Widget {
   int x, y, Width, Height;
   String label;
@@ -18,7 +19,7 @@ class Widget {
     labelColor= color(255);
     borderColor = defaultBorderColor;
   }
-
+  //Draws 4 different widgets that return a case when pressed.-Patrick
   void draw() {
     fill(widgetColor);
     stroke(0);
@@ -81,7 +82,8 @@ class Widget {
     fill(0);
     rect(100, 160, 800, 500);
   }
-
+  
+  //Gets an event when a specific widget is pressed.-Patrick
   int getEvent(int mX, int mY) {
     if (mX > x && mX < x + Width && mY > y && mY < y + Height) {
       return event;
@@ -90,7 +92,7 @@ class Widget {
     
   }
 
-
+  //Is used to check if the mouse is over the widget.-Patrick
   boolean isMouseOver(int mX, int mY) {
     return (mX > x && mX < x + Width && mY > y && mY < y + Height);
   }
