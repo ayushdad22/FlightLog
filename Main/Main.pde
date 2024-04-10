@@ -250,7 +250,7 @@ void mousePressed() {
  * This function handles the logic when the "Cancelled" option is selected in dropdown1.
  * It retrieves data from dataLoadFuture and then calculates the number of cancelled flights for the options selected in dropdown2 and dropdown3.
  * It updates the airportOrign and airportCancelled lists based on the selected options and retrieved data.
- * Finally, it calls createCharts() to generate charts and sets chartLoaded to true. - Brian
+ * Finally, it calls createCharts() to generate charts and sets chartLoaded to true. - Brian  
  */
 void clickedDropDown() {
   switch(GraphScreen.dropdown1.getSelectedOption()) {
